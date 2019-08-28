@@ -15,7 +15,7 @@
             <h1>Coldigo Geladeiras</h1>
         </header>
         <nav>
-            <a href="../../index.html"><div class="opcao">Inicio</div></a>
+            <a href="../../index.html"><div class="opcao">Início</div></a>
             <a href="produtos.html"><div class="opcao">Produtos</div></a>
             <a href="faleconosco.html"><div class="opcao">Fale Conosco</div></a>
         </nav>
@@ -23,7 +23,7 @@
             <h2>Fale conosco!</h2>
             <p>Ficou com alguma dúvida? Preencha este formulário e entraremos em contato!</p>
             <form name="frmfaleconosco" method="post" action="#">
-                <fieldset>
+                <fieldset class="faleConosco">
                     <legend>Dados pessoais:</legend>
                     <label for="nome">Nome:</label>
                     <input type="text" name="txtnome" id="nome">
@@ -32,7 +32,7 @@
                     <label for="email">E-mail:</label>
                     <input type="email" name="txtemail" id="email">
                 </fieldset>
-                <fieldset>
+                <fieldset class="faleConosco">
                     <legend>Motivo do contato:</legend>
                     <label for="motivo">Motivo:</label>
                     <select name="selmotivo" id="motivo">
@@ -43,8 +43,7 @@
                     </select>
                     <label for="comentario">Comentário: </label>
                     <textarea name="txacomentario" id="comentario"></textarea>
-                    <button type="reset">Limpar</button>
-                    <button type="submit">Enviar</button>
+                    <button type="reset">Limpar</button><button type="submit">Enviar</button>
                 </fieldset>
             </form>
         </section>
