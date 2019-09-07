@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Fã-clube onça-pintada">
@@ -20,7 +20,39 @@
         </nav>
     </header>
     <section>
-
+        <h2>Seja um membro!</h2>
+        <form name="frminscricao" method="post" action="#">
+            <fieldset id="inscricao">
+                <label for="nome">Nome:</label>
+                <input type="text" name="txtnome" id="nome">
+                <label for="email">E-mail:</label>
+                <input type="email" name="email" id="email">
+                <label for="fone">Telefone:</label>
+                <input type="text" name="txtfone" id="fone">
+                <label for="nasc">Data de Nascimento:</label>
+                <input type="date" name="datanasc" id="nasc">
+                <table class="sexo">
+                    <tr>
+                        <th>Sexo:</th>
+                    </tr>
+                    <tr>
+                        <td><input type="radio" class="sexo" id="sexomasc" name="sexo" value="masculino"></td>
+                        <th><label for="sexomasc">Masculino</label></th>
+                    </tr>
+                    <tr>
+                        <td><input type="radio" class="sexo" id="sexofem" name="sexo" value="feminino"></td>
+                        <th><label for="sexofem">Feminino</label></th>
+                    </tr>
+                    <tr>
+                        <td><input type="radio" class="sexo" id="sexooutro" name="sexo" value="outro"></td>
+                        <th><label for="sexooutro">Outro</label></th>
+                    </tr>
+                </table>
+                <input type="checkbox" name="checkboxparticipar" id="desejaparticpar">
+                <label for="desejaparticpar">Marque a caixa se você deseja participar do fã-clube</label>
+                <button type="submit">Enviar</button><button type="reset">Limpar</button>
+            </fieldset>
+        </form>
     </section>
     <footer>Copyright &copy; Nicolas Engler 2019</footer>
 </body>

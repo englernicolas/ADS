@@ -19,19 +19,17 @@ header img{
     margin-left: 25px;
 }
 header h1{
-    color: #FFF1BC;
     float: left;
-    margin-top: 20px;
-    padding: 15px 5px;
+    margin: 24px 0;
+    padding: 15px 0;
     font-size: 70px;
 }
 #viva{
     color: white;
-    padding-right: 0;
     font-weight: lighter;
 }
 #onca{
-    padding-left: 0;
+    color: #FFF1BC;
     font-weight: bold;
 }
 nav{
@@ -40,6 +38,7 @@ nav{
     float: right;
     display: flex;
     width: 31.62%;
+
 }
 
 nav a{
@@ -59,8 +58,129 @@ nav .opcao:hover{
 /* conteúdo */
 
 section{
+    width: 100%;
     min-height: 300px;
 }
+section h2{
+    font-weight: bold;
+    font-size: 50px;
+    text-align: center;
+    color: #2e563b;
+}
+/* página principal */
+#contPgPrincipal{
+    height: 600px;
+    margin-bottom: 27px;
+}
+
+#oncaPgPrincipal{
+    float:left;
+    height: 450px;
+    margin: 40px;
+    margin-left: 200px;
+}
+#textoPgPrincipal{
+    padding: 10px;
+    max-width: 40%;
+    float: left;
+    margin-top: 40px;
+    margin-left: 20px;
+    font-size: 35px;
+}
+
+/* página sobre a onça */
+.imgsPgSobre{
+    height: 450px;
+    margin: 40px;
+    margin-left: 200px;
+}
+
+.oncapintada{
+    float: left;
+}
+
+.tabelaEspecificacoes{
+    margin: 60px auto;
+    margin-left: 150px;
+    float: left;
+    text-align: center;
+    color: white;
+}
+.tituloTabela{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 5px;
+    border: transparent;
+}
+
+.tabelaEspecificacoes th{
+    color: #FFF1BC;
+}
+
+.tabelaEspecificacoes tr, .tabelaEspecificacoes td, .tabelaEspecificacoes th{
+    padding: 15px;
+}
+.tabelaEspecificacoes tr,td{
+    font-size: 22px;
+}
+.tabelaEspecificacoes tr:nth-child(even){
+    background-color: #6A9C78;
+}
+.tabelaEspecificacoes tr:nth-child(odd){
+    background-color: #2e563b;
+}
+
+#curiosidades{
+    clear: both;
+    float: left;
+    font-size: 30px;
+    margin-left: 200px;
+    margin-top: 40px;
+}
+
+/* página de inscrição */
+form{
+    margin-bottom: 159px;
+}
+#inscricao{
+    width: 500px;
+    margin: 0 auto;
+    font-weight: bold;
+    margin-bottom: 103px;
+}
+#inscricao input[type="text"],input[type="date"], input[type="email"]{
+    width: 100%;
+}
+
+.sexo td, .sexo th{
+    padding: 4px;
+    text-align: left;
+}
+
+.sexo td{
+    text-align: right;
+}
+
+.sexo{
+    margin-bottom: 5px;
+}
+
+#inscricao input{
+    margin: 5px 0;
+    padding: 5px 0;
+}
+
+#inscricao button{
+    width: 45%;
+    margin: 15px 10px 0;
+    padding: 5px 0;
+    background-color: #2e563b;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+}
+
 
 /* roda-pé */
 footer{
