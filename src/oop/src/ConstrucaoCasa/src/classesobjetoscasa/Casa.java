@@ -1,4 +1,4 @@
-package oop.src.ConstrucaoCasa.src.classesobjetoscasa;
+package classesobjetoscasa;
 
 import java.util.List;
 public class Casa {

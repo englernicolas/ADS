@@ -8,27 +8,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fã-Clube Onça-pintada</title>
     <link rel="stylesheet" type="text/css" href="../../css/site.css">
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="../../js/site.js" type="text/javascript"></script>
 </head>
 <body>
     <header>
-        <img src="../../imgs/logo.png" alt="logo do fã-clube">
-        <h1 id="viva">Viva</h1><h1 id="onca">Onça</h1>
-        <nav>
-            <a href="../../index.html"><div class="opcao">Ínicio</div></a>
-            <a href="especificacoes.html"><div class="opcao">A onça-pintada</div></a>
-            <a href="inscricao.html"><div class="opcao">Seja um membro</div></a>
-        </nav>
+
     </header>
     <section>
         <h2>Seja um membro!</h2>
-        <form name="frminscricao" method="post" action="#">
+        <form name="frminscricao" method="post" action="#" onsubmit="return validaFormulario()">
             <fieldset id="inscricao">
                 <label for="nome">Nome:</label>
-                <input type="text" name="txtnome" id="nome">
+                <input type="text" name="txtnome" id="nome" placeholder="Seu Nome Completo">
                 <label for="email">E-mail:</label>
-                <input type="email" name="email" id="email">
+                <input type="email" name="email" id="email" placeholder="example@example.example">
                 <label for="fone">Telefone:</label>
-                <input type="text" name="txtfone" id="fone">
+                <input type="text" name="txtfone" id="fone" placeholder="(00)0000-0000">
                 <label for="nasc">Data de Nascimento:</label>
                 <input type="date" name="datanasc" id="nasc">
                 <table class="sexo">
@@ -49,11 +48,11 @@
                     </tr>
                 </table>
                 <input type="checkbox" name="checkboxparticipar" id="desejaparticpar">
-                <label for="desejaparticpar">Marque a caixa se você deseja participar do fã-clube</label>
+                <label for="desejaparticpar">Desejo participar do fã-clube</label>
                 <button type="submit">Enviar</button><button type="reset">Limpar</button>
             </fieldset>
         </form>
     </section>
-    <footer>Copyright &copy; Nicolas Engler 2019</footer>
+    <footer></footer>
 </body>
 </html>

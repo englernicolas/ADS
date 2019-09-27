@@ -1,4 +1,4 @@
-package oop.src.MaterialConstrucao.src.model;
+package model;
 
 public class Product {
     String code;

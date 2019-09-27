@@ -2,7 +2,27 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ADS.iml" filepath="$PROJECT_DIR$/ADS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/oop/src/Calculadora/CalculadoraBasica/CalculadoraBasica.iml" filepath="$PROJECT_DIR$/src/oop/src/Calculadora/CalculadoraBasica/CalculadoraBasica.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov1/CalculadoraBasicaOov1.iml" filepath="$PROJECT_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov1/CalculadoraBasicaOov1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov2/CalculadoraBasicaOov2.iml" filepath="$PROJECT_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov2/CalculadoraBasicaOov2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov3/CalculadoraBasicaOov3.iml" filepath="$PROJECT_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov3/CalculadoraBasicaOov3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov4/CalculadoraBasicaOov4.iml" filepath="$PROJECT_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov4/CalculadoraBasicaOov4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov5/CalculadoraBasicaOov5.iml" filepath="$PROJECT_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov5/CalculadoraBasicaOov5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov6/CalculadoraBasicaOov6.iml" filepath="$PROJECT_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov6/CalculadoraBasicaOov6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov7/CalculadoraBasicaOov7.iml" filepath="$PROJECT_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov7/CalculadoraBasicaOov7.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/oop/src/ConstrucaoCasa/ConstrucaoCasa.iml" filepath="$PROJECT_DIR$/src/oop/src/ConstrucaoCasa/ConstrucaoCasa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/oop/src/ContaBancaria/ContaBancaria.iml" filepath="$PROJECT_DIR$/src/oop/src/ContaBancaria/ContaBancaria.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/logic-programming/src/Desafio/Desafio.iml" filepath="$PROJECT_DIR$/src/logic-programming/src/Desafio/Desafio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/oop/src/FabricaDeCarros/FabricaDeCarros.iml" filepath="$PROJECT_DIR$/src/oop/src/FabricaDeCarros/FabricaDeCarros.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/logic-programming/src/Lista1/Lista1.iml" filepath="$PROJECT_DIR$/src/logic-programming/src/Lista1/Lista1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/logic-programming/src/Lista2/Lista2.iml" filepath="$PROJECT_DIR$/src/logic-programming/src/Lista2/Lista2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/logic-programming/src/Lista3/Lista3.iml" filepath="$PROJECT_DIR$/src/logic-programming/src/Lista3/Lista3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/logic-programming/src/ListaExtra1/ListaExtra1.iml" filepath="$PROJECT_DIR$/src/logic-programming/src/ListaExtra1/ListaExtra1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/logic-programming/src/ListaExtra2/ListaExtra2.iml" filepath="$PROJECT_DIR$/src/logic-programming/src/ListaExtra2/ListaExtra2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/oop/src/MaterialConstrucao/MaterialConstrucao.iml" filepath="$PROJECT_DIR$/src/oop/src/MaterialConstrucao/MaterialConstrucao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/web/coldigo/coldigo.iml" filepath="$PROJECT_DIR$/src/web/coldigo/coldigo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/web/fa-clube-onca-pintada/fa-clube-onca-pintada.iml" filepath="$PROJECT_DIR$/src/web/fa-clube-onca-pintada/fa-clube-onca-pintada.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/web/palmeirinha/palmeirinha.iml" filepath="$PROJECT_DIR$/src/web/palmeirinha/palmeirinha.iml" />
     </modules>
   </component>
 </project>

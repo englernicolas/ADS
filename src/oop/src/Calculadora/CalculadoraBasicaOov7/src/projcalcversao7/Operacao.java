@@ -1,4 +1,4 @@
-package oop.src.Calculadora.CalculadoraBasicaOov7.src.projcalcversao7;
+package projcalcversao7;
 
 public abstract class Operacao implements Ioperacao{
     protected int m_numero1;

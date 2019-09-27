@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="26ff5c05-3f4c-4311-af70-79eaa01050ed" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageViewManager">
+    <option name="myElementSize" value="293" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1Ot4p8Pve09D0uPyGuefu0b1Wzz" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="MTConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="model" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Calculadora/CalculadoraBasicaOov7/src/projcalcversao7" />
+      <recent name="$PROJECT_DIR$/src/Calculadora/CalculadoraBasicaOov6/src/projcalcversao6" />
+      <recent name="$PROJECT_DIR$/src/Calculadora" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.Main (3)">
+    <configuration name="Main (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="contabancaria.Main" />
+      <module name="ContaBancaria" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="contabancaria.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main (3)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="FabricaDeCarros" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="MaterialConstrucao" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value=".*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Principal" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="progprincipal.Principal" />
+      <module name="ConstrucaoCasa" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="progprincipal.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Run" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="mainprog.Run" />
+      <module name="FabricaDeCarros" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="mainprog.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main (3)" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Main (2)" />
+        <item itemvalue="Application.Run" />
+        <item itemvalue="Application.Principal" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="26ff5c05-3f4c-4311-af70-79eaa01050ed" name="Default Changelist" comment="" />
+      <created>1560809325403</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1560809325403</updated>
+      <workItem from="1560809328670" duration="352000" />
+      <workItem from="1560809692761" duration="923000" />
+      <workItem from="1560813324738" duration="456000" />
+      <workItem from="1560813788529" duration="3733000" />
+      <workItem from="1560895245867" duration="4288000" />
+      <workItem from="1560989981813" duration="1250000" />
+      <workItem from="1561422353007" duration="2456000" />
+      <workItem from="1561428163160" duration="1197000" />
+      <workItem from="1561513280692" duration="2392000" />
+      <workItem from="1561566666036" duration="4542000" />
+      <workItem from="1561654793567" duration="3202000" />
+      <workItem from="1561659154353" duration="635000" />
+      <workItem from="1561670680504" duration="2117000" />
+      <workItem from="1561767455857" duration="805000" />
+      <workItem from="1562013581520" duration="39000" />
+      <workItem from="1562016362197" duration="1191000" />
+      <workItem from="1562019839630" duration="8495000" />
+      <workItem from="1562029721173" duration="183000" />
+      <workItem from="1562037257997" duration="41000" />
+      <workItem from="1562037396779" duration="619000" />
+      <workItem from="1562089415259" duration="3745000" />
+      <workItem from="1562105668179" duration="6546000" />
+      <workItem from="1562125477764" duration="1568000" />
+      <workItem from="1562176076818" duration="4010000" />
+      <workItem from="1562189153916" duration="9946000" />
+      <workItem from="1562214973450" duration="3021000" />
+      <workItem from="1562272970492" duration="3818000" />
+      <workItem from="1562277995283" duration="599000" />
+      <workItem from="1562281210153" duration="2498000" />
+      <workItem from="1562288552203" duration="131000" />
+      <workItem from="1562288969977" duration="17000" />
+      <workItem from="1562638841806" duration="5312000" />
+      <workItem from="1562691059696" duration="1690000" />
+      <workItem from="1563227188078" duration="7005000" />
+      <workItem from="1564178920548" duration="8286000" />
+      <workItem from="1564454710786" duration="12354000" />
+      <workItem from="1564614790815" duration="1053000" />
+      <workItem from="1564695655558" duration="2208000" />
+      <workItem from="1564697886995" duration="614000" />
+      <workItem from="1564703564154" duration="758000" />
+      <workItem from="1564781997220" duration="1591000" />
+      <workItem from="1564783747395" duration="5611000" />
+      <workItem from="1564790062113" duration="8370000" />
+      <workItem from="1564855154896" duration="1240000" />
+      <workItem from="1565030502303" duration="83000" />
+      <workItem from="1565030604666" duration="3076000" />
+      <workItem from="1565046475645" duration="5784000" />
+      <workItem from="1565128228283" duration="12657000" />
+      <workItem from="1565152581911" duration="7549000" />
+      <workItem from="1565214364527" duration="9957000" />
+      <workItem from="1565300390394" duration="10207000" />
+      <workItem from="1565320032182" duration="2554000" />
+      <workItem from="1565379785573" duration="613000" />
+      <workItem from="1565647682221" duration="2243000" />
+      <workItem from="1565996281198" duration="1943000" />
+      <workItem from="1566260557813" duration="700000" />
+      <workItem from="1566858129386" duration="272000" />
+    </task>
+    <task id="LOCAL-00001" summary="commit versão 5 projeto (não finalizado)">
+      <created>1560814575710</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1560814575710</updated>
+    </task>
+    <task id="LOCAL-00002" summary="commit para arrumar os packages 5 e 4">
+      <created>1560814742503</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1560814742503</updated>
+    </task>
+    <task id="LOCAL-00003" summary="ot 06 (não finalizada)">
+      <created>1560819853554</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1560819853554</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="commit versão 5 projeto (não finalizado)" />
+    <MESSAGE value="commit para arrumar os packages 5 e 4" />
+    <MESSAGE value="ot 06 (não finalizada)" />
+    <option name="LAST_COMMIT_MESSAGE" value="ot 06 (não finalizada)" />
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ADS_POO$Run.ic" NAME="Run Coverage Results" MODIFIED="1562273204096" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>mainprog.*</FILTER>
+    </SUITE>
+  </component>
+</project>

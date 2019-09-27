@@ -1,4 +1,4 @@
-package oop.src.Calculadora.CalculadoraBasicaOov6.src.projcalcversao6;
+package projcalcversao6;
 
 import javax.swing.*;
 

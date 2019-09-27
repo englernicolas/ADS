@@ -1,4 +1,4 @@
-package oop.src.Calculadora.CalculadoraBasicaOov7.src.projcalcversao7;
+package projcalcversao7;
 
 public class Calculadora {
     public static void main(String[] args) {

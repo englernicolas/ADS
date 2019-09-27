@@ -1,4 +1,4 @@
-package oop.src.Calculadora.CalculadoraBasicaOov4.src.projcalcversao4;
+package projcalcversao4;
 
 public class Soma {
     public String calcular(int n1, int n2) {

@@ -1,4 +1,4 @@
-package oop.src.ConstrucaoCasa.src.progprincipal;
+package progprincipal;
 
 import interfacegrafica.MenuOpcoes;
 

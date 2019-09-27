@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/src/Calculadora/CalculadoraBasica/CalculadoraBasica.iml" filepath="$PROJECT_DIR$/src/Calculadora/CalculadoraBasica/CalculadoraBasica.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/Calculadora/CalculadoraBasicaOov1/CalculadoraBasicaOov1.iml" filepath="$PROJECT_DIR$/src/Calculadora/CalculadoraBasicaOov1/CalculadoraBasicaOov1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/Calculadora/CalculadoraBasicaOov2/CalculadoraBasicaOov2.iml" filepath="$PROJECT_DIR$/src/Calculadora/CalculadoraBasicaOov2/CalculadoraBasicaOov2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/Calculadora/CalculadoraBasicaOov3/CalculadoraBasicaOov3.iml" filepath="$PROJECT_DIR$/src/Calculadora/CalculadoraBasicaOov3/CalculadoraBasicaOov3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/Calculadora/CalculadoraBasicaOov4/CalculadoraBasicaOov4.iml" filepath="$PROJECT_DIR$/src/Calculadora/CalculadoraBasicaOov4/CalculadoraBasicaOov4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/Calculadora/CalculadoraBasicaOov5/CalculadoraBasicaOov5.iml" filepath="$PROJECT_DIR$/src/Calculadora/CalculadoraBasicaOov5/CalculadoraBasicaOov5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/Calculadora/CalculadoraBasicaOov6/CalculadoraBasicaOov6.iml" filepath="$PROJECT_DIR$/src/Calculadora/CalculadoraBasicaOov6/CalculadoraBasicaOov6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/Calculadora/CalculadoraBasicaOov7/CalculadoraBasicaOov7.iml" filepath="$PROJECT_DIR$/src/Calculadora/CalculadoraBasicaOov7/CalculadoraBasicaOov7.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/Casa/ConstrucaoCasa/ConstrucaoCasa.iml" filepath="$PROJECT_DIR$/src/Casa/ConstrucaoCasa/ConstrucaoCasa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/ContaBancaria/ContaBancaria.iml" filepath="$PROJECT_DIR$/src/ContaBancaria/ContaBancaria.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/FabricaDeCarros/FabricaDeCarros.iml" filepath="$PROJECT_DIR$/src/FabricaDeCarros/FabricaDeCarros.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/MaterialConstrucao/MaterialConstrucao.iml" filepath="$PROJECT_DIR$/src/MaterialConstrucao/MaterialConstrucao.iml" />
+    </modules>
+  </component>
+</project>

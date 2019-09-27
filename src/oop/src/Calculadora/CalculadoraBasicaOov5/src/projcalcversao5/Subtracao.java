@@ -1,4 +1,4 @@
-package oop.src.Calculadora.CalculadoraBasicaOov5.src.projcalcversao5;
+package projcalcversao5;
 
 public class Subtracao {
     public String calcular(int n1, int n2) {

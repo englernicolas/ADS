@@ -1,6 +1,7 @@
-package oop.src.MaterialConstrucao.src.view;
+package view;
 
 import javax.swing.*;
+
 import controller.UserInterfaceController;
 import model.Coupon;
 import model.Product;

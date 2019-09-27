@@ -1,4 +1,4 @@
-package oop.src.Calculadora.CalculadoraBasicaOov3.src.projcalcversao3;
+package projcalcversao3;
 
 public class Calculadora {
     static Operacoes oper = new Operacoes();

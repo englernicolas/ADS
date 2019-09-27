@@ -1,4 +1,4 @@
-package oop.src.Calculadora.CalculadoraBasicaOov1.src.projcalcversao1;
+package projcalcversao1;
 
 import javax.swing.JOptionPane;
 

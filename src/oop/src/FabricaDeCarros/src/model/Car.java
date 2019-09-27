@@ -1,4 +1,4 @@
-package oop.src.FabricaDeCarros.src.model;
+package model;
 
 public class Car {
     private String model;

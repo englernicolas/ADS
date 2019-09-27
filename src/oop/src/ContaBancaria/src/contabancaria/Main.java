@@ -1,4 +1,4 @@
-package oop.src.ContaBancaria.src.contabancaria;
+package contabancaria;
 
 public class
 Main {

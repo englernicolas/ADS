@@ -1,4 +1,4 @@
-package oop.src.ConstrucaoCasa.src.classesobjetoscasa;
+package classesobjetoscasa;
 
 public class Porta {
     private String identificacao;

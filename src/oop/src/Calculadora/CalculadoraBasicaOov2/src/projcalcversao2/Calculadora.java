@@ -1,4 +1,4 @@
-package oop.src.Calculadora.CalculadoraBasicaOov2.src.projcalcversao2;
+package projcalcversao2;
 
 public class Calculadora {
 

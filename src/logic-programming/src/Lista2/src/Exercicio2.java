@@ -31,9 +31,9 @@ public class Exercicio2 {
 		}
 		JOptionPane
 				.showMessageDialog(null,
-						"Os números pares entre 10 e 50 são:\n" + msgPares
-								+ "\n\nOs números ímpares entre 10 e 50 são:\n" + msgImpares,
-						"Pares e Ímpares de 10 a 50", JOptionPane.INFORMATION_MESSAGE);
+						"Os nï¿½meros pares entre 10 e 50 sï¿½o:\n" + msgPares
+								+ "\n\nOs nï¿½meros ï¿½mpares entre 10 e 50 sï¿½o:\n" + msgImpares,
+						"Pares e ï¿½mpares de 10 a 50", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 }

@@ -1,4 +1,4 @@
-package oop.src.FabricaDeCarros.src.view;
+package view;
 
 import controller.UserInterfaceController;
 import model.Car;

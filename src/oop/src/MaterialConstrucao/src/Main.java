@@ -1,5 +1,3 @@
-package oop.src.MaterialConstrucao.src;
-
 import view.UserInterface;
 
 public class Main {

@@ -1,4 +1,4 @@
-package oop.src.ConstrucaoCasa.src.interfacegrafica;
+package interfacegrafica;
 
 import classesobjetoscasa.Casa;
 import classesobjetoscasa.Janela;

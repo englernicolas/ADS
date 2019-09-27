@@ -1,5 +1,3 @@
-package oop.src.FabricaDeCarros.src;
-
 import view.UserInterface;
 
 public class Main {

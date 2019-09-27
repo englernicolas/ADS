@@ -3,7 +3,31 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/logic-programming/src/Desafio/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/logic-programming/src/Lista1/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/logic-programming/src/Lista2/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/logic-programming/src/Lista3/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/logic-programming/src/ListaExtra1/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/logic-programming/src/ListaExtra2/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/oop/src/ConstrucaoCasa/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/oop/src/ContaBancaria/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/oop/src/FabricaDeCarros/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/oop/src/MaterialConstrucao/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/oop/src/Calculadora/CalculadoraBasica/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov1/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov2/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov3/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov4/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov5/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov6/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/oop/src/Calculadora/CalculadoraBasicaOov7/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/oop/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/src/logic-programming/src/Desafio/out" />
+      <excludeFolder url="file://$MODULE_DIR$/src/logic-programming/src/Lista3/out" />
+      <excludeFolder url="file://$MODULE_DIR$/src/logic-programming/src/ListaExtra1/out" />
+      <excludeFolder url="file://$MODULE_DIR$/src/logic-programming/src/ListaExtra2/out" />
+      <excludeFolder url="file://$MODULE_DIR$/src/oop/out" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

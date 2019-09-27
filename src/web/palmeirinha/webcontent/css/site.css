@@ -1,0 +1,210 @@
+@charset "UTF-8";
+
+body{
+    background-color: aliceblue;
+    margin: 0 auto;
+    font-family: Arial;
+}
+
+h2{
+    background-color: darkmagenta;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    width: 350px;
+    margin: 20px auto;
+    font-size: 50px;
+    text-align: center;
+}
+
+/* cabeçalho */
+
+header{
+    height: 200px;
+    background-color: darkmagenta;
+}
+
+header a{
+    text-decoration: none;
+}
+
+header h1{
+    float: left;
+    margin: 50px 30%;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    font-size: 80px;
+    width: 800px;
+}
+
+/* barra navegação */
+
+nav{
+    clear: both;
+    height: auto;
+    width: 350px;
+    margin-top: 15px;
+    margin-left:auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.itemNav{
+    padding: 10px;
+    color: black;
+    font-size: 30px;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.itemNav:hover{
+    border-radius: 10px;
+    color: darkmagenta;
+}
+
+/* */
+
+#quemSomos p{
+    text-align: center;
+    font-size: 30px;
+    margin: 20px auto;
+}
+
+.fotos img{
+    margin: 50px;
+}
+
+.fotos{
+    text-align: center;
+}
+
+/* */
+
+table{
+    text-align: center;
+    margin: 0 auto;
+    font-size: 25px;
+    width: 650px;
+    background-color: lightpink;
+    border-radius: 10px;
+}
+
+tr, td, th{
+    padding: 15px;
+    text-align: center;
+}
+
+th{
+    border-radius: 10px;
+    background-color: darkmagenta;
+    color: white;
+    font-size: 30px;
+}
+
+/* */
+
+fieldset{
+    background-color: lightpink;
+    border-radius: 10px;
+    border-style: none;
+    padding: 20px 30px;
+    margin: 0 auto 30px;
+    width: 650px;
+    height: 600px;
+}
+
+legend{
+    text-align: center;
+    background-color: darkmagenta;
+    font-size: 25px;
+    color: white;
+    padding: 4px;
+    width: 300px;
+    border-radius: 5px;
+}
+
+label{
+    font-size: 20px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+input, select{
+    height: 25px;
+    width: 100%;
+    margin: 10px;
+}
+
+select{
+    font-size: 15px;
+}
+
+#nome, #quantidade, #endereco, #telefone, select{
+    width: 500px;
+}
+
+#descricaoPoduto{
+    width: 100%;
+}
+
+#entrega, #hora{
+    width: 30%;
+}
+
+#hora{
+    margin-right: 40px;
+}
+
+#retirarEmMaosInput{
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 10px;
+    width: 30px;
+    float: left;
+}
+
+#retirarEmMaosSpan{
+    font-size: 20px;
+    margin-right: 400px;
+    margin-bottom: 10px;
+    float: left;
+}
+
+button{
+    padding: 5px 20px;
+    font-size: 18px;
+    margin: 0 15px;
+    border-radius: 5px;
+    border-style: none;
+    width: 150px;
+}
+
+#botoes{
+    margin: 10px auto;
+    text-align: center;
+}
+
+#submit{
+    background-color: #09b825;
+    color: black;
+    border-color: #09b825;
+}
+
+#reset{
+    background-color: #cf0000;
+    color: white;
+    border-color: #cf0000;
+}
+
+/* rodapé */
+
+footer{
+    clear: both;
+    padding: 10px;
+    font-size: 15px;
+    color: white;
+    background-color: darkmagenta;
+    text-align: center;
+}
+

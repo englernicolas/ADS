@@ -1,4 +1,4 @@
-package oop.src.ConstrucaoCasa.src.classesobjetoscasa;
+package classesobjetoscasa;
 
 public class Janela {
     private String identificacao;

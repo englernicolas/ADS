@@ -1,4 +1,4 @@
-package oop.src.MaterialConstrucao.src.model;
+package model;
 
 import javax.swing.*;
 import java.util.List;
