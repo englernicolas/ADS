@@ -2,6 +2,7 @@ function validarFormulario(){
     var nome = document.getElementById("nome").value;
     var expRegNome = new RegExp("^[A-zÀ-ü]{3,}([ ]{1}[A-zÀ-ü]{2,})+$");
 
+
     if (!expRegNome.test(nome)){
         alert("Preencha o campo Nome corretamente.");
         return false;
@@ -38,5 +39,14 @@ function validarFormulario(){
 
     }
 
+    var endereco = document.getElementById('endereco').value;
+    var checkbox = document.getElementById('retirarEmMaosInput');
+
+    if(endereco =="" && !checkbox.checked){
+        alert("Preencha o campo Endereço ou marque 'Retirar em Mãos'");
+        return false;
+    }
+
+    alert("Orçamento efetuado!”");
     return true;
 }
