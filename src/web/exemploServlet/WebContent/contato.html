@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" href="estilo.css">
+<title>Exemplo de Servlet</title>
+</head>
+<body>
+	<form action="insereContato">
+		<fieldset>
+			<legend>Contato</legend>
+			<table>
+				<tr>
+					<td><label for="nome">Nome:</label></td>
+					<td><input type="text" id="nome" name="nome"></input></td>
+				</tr>
+				<tr>
+					<td><label for="endereco">Endereço:</label></td>
+					<td><input type="text" id="endereco" name="endereco"></input>
+					</td>
+				</tr>
+				<tr>
+					<td><label for="telefone">Telefone:</label></td>
+					<td><input type="text" id="telefone" name="telefone"></input>
+					</td>
+				</tr>
+			</table>
+			<div class="botoes">
+				<button type="submit" id="enviar">Enviar</button>
+				<button type="reset" id="limpar">Limpar</button>
+			</div>
+		</fieldset>
+	</form>
+</body>
+</html>
