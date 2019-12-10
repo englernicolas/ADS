@@ -1,6 +1,8 @@
 COLDIGO = new Object();
 
 $(document).ready(function(){
+	COLDIGO.PATH = "/coldigo-eclipse/rest/";
+	
 	$("header").load("/coldigo-eclipse/pages/admin/general/header.html");
 	$("footer").load("/coldigo-eclipse/pages/admin/general/footer.html");
 

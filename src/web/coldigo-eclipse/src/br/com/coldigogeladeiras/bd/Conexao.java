@@ -7,7 +7,6 @@ public class Conexao {
 
 	public Connection abrirConexao() {
 		String password = "";
-		System.out.println(1);
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 			conexao = java.sql.DriverManager.getConnection("jdbc:mysql://localhost/bdcoldigo?"
