@@ -8,4 +8,5 @@ import java.util.List;
 public interface ProdutoDAO {
 	public boolean inserir(Produto produto);
 	public List<JsonObject> buscarPorNome(String nome);
+	public boolean deletar(int id);
 }

@@ -66,4 +66,29 @@ public class ProdutoRest extends UtilRest{
 			return this.buildErrorResponse(e.getMessage());
 		}
 	}
+
+	@DELETE
+	@Path("/excluir/{id}")
+	@Consumes("application/*")
+	public Response excluir(@PathParam("id") int id){
+		try {
+			Conexao conec = new Conexao();
+			Connection conexao = conec.abrirConexao();
+			JDBCProdutoDAO jdbcProdutoDAO = new JDBCProdutoDAO(conexao);
+
+			boolean retorno = jdbcProdutoDAO.deletar(id);
+
+			String msg = "";
+			if (retorno){
+				msg = "Produto excluído com sucesso!";
+			} else {
+				msg = "Erro ao excluir produto.";
+			}
+
+			return this.buildResponse(msg);
+		} catch (Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}
+	}
 }
