@@ -32,4 +32,12 @@ $(document).ready(function(){
 		$("#modalAviso").html(aviso);
 		$("#modalAviso").dialog(modal);
 	};
+
+	// vai formatar o valor recebido como parametro
+	// exemplo: 4000 vai se transformar em 4.000,00
+	// toFixed() coloca a quantidado de casas decimais passado como parametro
+	// replace() procura o primeiro valor e substitui pelo segundo
+	COLDIGO.formatarDinheiro = function (valor) {
+		return valor.toFixed(2).replace('.',',').replace(/(\d)(?=(\d{3})+\,)/g, "$1.");
+	}
 });
