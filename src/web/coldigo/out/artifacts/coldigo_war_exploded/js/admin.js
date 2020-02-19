@@ -7,6 +7,10 @@ $(document).ready(function(){
 	$("footer").load("/coldigo/pages/admin/general/footer.html");
 
 	COLDIGO.carregaPagina = function(pagename){
+		if ($(".ui-dialog")){
+			$(".ui-dialog").remove();
+		}
+
 		$("section").empty();
 		$("section").load(pagename+"/",function(response, status, info){ 
 			if (status == "error") {

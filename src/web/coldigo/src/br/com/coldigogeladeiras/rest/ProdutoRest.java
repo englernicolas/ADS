@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 import br.com.coldigogeladeiras.bd.Conexao;
 import br.com.coldigogeladeiras.jdbc.JDBCProdutoDAO;
 import br.com.coldigogeladeiras.modelo.Produto;
-import com.google.gson.JsonObject;;
+import com.google.gson.JsonObject;
 
 @Path("produto")
 public class ProdutoRest extends UtilRest{
@@ -108,6 +108,33 @@ public class ProdutoRest extends UtilRest{
 			conec.fecharConexao();
 
 			return this.buildResponse(produto);
+		} catch (Exception e){
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}
+	}
+
+	@PUT
+	@Path("/alterar")
+	@Consumes("application/*")
+	public Response alterar(String produtoParam){
+		try{
+			Produto produto = new Gson().fromJson(produtoParam, Produto.class);
+			Conexao conec = new Conexao();
+			Connection conexao = conec.abrirConexao();
+			JDBCProdutoDAO jdbcProduto = new JDBCProdutoDAO(conexao);
+
+			boolean retorno = jdbcProduto.alterar(produto);
+
+			String msg = "";
+			if (retorno){
+				msg = "Produto alterado com sucesso!";
+			} else {
+				msg = "Erro ao alterar produto.";
+			}
+
+			conec.fecharConexao();
+			return this.buildResponse(msg);
 		} catch (Exception e){
 			e.printStackTrace();
 			return this.buildErrorResponse(e.getMessage());

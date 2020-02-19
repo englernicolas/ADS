@@ -117,7 +117,7 @@ $(document)
 									"<td>R$ "+COLDIGO.formatarDinheiro(listaDeProdutos[i].valor)+"</td>" +
 									"<td>" +
 										"<a onclick=\"COLDIGO.produto.exibirEdicao('"+listaDeProdutos[i].id+"')\"><img src='../../imgs/edit.png' alt='Editar registro'></a>" +
-										"<a onclick=\"COLDIGO.produto.excluir('"+listaDeProdutos[i].id+"')\"><img src='../../imgs/delete.png' alt='Excluir registro'></a>" +
+										"<a onclick=\"COLDIGO.produto.confirmarExclusao('"+listaDeProdutos[i].id+"')\"><img src='../../imgs/delete.png' alt='Excluir registro'></a>" +
 									"</td>" +
 									"</tr>"
 							}
@@ -148,6 +148,27 @@ $(document)
 
 					COLDIGO.produto.buscar();
 
+					COLDIGO.produto.confirmarExclusao = function (id) {
+						var modalExcluirProduto = {
+							title: "Deseja realmente excluir este produto?",
+							width: 550,
+							modal: true,
+							buttons: {
+								"Sim": function () {
+									COLDIGO.produto.excluir(id);
+									$(this).dialog("close");
+								},
+								"Não": function () {
+									$(this).dialog("close");
+								}
+							},
+							close: function () {
+							}
+						};
+
+						$("#modalExcluirProduto").dialog(modalExcluirProduto);
+					};
+
 					COLDIGO.produto.excluir = function (id) {
 						$.ajax({
 							type: "DELETE",
@@ -161,7 +182,7 @@ $(document)
 							}
 
 						});
-					}
+					};
 
 					COLDIGO.produto.exibirEdicao = function (id) {
 						$.ajax({
@@ -192,14 +213,13 @@ $(document)
 									modal: true,
 									buttons:{
 										"Salvar": function(){
-
+											COLDIGO.produto.editar();
 										},
 										"Cancelar": function () {
 											$(this).dialog("close");
 										}
 									},
 									close: function () {
-
 									}
 								};
 
@@ -209,5 +229,29 @@ $(document)
 								COLDIGO.exibirAviso("Erro ao buscar produto para edição: "+ info.status +" - "+ info.statusText);
 							}
 						});
-					}
+					};
+
+					COLDIGO.produto.editar = function () {
+						var produto = new Object();
+						produto.id = document.frmEditarProduto.idProduto.value;
+						produto.categoria = document.frmEditarProduto.categoria.value;
+						produto.marcaId = document.frmEditarProduto.marcaId.value;
+						produto.modelo = document.frmEditarProduto.modelo.value;
+						produto.capacidade = document.frmEditarProduto.capacidade.value;
+						produto.valor = document.frmEditarProduto.valor.value;
+
+						$.ajax({
+							type:"PUT",
+							url: COLDIGO.PATH + "produto/alterar",
+							data: JSON.stringify(produto),
+							success: function (msg) {
+								COLDIGO.exibirAviso(msg);
+								COLDIGO.produto.buscar();
+								$("#modalEditaProduto").dialog("close")
+							},
+							error: function (info) {
+								COLDIGO.exibirAviso("Erro ao editar produto: "+ info.status + " - "+ info.statusText);
+							}
+						})
+					};
 				});
