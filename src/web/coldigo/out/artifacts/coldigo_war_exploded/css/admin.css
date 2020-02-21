@@ -173,6 +173,10 @@ section h2, section h3{
 	min-width: 50%;
 }
 
+.tabelaMarcas{
+	min-width: 30% !important;
+}
+
 .listaRegistros table th{
 	text-align: center;
 	font-size: 18px;
