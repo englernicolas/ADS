@@ -1,5 +1,5 @@
 package br.com.coldigogeladeiras.rest;
-        
+
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,6 @@ import javax.ws.rs.core.Response;
 
 import br.com.coldigogeladeiras.bd.Conexao;
 import br.com.coldigogeladeiras.jdbc.JDBCMarcaDAO;
-import br.com.coldigogeladeiras.jdbc.JDBCMarcaDAO;
 import br.com.coldigogeladeiras.modelo.Marca;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -18,15 +17,15 @@ import com.google.gson.JsonObject;
 
 @Path("marca")
 public class MarcaRest extends UtilRest{
-	
+
 	@GET
 	@Path("/carregarMarcas")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response carregarMarcas() {
-		
+
 		try {
 			List<Marca> listaMarcas = new ArrayList<Marca>();
-			
+
 			Conexao conec = new Conexao();
 			Connection conexao = conec.abrirConexao();
 			JDBCMarcaDAO jdbcMarca = new JDBCMarcaDAO(conexao);
@@ -37,7 +36,7 @@ public class MarcaRest extends UtilRest{
 			e.printStackTrace();
 			return this.buildErrorResponse(e.getMessage());
 		}
-	
+
 	}
 
 	@POST
@@ -100,15 +99,20 @@ public class MarcaRest extends UtilRest{
 			Connection conexao = conec.abrirConexao();
 			JDBCMarcaDAO jdbcMarcaDAO = new JDBCMarcaDAO(conexao);
 
-			boolean retorno = jdbcMarcaDAO.deletar(id);
+			boolean marcaAtribuidaProduto = jdbcMarcaDAO.verificarAtribuicaoMarcaProduto(id);
 
 			String msg = "";
-			if (retorno){
-				msg = "Marca excluída com sucesso!";
-			} else {
-				msg = "Erro ao excluir marca.";
-			}
+			if (!marcaAtribuidaProduto) {
+				boolean retorno = jdbcMarcaDAO.deletar(id);
 
+				if (retorno) {
+					msg = "Marca excluída com sucesso!";
+				} else {
+					msg = "Erro ao excluir marca.";
+				}
+			} else {
+				msg = "Essa marca está atribuída a um produto já cadastrado, portanto não é possível excluí-la";
+			}
 			return this.buildResponse(msg);
 		} catch (Exception e){
 			e.printStackTrace();
@@ -164,5 +168,43 @@ public class MarcaRest extends UtilRest{
 			return this.buildErrorResponse(e.getMessage());
 		}
 	}
-	
+
+	@PUT
+	@Path("/ativarDesativar")
+	@Consumes("application/*")
+	public void ativarDesativar(String marcaJson){
+		try{
+			Marca marca = new Gson().fromJson(marcaJson, Marca.class);
+			Conexao conec = new Conexao();
+			Connection conexao = conec.abrirConexao();
+			JDBCMarcaDAO jdbcMarca = new JDBCMarcaDAO(conexao);
+
+			jdbcMarca.ativarDesativar(marca);
+
+			conec.fecharConexao();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	@GET
+	@Path("/listarMarcas")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listarMarcas() {
+		try {
+			List<JsonObject> listaMarcas = new ArrayList<JsonObject>();
+
+			Conexao conec = new Conexao();
+			Connection conexao = conec.abrirConexao();
+			JDBCMarcaDAO jdbcMarca = new JDBCMarcaDAO(conexao);
+			listaMarcas = jdbcMarca.listarMarcas();
+
+			String json = new Gson().toJson(listaMarcas);
+
+			return buildResponse(json);
+		} catch (Exception e){
+			e.printStackTrace();
+			return buildErrorResponse(e.getMessage());
+		}
+	}
 }

@@ -3,6 +3,8 @@ COLDIGO.produto = new Object();
 $(document)
     .ready(
         function () {
+            var listaProdutos = {};
+
             COLDIGO.produto.carregarMarcas = function (id) {
                 if (id != undefined) {
                     select = "#selMarcaEdicao";
@@ -79,6 +81,8 @@ $(document)
                     || (produto.capacidade == "")
                     || (produto.valor == "")) {
                     COLDIGO.exibirAviso("Preencha todos os campos!")
+                } else if (COLDIGO.produto.verificarNome(produto.modelo, produto.marcaId)) {
+                    COLDIGO.exibirAviso("Um produto dessa marca com esse nome já foi cadastrada!");
                 } else {
                     $.ajax({
                         type: "POST",
@@ -253,5 +257,29 @@ $(document)
                         COLDIGO.exibirAviso("Erro ao editar produto: " + info.status + " - " + info.statusText);
                     }
                 })
+            };
+            COLDIGO.produto.listarProdutos = function () {
+                $.ajax({
+                    type: "GET",
+                    url: COLDIGO.PATH + "produto/listarProdutos",
+                    success: function (dados) {
+                        dados = JSON.parse(dados);
+                        listaProdutos = dados;
+                    },
+                    error: function (info) {
+                        console.log("Erro ao criar lista de produtos: " + info.status + " - " + info.statusText);
+                    }
+                });
+            };
+
+            COLDIGO.produto.verificarNome = function (modeloProduto, marcaId) {
+                COLDIGO.produto.listarProdutos();
+                for (var i = 0; i < listaProdutos.length; i++){
+                    debugger;
+                    if ((marcaId == listaProdutos[i].marcaId) && modeloProduto.toLowerCase() == listaProdutos[i].modelo.toLowerCase()){
+                        return true;
+                    }
+                }
+                return false;
             };
         });

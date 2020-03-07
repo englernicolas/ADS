@@ -78,11 +78,12 @@ public class JDBCMarcaDAO implements MarcaDAO {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String nomeMarca = rs.getString("nome");
-
+                int status = rs.getInt("status");
 
                 JsonObject marca = new JsonObject();
                 marca.addProperty("id", id);
                 marca.addProperty("nome", nomeMarca);
+                marca.addProperty("status", status);
 
                 listaMarcas.add(marca);
             }
@@ -104,6 +105,7 @@ public class JDBCMarcaDAO implements MarcaDAO {
             p.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            e.getErrorCode();
             return false;
         }
         return true;
@@ -147,5 +149,75 @@ public class JDBCMarcaDAO implements MarcaDAO {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean verificarAtribuicaoMarcaProduto(int id) {
+        String comando = "SELECT * FROM produtos WHERE marcas_id = ?";
+        PreparedStatement p;
+
+        try {
+            p = this.conexao.prepareStatement(comando);
+            p.setInt(1, id);
+            ResultSet rs = p.executeQuery();
+
+            if (rs.next()) {
+                return true;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
+    @Override
+    public void ativarDesativar(Marca marca) {
+        int status = 0;
+        if (marca.getStatus() == 0) {
+            status = 1;
+        }
+
+        String comando = "UPDATE marcas SET status=? WHERE id=?";
+
+        PreparedStatement p;
+        try {
+            p = this.conexao.prepareStatement(comando);
+            p.setInt(1, status);
+            p.setInt(2, marca.getId());
+            p.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<JsonObject> listarMarcas() {
+        String comando = "SELECT * FROM marcas";
+
+        List<JsonObject> listaMarcas = new ArrayList<JsonObject>();
+
+        try {
+            Statement stmt = conexao.createStatement();
+            ResultSet rs = stmt.executeQuery(comando);
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nomeMarca = rs.getString("nome");
+                int status = rs.getInt("status");
+
+                JsonObject marca = new JsonObject();
+                marca.addProperty("id", id);
+                marca.addProperty("nome", nomeMarca);
+                marca.addProperty("status", status);
+
+                listaMarcas.add(marca);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return listaMarcas;
     }
 }

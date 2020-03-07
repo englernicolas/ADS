@@ -11,4 +11,6 @@ public interface ProdutoDAO {
 	public boolean deletar(int id);
 	public Produto buscarPorId(int id);
 	public boolean alterar(Produto produto);
+	public boolean verificarExistenciaMarca(int idMarca);
+	public List<JsonObject> listarProdutos();
 }

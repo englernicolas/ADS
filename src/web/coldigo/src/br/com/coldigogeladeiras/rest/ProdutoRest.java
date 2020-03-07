@@ -8,6 +8,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import br.com.coldigogeladeiras.jdbc.JDBCMarcaDAO;
 import com.google.gson.Gson;
 
 import br.com.coldigogeladeiras.bd.Conexao;
@@ -27,14 +28,19 @@ public class ProdutoRest extends UtilRest{
 			Connection conexao = conec.abrirConexao();
 			
 			JDBCProdutoDAO jdbcProduto = new JDBCProdutoDAO(conexao);
-			boolean retorno = jdbcProduto.inserir(produto);
+			boolean marcaExiste = jdbcProduto.verificarExistenciaMarca(produto.getMarcaId());
+
 			String msg = "";
-			if (retorno) {
-				msg = "Produto cadastrado com sucesso!";
+			if (marcaExiste) {
+				boolean retorno = jdbcProduto.inserir(produto);
+				if (retorno) {
+					msg = "Produto cadastrado com sucesso!";
+				} else {
+					msg = "Erro ao cadastrar produto.";
+				}
 			} else {
-				msg = "Erro ao cadastrar produto.";
+				msg = "Erro ao cadastrar produto, a marca não existe! Tente recarregar a página.";
 			}
-			
 			conec.fecharConexao();
 			
 			return this.buildResponse(msg);
@@ -138,6 +144,27 @@ public class ProdutoRest extends UtilRest{
 		} catch (Exception e){
 			e.printStackTrace();
 			return this.buildErrorResponse(e.getMessage());
+		}
+	}
+
+	@GET
+	@Path("/listarProdutos")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listarProdutos() {
+		try {
+			List<JsonObject> listaProdutos = new ArrayList<JsonObject>();
+
+			Conexao conec = new Conexao();
+			Connection conexao = conec.abrirConexao();
+			JDBCProdutoDAO jdbcProdutos = new JDBCProdutoDAO(conexao);
+			listaProdutos = jdbcProdutos.listarProdutos();
+
+			String json = new Gson().toJson(listaProdutos);
+
+			return buildResponse(json);
+		} catch (Exception e){
+			e.printStackTrace();
+			return buildErrorResponse(e.getMessage());
 		}
 	}
 }
