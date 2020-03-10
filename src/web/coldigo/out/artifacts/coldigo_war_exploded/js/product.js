@@ -82,7 +82,7 @@ $(document)
                     || (produto.valor == "")) {
                     COLDIGO.exibirAviso("Preencha todos os campos!")
                 } else if (COLDIGO.produto.verificarNome(produto.modelo, produto.marcaId)) {
-                    COLDIGO.exibirAviso("Uma marca com esse nome já foi cadastrada!");
+                    COLDIGO.exibirAviso("Um produto dessa marca com esse nome já foi cadastrada!");
                 } else {
                     $.ajax({
                         type: "POST",

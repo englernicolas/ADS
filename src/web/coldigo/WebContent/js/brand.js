@@ -180,6 +180,8 @@ $(document).ready(function () {
                 type: "PUT",
                 url: COLDIGO.PATH + "marca/ativarDesativar",
                 data: JSON.stringify(marca),
+                success: function (msg) {
+                },
                 error: function (info) {
                     var toggleButton = document.getElementsByClassName("ativaDesativa");
                     if (status == 1) {

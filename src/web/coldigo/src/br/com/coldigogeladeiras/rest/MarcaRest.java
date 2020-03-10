@@ -172,7 +172,7 @@ public class MarcaRest extends UtilRest{
 	@PUT
 	@Path("/ativarDesativar")
 	@Consumes("application/*")
-	public void ativarDesativar(String marcaJson){
+	public Response ativarDesativar(String marcaJson){
 		try{
 			Marca marca = new Gson().fromJson(marcaJson, Marca.class);
 			Conexao conec = new Conexao();
@@ -182,8 +182,11 @@ public class MarcaRest extends UtilRest{
 			jdbcMarca.ativarDesativar(marca);
 
 			conec.fecharConexao();
+
+			return buildResponse("deu certo");
 		} catch (Exception e){
 			e.printStackTrace();
+			return buildErrorResponse(e.getMessage());
 		}
 	}
 
