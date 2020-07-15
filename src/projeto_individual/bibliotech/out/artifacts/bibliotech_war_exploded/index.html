@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Site da BiblioTech">
+        <meta name="keywords" content="Biblioteca, Livros, ONG">
+        <meta name="author" content="Nicolas Engler">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/login.css">
+        <link rel="stylesheet" href="css/utils.css">
+        <script src="js/utils.js"></script>
+        <script src="js/login.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <title>Bibliotech</title>
+    </head>
+    <body>
+        <div class="login__container centralize">
+            <form name="loginform" method="post" action="#" onsubmit="return loginAuth()">
+                <div class="login__form centralize">
+                    <img src="imgs/logo.png" alt="Logo BiblioTech" class="login__logo">
+                    <input type="text" placeholder="Apelido" class="login__input" name="username">
+                    <input type="password" placeholder="**********" class="login__input" name="password">
+                    <label class="checkbox__container">Mantenha me conectado
+                        <input class="checkbox__input" type="checkbox" checked="checked">
+                        <span class="checkbox__mark"></span>
+                    </label>
+                    <button class="login__button" type="submit">Entrar</button>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
