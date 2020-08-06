@@ -6,27 +6,30 @@
         <meta name="keywords" content="Biblioteca, Livros, ONG">
         <meta name="author" content="Nicolas Engler">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/login.css">
-        <link rel="stylesheet" href="css/utils.css">
-        <script src="js/utils.js"></script>
-        <script src="js/login.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Roboto  :100,300,400,500,700,900" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <title>Bibliotech</title>
     </head>
     <body>
-        <div class="login__container centralize">
-            <form name="loginform" method="post" action="#" onsubmit="return loginAuth()">
-                <div class="login__form centralize">
-                    <img src="imgs/logo.png" alt="Logo BiblioTech" class="login__logo">
-                    <input type="text" placeholder="Apelido" class="login__input" name="username">
-                    <input type="password" placeholder="**********" class="login__input" name="password">
-                    <label class="checkbox__container">Mantenha me conectado
-                        <input class="checkbox__input" type="checkbox" checked="checked">
-                        <span class="checkbox__mark"></span>
-                    </label>
-                    <button class="login__button" type="submit">Entrar</button>
-                </div>
-            </form>
-        </div>
+        <v-app id="app">
+            <layout :full-name="'Nicolas'"></layout>
+
+        </v-app>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+        <script type="module">
+            import Layout from "./assets/components/Layout.js"
+            Vue.component("Layout", Layout)
+
+            new Vue({
+                el: "#app",
+                vuetify: new Vuetify(),
+                data: () => ({
+                }),
+            })
+        </script>
     </body>
 </html>
