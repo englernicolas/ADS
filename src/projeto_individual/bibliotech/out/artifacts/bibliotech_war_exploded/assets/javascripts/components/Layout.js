@@ -7,14 +7,13 @@ export default {
         return {
             menuItems: [
                 { title: 'Home', icon: 'mdi-home-city', path: '/home'},
-                { title: 'Minha conta', icon: 'mdi-account', path: '/myAccount'},
                 { title: 'Alunos', icon: 'mdi-account-group-outline', path: '/students'},
                 { title: 'Bibliotecários', icon: 'mdi-account-group', path: '/librarians'},
                 { title: 'Livros', icon: 'mdi-book-open-page-variant', path: '/books'},
                 { title: 'Empréstimos', icon: 'mdi-book', path: '/loans'},
             ],
             dropdownItems: [
-                { title: 'Minha conta', path: '/myAccount'},
+                { title: 'Editar perfil', path: '/profile'},
                 { title: 'Logout', path: '/home'} // FIXME - ALTERAR PATH QUANDO FOR IMPLEMENTADO O SISTEMA DE SESSÃO!!!
             ],
         }
@@ -34,7 +33,7 @@ export default {
                                 </template>
                                 <v-list>
                                     <v-list-item v-for="(item, index) in dropdownItems" :key="index" @click="$router.push(item.path)">
-                                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                                        <v-list-item-title :class="[item.title == 'Logout' ? 'red--text text--accent-4' : 'grey--text text--darken-3']">{{ item.title }}</v-list-item-title>
                                     </v-list-item>
                                 </v-list>
                             </v-menu>
