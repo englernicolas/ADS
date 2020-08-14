@@ -5,7 +5,7 @@ export default {
                     
                     <v-divider></v-divider>
                     
-                    <div><v-img src="/bibliotech/assets/images/logo.png" width="500" class="mx-auto"/></div>
+                    <div><v-img src="./assets/images/logo.png" width="500" class="mx-auto"/></div>
                     <div class="mx-16 text-body-1">
                         <p>
                             A <b>BiblioTech</b> surgiu de uma ONG chamada <b>Sala Arco Íris</b> que ajuda crianças de baixa renda em sua educação básica. Recentemente, recebeu uma doação de mais de 1000 livros e está montando a sua biblioteca.

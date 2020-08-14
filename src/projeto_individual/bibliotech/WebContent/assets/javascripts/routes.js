@@ -1,5 +1,5 @@
-import Home from "/bibliotech/assets/javascripts/components/Home.js"
-import MyAccount from "/bibliotech/assets/javascripts/components/EditProfile.js"
+import Home from "./components/Home.js"
+import MyAccount from "./components/EditProfile.js"
 /*
 import Students from "/bibliotech/assets/javascripts/components/Students.js"
 import Librarians from "/bibliotech/assets/javascripts/components/Librarians.js"
