@@ -1,9 +1,11 @@
-import routes from "/bibliotech/assets/javascripts/routes.js"
+import routes from "./routes.js"
 
-import Layout from "/bibliotech/assets/javascripts/components/Layout.js"
+import Layout from "./components/Layout.js"
 Vue.component("Layout", Layout)
 
 const router = new VueRouter ({routes})
+
+Vue.use(VueMask.VueMaskPlugin)
 
 var app = new Vue({
     router,
@@ -13,7 +15,6 @@ var app = new Vue({
         'layout': Layout
     },
     data: () => ({
-
     })
 
 })
