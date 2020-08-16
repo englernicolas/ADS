@@ -11,6 +11,7 @@ export default {
                 { title: 'Bibliotecários', icon: 'mdi-account-group', path: '/librarians'},
                 { title: 'Livros', icon: 'mdi-book-open-page-variant', path: '/books'},
                 { title: 'Empréstimos', icon: 'mdi-book', path: '/loans'},
+                { title: 'Relatórios', icon: 'mdi-file-chart', path: '/reports'},
             ],
             dropdownItems: [
                 { title: 'Editar perfil', path: '/profile'},
