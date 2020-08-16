@@ -10,11 +10,26 @@ Vue.use(VueMask.VueMaskPlugin)
 var app = new Vue({
     router,
     el: '#app',
-    vuetify: new Vuetify(),
+    vuetify: new Vuetify({
+        theme: {
+			themes: {
+					light: {
+							primary: '#52bdae',
+							secondary: '#1976d2',
+							accent: '#3ea2fb',
+							error: '#dc3545',
+							petrol: '#17a499',
+							background: '#f4f4f4',
+					}
+			},
+			options: {
+					customProperties: true
+			},
+		},
+    }),
     components: {
         'layout': Layout
     },
     data: () => ({
-    })
-
+    }),
 })

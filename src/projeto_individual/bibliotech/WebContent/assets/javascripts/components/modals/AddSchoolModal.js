@@ -1,13 +1,11 @@
 import { $bus } from '../../utils/eventBus.js'
 
 export default {
-    name: 'EditPasswordModal',
+    name: 'AddSchoolModal',
     data: () => ({
         valid: false,
-        content: {
-            oldPassword: '',
-            confirmOldPassword: '',
-            newPassword: '',
+        school: {
+            name: '',
         },
         requiredMessage: [
             v => !!v || 'Campo obrigatório',
@@ -33,25 +31,10 @@ export default {
                 <v-row>
                     <v-col>
                         <v-text-field
-                            v-model="content.oldPassword" :rules="requiredMessage" label="Senha atual" color="teal" required outlined
+                            v-model="school.name" :rules="requiredMessage" label="Nome" color="teal" required outlined
                         ></v-text-field>
                     </v-col>
                 </v-row>
-                <v-row>
-                    <v-col>
-                        <v-text-field
-                            v-model="content.confirmOldPassword" :rules="requiredMessage" label="Confirmar senha atual" color="teal" required outlined
-                        ></v-text-field>
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col>
-                        <v-text-field
-                            v-model="content.newPassword" :rules="requiredMessage" label="Nova senha" color="teal" required outlined
-                        ></v-text-field>
-                    </v-col>
-                </v-row>     
-                
                 <v-row>
                     <v-col class="text-center">
                         <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="validate">
