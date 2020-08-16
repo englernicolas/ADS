@@ -1,6 +1,6 @@
 import { $bus } from '../utils/eventBus.js'
 
-import ModalTemplate from './Modal.js'
+import ModalTemplate from './utils/Modal.js'
 Vue.component('ModalTemplate', ModalTemplate)
 
 /* MODAIS */
@@ -76,7 +76,7 @@ export default {
                             <v-row>
                                 <v-col>    
                                     <v-select
-                                        v-model="selectedGender" :items="genders" :rules="[v => !!v || 'Item is required']" label="Sexo" color="teal" required outlined
+                                        v-model="selectedGender" :items="genders" :rules="[v => !!v || 'Item necessário']" label="Sexo" color="teal" required outlined
                                     ></v-select>
                                 </v-col>
                                 <v-col>
@@ -88,12 +88,12 @@ export default {
                             
                             <v-row>
                                 <v-col class="text-right">    
-                                    <v-btn color="primary" class="white--text text-lg-right" @click="openModal">
+                                    <v-btn color="secondary" class="white--text text-lg-right" @click="openModal">
                                         Alterar Senha
                                     </v-btn>
                                 </v-col>
                                 <v-col class="text-left">
-                                    <v-btn :disabled="!valid" color="#52bdae" class="white--text text-lg-right" @click="validate">
+                                    <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="validate">
                                         Salvar
                                     </v-btn>
                                 </v-col>

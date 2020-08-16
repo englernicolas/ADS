@@ -19,7 +19,7 @@ export default {
         }
     },
     template: `<div>
-                    <v-app-bar color="#52bdae" flat app clipped-left>
+                    <v-app-bar color="primary" flat app clipped-left>
                         <img width="180" src="/bibliotech/assets/images/horizontal_white_logo.png" alt="Logo Bibliotech">
                         
                         <v-spacer></v-spacer>

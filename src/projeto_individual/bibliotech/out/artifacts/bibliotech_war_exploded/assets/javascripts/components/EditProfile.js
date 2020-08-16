@@ -78,7 +78,7 @@ export default {
                             
                             <v-row>
                                 <v-col cols="2">    
-                                    <v-btn :disabled="!valid" color="#52bdae" class="mr-4 white--text text-lg-right" @click="validate">
+                                    <v-btn :disabled="!valid" color="primary" class="mr-4 white--text text-lg-right" @click="validate">
                                         Salvar
                                     </v-btn>
                                 </v-col>
