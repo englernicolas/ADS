@@ -8,10 +8,8 @@ Vue.component('SearchBox', SearchBox)
 
 /* MODAIS */
 import AddUserModal from './modals/AddUserModal.js'
-import AddSchoolModal from './modals/AddSchoolModal.js'
 import EditUserModal from './modals/EditUserModal.js'
 import DeleteModal from './modals/DeleteModal.js'
-import UserLoansModal from './modals/UserLoansModal.js'
 
 export default {
     name: 'Librarians',

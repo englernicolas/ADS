@@ -3,7 +3,7 @@ import { $bus } from '../../utils/eventBus.js'
 export default {
     name: 'EditUserModal',
     data: () => ({
-        valid: false,
+        valid: true,
         student: {
             firstName: 'João',
             lastName: 'Silva',
