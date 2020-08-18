@@ -70,7 +70,7 @@ export default {
                     </v-col>
                     <v-col v-if="book.debt">
                         <v-row>
-                            <span class="font-weight-bold red--text">Multas:</span>
+                            <span class="font-weight-bold red--text">Multa:</span>
                         </v-row>
                         <v-row>
                             <span class="red--text">R$ {{book.debt}}</span>
