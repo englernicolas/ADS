@@ -1,7 +1,7 @@
 import { $bus } from '../../utils/eventBus.js'
 
 export default {
-    name: 'DeleteUserModal',
+    name: 'DeleteLibrarianModal',
     data: () => ({
         valid: false,
         reason: '',

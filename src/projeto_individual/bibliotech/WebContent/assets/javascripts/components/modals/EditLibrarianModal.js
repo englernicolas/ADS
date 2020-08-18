@@ -1,12 +1,12 @@
 import { $bus } from '../../utils/eventBus.js'
 
 export default {
-    name: 'AddUserModal',
+    name: 'EditLibrarianModal',
     data: () => ({
-        valid: false,
+        valid: true,
         student: {
-            firstName: '',
-            lastName: '',
+            firstName: 'João',
+            lastName: 'Silva',
             password: '',
             email: '',
             birthdayDate: '',

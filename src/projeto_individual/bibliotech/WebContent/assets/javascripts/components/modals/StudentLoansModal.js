@@ -1,7 +1,7 @@
 import { $bus } from '../../utils/eventBus.js'
 
 export default {
-    name: 'bookLoansModal',
+    name: 'StudentLoansModal',
     data: () => ({
         books: [
             {
