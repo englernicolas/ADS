@@ -9,6 +9,7 @@ export default {
             lastName: '',
             password: '',
             email: '',
+            birthdayDate: '',
             cpf: '',
             gender: 'Indefinido',
             school: 'ESCOLA CABEÇA DE GELO'
@@ -32,6 +33,7 @@ export default {
         cpfRules: [
             v => /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/.test(v) || 'CPF inválido',
         ],
+        menu: false,
     }),
     mounted() {
         $bus.$on('reset-modal-content', () => {
@@ -41,7 +43,15 @@ export default {
     beforeDestoy() {
         $bus.$off('reset-modal-content')
     },
+    watch: {
+      menu (val) {
+        val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
+      },
+    },
     methods: {
+        save (date) {
+            this.$refs.menu.save(date)
+        },
         validate () {
             this.$refs.form.validate()
         },
@@ -75,10 +85,35 @@ export default {
                     </v-col>
                 </v-row>
                 <v-row>
-                    <v-col>    
-                        <v-select
-                            v-model="student.gender" :items="genders" :rules="[v => !!v || 'Item necessário']" label="Sexo" color="teal" required outlined
-                        ></v-select>
+                    <v-col>
+                        <v-menu
+                            ref="menu"
+                            v-model="menu"
+                            :close-on-content-click="false"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="290px"
+                        >
+                            <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                                v-model="student.birthdayDate"
+                                label="Data de nascimento"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                                color="teal"
+                                outlined
+                            ></v-text-field>
+                            </template>
+                            <v-date-picker
+                            ref="picker"
+                            v-model="student.birthdayDate"
+                            :max="new Date().toISOString().substr(0, 10)"
+                            min="1950-01-01"
+                            @change="save"
+                            color="primary"
+                            ></v-date-picker>
+                        </v-menu>
                     </v-col>
                     <v-col>    
                         <v-text-field v-mask="['###.###.###-##']"
@@ -87,12 +122,17 @@ export default {
                     </v-col>
                 </v-row>
                 <v-row>
+                    <v-col>    
+                        <v-select
+                            v-model="student.gender" :items="genders" :rules="[v => !!v || 'Item necessário']" label="Sexo" color="teal" required outlined
+                        ></v-select>
+                    </v-col>
                     <v-col>
                         <v-select
                             v-model="student.school" :items="schools" :rules="[v => !!v || 'Item necessário']" label="Escola" color="teal" required outlined
                         ></v-select>
                     </v-col>
-                </v-row>     
+                </v-row>    
                 
                 <v-row>
                     <v-col class="text-center">

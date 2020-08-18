@@ -12,6 +12,7 @@ export default {
         valid: true,
         firstName: 'João',
         lastName: 'Silva',
+        birthdayDate: '',
         requiredMessage: [
             v => !!v || 'Campo obrigatório',
         ],
@@ -29,12 +30,21 @@ export default {
             'Masculino',
             'Feminino',
         ],
-        school: 'ESCOLA CABEÇA DE GELO'
+        school: 'ESCOLA CABEÇA DE GELO',
+        menu: false,
     }),
     mounted() {
         this.$options.components.Modal = EditPasswordModal
     },
+    watch: {
+      menu (val) {
+        val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
+      },
+    },
     methods: {
+        save (date) {
+            this.$refs.menu.save(date)
+        },
         validate () {
             this.$refs.form.validate()
         },
@@ -79,6 +89,38 @@ export default {
                                         v-model="selectedGender" :items="genders" :rules="[v => !!v || 'Item necessário']" label="Sexo" color="teal" required outlined
                                     ></v-select>
                                 </v-col>
+                                <v-col>
+                                    <v-menu
+                                        ref="menu"
+                                        v-model="menu"
+                                        :close-on-content-click="false"
+                                        transition="scale-transition"
+                                        offset-y
+                                        min-width="290px"
+                                    >
+                                        <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field
+                                            v-model="birthdayDate"
+                                            label="Data de nascimento"
+                                            readonly
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            color="teal"
+                                            outlined
+                                        ></v-text-field>
+                                        </template>
+                                        <v-date-picker
+                                        ref="picker"
+                                        v-model="birthdayDate"
+                                        :max="new Date().toISOString().substr(0, 10)"
+                                        min="1950-01-01"
+                                        @change="save"
+                                        color="primary"
+                                        ></v-date-picker>
+                                    </v-menu>
+                                </v-col>
+                            </v-row>
+                            <v-row>
                                 <v-col>
                                     <v-text-field
                                         v-model="school" :rules="requiredMessage" label="Nome" color="teal" disabled outlined
