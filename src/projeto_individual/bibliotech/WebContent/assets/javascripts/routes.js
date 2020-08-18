@@ -4,9 +4,7 @@ import Students from "./components/Students.js"
 import Librarians from "./components/Librarians.js"
 import Books from "./components/Books.js"
 import Loans from "./components/Loans.js"
-/*
 import Reports from "./components/Reports.js"
-*/
 
 let routes;
 export default routes =  [
@@ -34,10 +32,8 @@ export default routes =  [
         path: '/loans',
         component: Loans
     },
-    /*
     {
         path: '/reports',
         component: Reports
     },
-    */
 ]
