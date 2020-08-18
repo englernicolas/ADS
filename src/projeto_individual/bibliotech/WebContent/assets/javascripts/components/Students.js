@@ -7,11 +7,11 @@ import SearchBox from './utils/SearchBox.js'
 Vue.component('SearchBox', SearchBox)
 
 /* MODAIS */
-import AddUserModal from './modals/AddUserModal.js'
+import AddStudentModal from './modals/AddStudentModal.js'
 import AddSchoolModal from './modals/AddSchoolModal.js'
-import EditUserModal from './modals/EditUserModal.js'
-import DeleteModal from './modals/DeleteModal.js'
-import UserLoansModal from './modals/UserLoansModal.js'
+import EditStudentModal from './modals/EditStudentModal.js'
+import DeleteStudentModal from './modals/DeleteStudentModal.js'
+import StudentLoansModal from './modals/StudentLoansModal.js'
 
 export default {
     name: 'Students',
@@ -59,7 +59,7 @@ export default {
             if (modalType == 'addUser') {
                 this.currentModalTitle = 'Adicionar Estudante'
                 this.currentModalWidth = '800'
-                this.currentModal(AddUserModal)
+                this.currentModal(AddStudentModal)
             }
             if (modalType == 'addSchool') {
                 this.currentModalTitle = 'Adicionar Escola'
@@ -68,19 +68,19 @@ export default {
             }
             if (modalType == 'edit') {
                 this.currentModalTitle = 'Editar Estudante'
-                this.currentModal(EditUserModal)
+                this.currentModal(EditStudentModal)
                 this.currentModalWidth = '800'
                 this.$router.push({ path: '/students', query: { id: id } })
             }
             if (modalType == 'delete') {
                 this.currentModalTitle = 'Deletar Estudante'
-                this.currentModal(DeleteModal)
+                this.currentModal(DeleteStudentModal)
                 this.currentModalWidth = '600'
                 this.$router.push({ path: '/students', query: { id: id } })
             }
             if (modalType == 'loans') {
                 this.currentModalTitle = 'Empréstimos'
-                this.currentModal(UserLoansModal)
+                this.currentModal(StudentLoansModal)
                 this.currentModalWidth = '900'
                 this.$router.push({ path: '/students', query: { id: id } })
             }

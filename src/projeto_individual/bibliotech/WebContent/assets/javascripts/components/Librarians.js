@@ -7,9 +7,9 @@ import SearchBox from './utils/SearchBox.js'
 Vue.component('SearchBox', SearchBox)
 
 /* MODAIS */
-import AddUserModal from './modals/AddUserModal.js'
-import EditUserModal from './modals/EditUserModal.js'
-import DeleteModal from './modals/DeleteModal.js'
+import AddLibrarianModal from './modals/AddLibrarianModal.js'
+import EditLibrarianModal from './modals/EditLibrarianModal.js'
+import DeleteLibrarianModal from './modals/DeleteLibrarianModal.js'
 
 export default {
     name: 'Librarians',
@@ -51,17 +51,17 @@ export default {
             if (modalType == 'addUser') {
                 this.currentModalTitle = 'Adicionar Bibliotecário'
                 this.currentModalWidth = '800'
-                this.currentModal(AddUserModal)
+                this.currentModal(AddLibrarianModal)
             }
             if (modalType == 'edit') {
                 this.currentModalTitle = 'Editar Bibliotecário'
-                this.currentModal(EditUserModal)
+                this.currentModal(EditLibrarianModal)
                 this.currentModalWidth = '800'
                 this.$router.push({ path: '/librarians', query: { id: id } })
             }
             if (modalType == 'delete') {
                 this.currentModalTitle = 'Deletar Bibliotecário'
-                this.currentModal(DeleteModal)
+                this.currentModal(DeleteLibrarianModal)
                 this.currentModalWidth = '600'
                 this.$router.push({ path: '/librarians', query: { id: id } })
             }
