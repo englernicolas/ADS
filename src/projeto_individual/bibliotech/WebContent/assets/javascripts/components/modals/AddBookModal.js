@@ -25,9 +25,11 @@ export default {
         ],
     }),
     mounted() {
-        $bus.$on('reset-modal-content', () => {
-            this.$refs.form.reset()
-        })
+        if(this.$refs.form) {
+            $bus.$on('reset-modal-content', () => {
+                this.$refs.form.reset()
+            })   
+        }
     },
     beforeDestoy() {
         $bus.$off('reset-modal-content')
