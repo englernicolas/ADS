@@ -16,30 +16,69 @@ import StudentLoansModal from './modals/StudentLoansModal.js'
 export default {
     name: 'Students',
     data: () => ({
-        users: [
+        students: [
             {
                 id: 1,
-                name: "Nicolas",
+                firstName: "Nicolas",
+                lastName: "Engler",
                 email: "nicolas@gmail.com",
                 gender: "Masculino",
                 birthDate: "15/03/2002",
                 school: "Senai",
                 cpf: '12313213213',
-                loans: true
+                loans: [
+                    {
+                        id: 1,
+                        title: "O casamento",
+                        author: "Nicholas Sparks",
+                        gender: "Romance",
+                        loanDate: "15/03/2002",
+                        deliveryDate: "15/04/2002",
+                        debt: '12',
+                    },
+                    {
+                        id: 2,
+                        title: "O casamento",
+                        author: "Nicholas Sparks",
+                        gender: "Romance",
+                        loanDate: "15/03/2002",
+                        deliveryDate: "15/04/2002",
+                    },
+                ],
             },
             {
                 id: 2,
-                name: "Amigão",
+                firstName: "Amigão",
+                lastName: "Engler",
                 email: "nicolas@gmail.com",
                 gender: "Masculino",
                 birthDate: "15/03/2002",
                 school: "Senai",
                 cpf: '12313213213',
-                loans: true
+                loans: [
+                    {
+                        id: 1,
+                        title: "O cdsadsaasamento",
+                        author: "Nichoasdlas Sparks",
+                        gender: "Romance",
+                        loanDate: "15/03/2002",
+                        deliveryDate: "15/04/2002",
+                        debt: '12',
+                    },
+                    {
+                        id: 2,
+                        title: "O cadsadsasamento",
+                        author: "Nichodsadsalas Sparks",
+                        gender: "Romance",
+                        loanDate: "15/03/2002",
+                        deliveryDate: "15/04/2002",
+                    },
+                ],
             },
             {
                 id: 3,
-                name: "Opa",
+                firstName: "Opa",
+                lastName: "Engler",
                 email: "nicolas@gmail.com",
                 gender: "Masculino",
                 birthDate: "15/03/2002",
@@ -49,7 +88,8 @@ export default {
             },
         ],
         currentModalTitle: '',
-        currentModalWidth: ''
+        currentModalWidth: '',
+        currentStudent: '',
     }),
     methods: {
         validate () {
@@ -84,6 +124,10 @@ export default {
                 this.currentModalWidth = '900'
                 this.$router.push({ path: '/students', query: { id: id } })
             }
+
+            if (id) {
+                this.currentStudent = this.students.find(it => it.id == id)
+            }
             
             $bus.$emit('open-modal')
         },
@@ -112,7 +156,7 @@ export default {
                 <search-box class="mr-16"></search-box>
             </div>
 
-            <v-card v-for="user in users" class="mx-16 my-5">
+            <v-card v-for="student in students" class="mx-16 my-5">
                 <v-container>
                     <v-row class="mx-3">
                         <v-col>
@@ -120,7 +164,7 @@ export default {
                                 <span class="font-weight-bold">Nome:</span>
                             </v-row>
                             <v-row>
-                                <span>{{user.name}}</span>
+                                <span>{{student.firstName}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -128,7 +172,7 @@ export default {
                                 <span class="font-weight-bold">E-mail:</span>
                             </v-row>
                             <v-row>
-                                <span>{{user.email}}</span>
+                                <span>{{student.email}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -136,7 +180,7 @@ export default {
                                 <span class="font-weight-bold">Gênero:</span>
                             </v-row>
                             <v-row>
-                                <span>{{user.gender}}</span>
+                                <span>{{student.gender}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -144,7 +188,7 @@ export default {
                                 <span class="font-weight-bold">Data Nasc.:</span>
                             </v-row>
                             <v-row>
-                                <span>{{user.birthDate}}</span>
+                                <span>{{student.birthDate}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -152,7 +196,7 @@ export default {
                                 <span class="font-weight-bold">Escola:</span>
                             </v-row>
                             <v-row>
-                                <span>{{user.school}}</span>
+                                <span>{{student.school}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -160,21 +204,21 @@ export default {
                                 <span class="font-weight-bold">CPF:</span>
                             </v-row>
                             <v-row>
-                                <span>{{user.cpf}}</span>
+                                <span>{{student.cpf}}</span>
                             </v-row>
                         </v-col>
-                        <v-col v-if="user.loans">
+                        <v-col v-if="student.loans">
                             <v-row>
-                                <v-btn color="primary" @click="openModal('loans', user.id)">
+                                <v-btn color="primary" @click="openModal('loans', student.id)">
                                     Empréstimos
                                 </v-btn>
                             </v-row>
                         </v-col>
                         <div>
-                            <v-btn icon @click="openModal('edit', user.id)" class="teal--text d-block">
+                            <v-btn icon @click="openModal('edit', student.id)" class="teal--text d-block">
                                 <v-icon>mdi-pencil</v-icon>
                             </v-btn>
-                            <v-btn icon @click="openModal('delete', user.id)" class="red--text d-block">
+                            <v-btn icon @click="openModal('delete', student.id)" class="red--text d-block">
                                 <v-icon>mdi-delete</v-icon>
                             </v-btn>
                         </div>
@@ -184,6 +228,8 @@ export default {
 
             <modal-template :title="currentModalTitle" :maxWidth="currentModalWidth">
                 <modal/>
+                <modal v-if="this.currentModalTitle == 'Editar Estudante'" :student="currentStudent"/>
+                <modal v-if="this.currentModalTitle == 'Empréstimos'" :loans="currentStudent.loans"/>
             </modal-template>
             
         </div>`

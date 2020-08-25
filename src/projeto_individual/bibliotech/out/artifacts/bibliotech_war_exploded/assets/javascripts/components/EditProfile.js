@@ -1,38 +1,58 @@
+import { $bus } from '../utils/eventBus.js'
+
+import ModalTemplate from './utils/Modal.js'
+Vue.component('ModalTemplate', ModalTemplate)
+
+/* MODAIS */
+import EditPasswordModal from './modals/EditPasswordModal.js'
+
 export default {
     name: 'EditProfile',
     data: () => ({
         valid: true,
-        name: '',
+        firstName: 'João',
+        lastName: 'Silva',
+        birthdayDate: '',
         requiredMessage: [
             v => !!v || 'Campo obrigatório',
         ],
         email: '',
         emailRules: [
-            v => !!v || 'E-mail is required',
-            v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+            v => /.+@.+\..+/.test(v) || 'Email inválido',
         ],
-        password: '',
-        select: 'Indefinido',
+        cpf: '',
+        cpfRules: [
+            v => /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/.test(v) || 'CPF inválido',
+        ],
+        selectedGender: 'Indefinido',
         genders: [
             'Indefinido',
             'Masculino',
             'Feminino',
         ],
-        checkbox: false,
+        school: 'ESCOLA CABEÇA DE GELO',
+        menu: false,
     }),
-
+    mounted() {
+        this.$options.components.Modal = EditPasswordModal
+    },
+    watch: {
+      menu (val) {
+        val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
+      },
+    },
     methods: {
+        save (date) {
+            this.$refs.menu.save(date)
+        },
         validate () {
             this.$refs.form.validate()
         },
-        reset () {
-            this.$refs.form.reset()
-        },
-        resetValidation () {
-            this.$refs.form.resetValidation()
-        },
+        openModal() {
+            $bus.$emit('open-modal')
+        }
     },
-    template: `<div>
+    template: /*html*/ `<div>
                     <div class="text-center my-5"><span class="grey--text text--darken-3 text-h2 font-weight-bold">Editar Perfil</span></div>
                                         
                     <v-divider></v-divider>
@@ -42,12 +62,12 @@ export default {
                             <v-row>
                                 <v-col>
                                     <v-text-field
-                                        v-model="name" :rules="requiredMessage" label="Nome" color="teal" required outlined
+                                        v-model="firstName" :rules="requiredMessage" label="Nome" color="teal" required outlined
                                     ></v-text-field>
                                 </v-col>
                                 <v-col>
                                     <v-text-field
-                                        v-model="name" :rules="requiredMessage" label="Sobrenome" color="teal" required outlined
+                                        v-model="lastName" :rules="requiredMessage" label="Sobrenome" color="teal" required outlined
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
@@ -58,33 +78,74 @@ export default {
                                     ></v-text-field>
                                 </v-col>
                                 <v-col>    
-                                    <v-text-field 
-                                        v-model="password" :rules="requiredMessage" label="Senha" color="teal" type="password" outlined required
+                                    <v-text-field v-mask="['###.###.###-##']"
+                                        v-model="cpf" :rules="requiredMessage && cpfRules" label="CPF" color="teal" outlined required
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col>    
                                     <v-select
-                                        v-model="select" :items="genders" :rules="[v => !!v || 'Item is required']" label="Sexo" color="teal" required outlined
+                                        v-model="selectedGender" :items="genders" :rules="[v => !!v || 'Item necessário']" label="Sexo" color="teal" required outlined
                                     ></v-select>
                                 </v-col>
                                 <v-col>
+                                    <v-menu
+                                        ref="menu"
+                                        v-model="menu"
+                                        :close-on-content-click="false"
+                                        transition="scale-transition"
+                                        offset-y
+                                        min-width="290px"
+                                    >
+                                        <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field
+                                            v-model="birthdayDate"
+                                            label="Data de nascimento"
+                                            readonly
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            color="teal"
+                                            outlined
+                                        ></v-text-field>
+                                        </template>
+                                        <v-date-picker
+                                        ref="picker"
+                                        v-model="birthdayDate"
+                                        :max="new Date().toISOString().substr(0, 10)"
+                                        min="1950-01-01"
+                                        @change="save"
+                                        color="primary"
+                                        ></v-date-picker>
+                                    </v-menu>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col>
                                     <v-text-field
-                                        v-model="name" :rules="requiredMessage" label="Nome" color="teal" required outlined
+                                        v-model="school" :rules="requiredMessage" label="Nome" color="teal" disabled outlined
                                     ></v-text-field>
                                 </v-col>
                             </v-row>     
                             
                             <v-row>
-                                <v-col cols="2">    
-                                    <v-btn :disabled="!valid" color="primary" class="mr-4 white--text text-lg-right" @click="validate">
+                                <v-col class="text-right">    
+                                    <v-btn color="secondary" class="white--text text-lg-right" @click="openModal">
+                                        Alterar Senha
+                                    </v-btn>
+                                </v-col>
+                                <v-col class="text-left">
+                                    <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="validate">
                                         Salvar
                                     </v-btn>
                                 </v-col>
                             </v-row>
                         </v-container>
                     </v-form>
+
+                    <modal-template title="Editar Senha">
+                        <modal/>
+                    </modal-template>
                     
                </div>`
 }

@@ -2,18 +2,11 @@ import { $bus } from '../../utils/eventBus.js'
 
 export default {
     name: 'EditStudentModal',
+    props: {
+        student: Object
+    },
     data: () => ({
         valid: true,
-        student: {
-            firstName: 'João',
-            lastName: 'Silva',
-            password: '',
-            email: '',
-            birthdayDate: '',
-            cpf: '',
-            gender: 'Indefinido',
-            school: 'ESCOLA CABEÇA DE GELO'
-        },
         schools: [
             'ESCOLA CABEÇA DE GELO',
             'SENAI',
@@ -35,14 +28,6 @@ export default {
         ],
         menu: false,
     }),
-    mounted() {
-        $bus.$on('reset-modal-content', () => {
-            this.$refs.form.reset()
-        })
-    },
-    beforeDestoy() {
-        $bus.$off('reset-modal-content')
-    },
     watch: {
       menu (val) {
         val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
