@@ -3,26 +3,27 @@ import { $bus } from '../../utils/eventBus.js'
 export default {
     name: 'AddStudentModal',
     data: () => ({
+        editando: false,
         valid: false,
         student: {
             firstName: '',
             lastName: '',
             password: '',
             email: '',
-            birthdayDate: '',
+            birthDate: '',
             cpf: '',
-            gender: 'Indefinido',
-            school: 'ESCOLA CABEÇA DE GELO'
+            genderId: 1,
+            schoolId: 1
         },
         schools: [
-            'ESCOLA CABEÇA DE GELO',
-            'SENAI',
-            'CARROSSEL',
+            {name: 'ESCOLA CABEÇA DE GELO', id: 1},
+            {name: 'SENAI', id: 2},
+            {name: 'CARROSSEL', id: 3},
         ],
         genders: [
-            'Indefinido',
-            'Masculino',
-            'Feminino',
+            {name: 'Indefinido', id: 1},
+            {name: 'Masculino', id: 2},
+            {name: 'Feminino', id: 3},
         ],
         emailRules: [
             v => /.+@.+\..+/.test(v) || 'Email inválido',
@@ -56,6 +57,28 @@ export default {
         },
         validate () {
             this.$refs.form.validate()
+        },
+        async createStudent() {
+            this.validate()
+
+            if (this.valid) {
+                this.editando = true
+
+                this.student.cpf = this.student.cpf.replace("-","").replace(/\./g,"")
+
+                const student = this.student
+
+                await axios.post('/student/create', student)
+                    .then(() => {
+                        $bus.$emit('close-modal')
+                    })
+                    .catch(() => {
+                        this.error = "Ocorreu um erro ao tentar criar estudante"
+                    })
+                    .finally(() => {
+                        this.editando = false
+                    })
+            }
         },
     },
     template: /*html*/ `
@@ -98,7 +121,7 @@ export default {
                         >
                             <template v-slot:activator="{ on, attrs }">
                             <v-text-field
-                                v-model="student.birthdayDate"
+                                v-model="student.birthDate"
                                 label="Data de nascimento"
                                 readonly
                                 v-bind="attrs"
@@ -109,7 +132,7 @@ export default {
                             </template>
                             <v-date-picker
                             ref="picker"
-                            v-model="student.birthdayDate"
+                            v-model="student.birthDate"
                             :max="new Date().toISOString().substr(0, 10)"
                             min="1950-01-01"
                             @change="save"
@@ -126,19 +149,19 @@ export default {
                 <v-row>
                     <v-col>    
                         <v-select
-                            v-model="student.gender" :items="genders" :rules="[v => !!v || 'Item necessário']" label="Sexo" color="teal" required outlined
+                            v-model="student.genderId" :items="genders" item-value="id" item-text="name" :rules="[v => !!v || 'Item necessário']" label="Sexo" color="teal" required outlined
                         ></v-select>
                     </v-col>
                     <v-col>
                         <v-select
-                            v-model="student.school" :items="schools" :rules="[v => !!v || 'Item necessário']" label="Escola" color="teal" required outlined
+                            v-model="student.schoolId" :items="schools" item-value="id" item-text="name" :rules="[v => !!v || 'Item necessário']" label="Escola" color="teal" required outlined
                         ></v-select>
                     </v-col>
                 </v-row>    
                 
                 <v-row>
                     <v-col class="text-center">
-                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="validate">
+                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="createStudent" v-if="!editando">
                             Salvar
                         </v-btn>
                     </v-col>

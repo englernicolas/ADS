@@ -6,7 +6,6 @@ export default {
     data() {
         return {
             menuItems: [
-                { title: 'Home', icon: 'mdi-home', path: '/home'},
                 { title: 'Alunos', icon: 'mdi-account-group-outline', path: '/students'},
                 { title: 'Bibliotecários', icon: 'mdi-account-group', path: '/librarians'},
                 { title: 'Livros', icon: 'mdi-book-open-page-variant', path: '/books'},
