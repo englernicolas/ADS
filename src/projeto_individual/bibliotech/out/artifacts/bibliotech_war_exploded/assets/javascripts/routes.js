@@ -1,23 +1,20 @@
-import Home from "/bibliotech/assets/javascripts/components/Home.js"
-import MyAccount from "/bibliotech/assets/javascripts/components/EditProfile.js"
-/*
-import Students from "/bibliotech/assets/javascripts/components/Students.js"
-import Librarians from "/bibliotech/assets/javascripts/components/Librarians.js"
-import Books from "/bibliotech/assets/javascripts/components/Books.js"
-import Loans from "/bibliotech/assets/javascripts/components/Loans.js"
-*/
+import MyAccount from "./components/EditProfile.js"
+import Students from "./components/Students.js"
+import Librarians from "./components/Librarians.js"
+import Books from "./components/Books.js"
+import Loans from "./components/Loans.js"
+import Reports from "./components/Reports.js"
 
 let routes;
 export default routes =  [
     {
-        path: '/home',
-        component: Home
+        path: '/',
+        component: Students
     },
     {
         path: '/profile',
         component: MyAccount
     },
-    /*
     {
         path: '/students',
         component: Students
@@ -34,5 +31,8 @@ export default routes =  [
         path: '/loans',
         component: Loans
     },
-    */
+    {
+        path: '/reports',
+        component: Reports
+    },
 ]

@@ -7,6 +7,8 @@ const router = new VueRouter ({routes})
 
 Vue.use(VueMask.VueMaskPlugin)
 
+axios.defaults.baseURL = 'http://localhost:8080/bibliotech/rest/'
+
 var app = new Vue({
     router,
     el: '#app',
