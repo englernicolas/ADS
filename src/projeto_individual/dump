@@ -1,0 +1,271 @@
+-- MySQL dump 10.13  Distrib 5.7.31, for Linux (x86_64)
+--
+-- Host: 127.0.0.1    Database: bibliotech
+-- ------------------------------------------------------
+-- Server version	5.7.31-0ubuntu0.18.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `author`
+--
+
+DROP TABLE IF EXISTS `author`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `author` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Número de identificação do autor',
+  `name` varchar(45) NOT NULL COMMENT 'Nome do autor',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `author`
+--
+
+LOCK TABLES `author` WRITE;
+/*!40000 ALTER TABLE `author` DISABLE KEYS */;
+/*!40000 ALTER TABLE `author` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `book`
+--
+
+DROP TABLE IF EXISTS `book`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `book` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Número de identificação do livro',
+  `title` varchar(45) NOT NULL COMMENT 'Título do livro',
+  `pages` int(11) NOT NULL COMMENT 'Número de páginas do livro',
+  `is_avaiable` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Identificação sobre a disponibilidade do livro',
+  `price` float NOT NULL COMMENT 'Preço do livro',
+  `author_id` int(11) NOT NULL COMMENT 'Número de identificação do autor',
+  `genre_id` int(11) NOT NULL COMMENT 'Número de identificação do gênero do livro',
+  PRIMARY KEY (`id`),
+  KEY `fk_book_author1_idx` (`author_id`),
+  KEY `book_genre_id_fk` (`genre_id`),
+  CONSTRAINT `book_genre_id_fk` FOREIGN KEY (`genre_id`) REFERENCES `genre` (`id`),
+  CONSTRAINT `fk_book_author1` FOREIGN KEY (`author_id`) REFERENCES `author` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `book`
+--
+
+LOCK TABLES `book` WRITE;
+/*!40000 ALTER TABLE `book` DISABLE KEYS */;
+/*!40000 ALTER TABLE `book` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `book_has_loan`
+--
+
+DROP TABLE IF EXISTS `book_has_loan`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `book_has_loan` (
+  `book_id` int(11) NOT NULL,
+  `loan_id` int(11) NOT NULL,
+  PRIMARY KEY (`book_id`,`loan_id`),
+  KEY `fk_book_has_loan_loan1_idx` (`loan_id`),
+  KEY `fk_book_has_loan_book1_idx` (`book_id`),
+  CONSTRAINT `fk_book_has_loan_book1` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_book_has_loan_loan1` FOREIGN KEY (`loan_id`) REFERENCES `loan` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `book_has_loan`
+--
+
+LOCK TABLES `book_has_loan` WRITE;
+/*!40000 ALTER TABLE `book_has_loan` DISABLE KEYS */;
+/*!40000 ALTER TABLE `book_has_loan` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `gender`
+--
+
+DROP TABLE IF EXISTS `gender`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `gender` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `gender`
+--
+
+LOCK TABLES `gender` WRITE;
+/*!40000 ALTER TABLE `gender` DISABLE KEYS */;
+INSERT INTO `gender` VALUES (1,'Indefinido'),(2,'Masculino'),(3,'Feminino');
+/*!40000 ALTER TABLE `gender` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `genre`
+--
+
+DROP TABLE IF EXISTS `genre`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `genre` (
+  `id` int(11) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `genre`
+--
+
+LOCK TABLES `genre` WRITE;
+/*!40000 ALTER TABLE `genre` DISABLE KEYS */;
+/*!40000 ALTER TABLE `genre` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `loan`
+--
+
+DROP TABLE IF EXISTS `loan`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `loan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Número de identificação do empréstimo',
+  `loan_date` date NOT NULL COMMENT 'Data do empréstimo do livro',
+  `delivery_date` date NOT NULL COMMENT 'Data da devolução do livro',
+  `student_id` int(11) NOT NULL COMMENT 'Número de identificação do estudante',
+  PRIMARY KEY (`id`),
+  KEY `fk_loan_student1_idx` (`student_id`),
+  CONSTRAINT `fk_loan_student1` FOREIGN KEY (`student_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `loan`
+--
+
+LOCK TABLES `loan` WRITE;
+/*!40000 ALTER TABLE `loan` DISABLE KEYS */;
+/*!40000 ALTER TABLE `loan` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `school`
+--
+
+DROP TABLE IF EXISTS `school`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `school` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `school`
+--
+
+LOCK TABLES `school` WRITE;
+/*!40000 ALTER TABLE `school` DISABLE KEYS */;
+INSERT INTO `school` VALUES (1,'Senai'),(2,'Martins');
+/*!40000 ALTER TABLE `school` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Número de identificação do estudante',
+  `first_name` varchar(45) DEFAULT NULL COMMENT 'Nome do estudante',
+  `last_name` varchar(45) DEFAULT NULL COMMENT 'Sobrenome do estudante',
+  `birth_date` date DEFAULT NULL COMMENT 'Data de nascimento do estudante',
+  `loan_quantity` int(11) DEFAULT '0' COMMENT 'Quantidades de livros que estão emprestados pelo aluno',
+  `debt` float DEFAULT '0' COMMENT 'Valor das multas abertas do estudante',
+  `gender_id` int(11) DEFAULT NULL COMMENT 'Número de identificação do gênero pertencente',
+  `user_type_id` int(11) NOT NULL COMMENT 'Número de identificação do tipo de usuário pertencente',
+  `school_id` int(11) DEFAULT NULL,
+  `cpf` varchar(11) DEFAULT NULL,
+  `email` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_student_school1_idx` (`school_id`),
+  KEY `user_user_type_id_fk` (`user_type_id`),
+  KEY `user_gender_id_fk` (`gender_id`),
+  CONSTRAINT `user_gender_id_fk` FOREIGN KEY (`gender_id`) REFERENCES `gender` (`id`),
+  CONSTRAINT `user_school_id_fk` FOREIGN KEY (`school_id`) REFERENCES `school` (`id`),
+  CONSTRAINT `user_user_type_id_fk` FOREIGN KEY (`user_type_id`) REFERENCES `user_type` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (2,'Nichols','Abdu','2020-03-03',0,0,1,3,1,'12345678910','opa@aaaa.aaa','123132131');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_type`
+--
+
+DROP TABLE IF EXISTS `user_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_type`
+--
+
+LOCK TABLES `user_type` WRITE;
+/*!40000 ALTER TABLE `user_type` DISABLE KEYS */;
+INSERT INTO `user_type` VALUES (1,'Administrador'),(2,'Bibliotecário'),(3,'Estudante');
+/*!40000 ALTER TABLE `user_type` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2020-09-03 10:25:28
