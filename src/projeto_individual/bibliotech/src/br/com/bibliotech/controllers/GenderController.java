@@ -16,10 +16,10 @@ import java.util.List;
 @Path("gender")
 public class GenderController extends UtilRest {
     @GET
-    @Path("/get")
+    @Path("/list")
     @Consumes("application/*")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getGenders() {
+    public Response listGenders() {
         try {
             List<Gender> genderList = new ArrayList<Gender>();
 
@@ -28,7 +28,7 @@ public class GenderController extends UtilRest {
 
             GenderService genderService = new GenderService(connection);
 
-            genderList = genderService.getGenders();
+            genderList = genderService.listGenders();
 
             dbConnection.closeConnection();
             

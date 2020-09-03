@@ -7,8 +7,6 @@ import com.google.gson.JsonObject;
 
 import br.com.bibliotech.domains.User;
 
-
-
 public class UserService {
     private Connection connection;
 
@@ -16,7 +14,7 @@ public class UserService {
         this.connection = connection;
     }
 
-    public boolean createStudent(User user) {
+    public boolean create(User user) {
         Date birthDateSql = new Date(user.getBirthDate().getTime());
 
         String query = "INSERT INTO `user`(" +
@@ -27,9 +25,9 @@ public class UserService {
                 "birth_date, " +
                 "cpf, " +
                 "gender_id, " +
-                //"school_id, " +
+                "school_id, " +
                 "user_type_id" +
-                ") VALUE(?,?,?,?,?,?,?,/*?,*/3)";
+                ") VALUE(?,?,?,?,?,?,?,?,3)";
 
         PreparedStatement p;
         try {
@@ -41,9 +39,43 @@ public class UserService {
             p.setDate(5, birthDateSql);
             p.setString(6, user.getCpf());
             p.setInt(7, user.getGenderId());
-            //p.setInt(8, user.getSchoolId());
+            p.setInt(8, user.getSchoolId());
             p.execute();
         } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean edit(User user) {
+        Date birthDateSql = new Date(user.getBirthDate().getTime());
+
+        String query = "UPDATE user SET " +
+                "first_name = ?, " +
+                "last_name = ?, " +
+                "email = ?, " +
+                "password = ?, " +
+                "birth_date = ?, " +
+                "cpf = ?, " +
+                "gender_id = ?, " +
+                "school_id = ? " +
+                "WHERE id=?";
+        PreparedStatement p;
+
+        try {
+            p = this.connection.prepareStatement(query);
+            p.setString(1, user.getFirstName());
+            p.setString(2, user.getLastName());
+            p.setString(3, user.getEmail());
+            p.setString(4, user.getPassword());
+            p.setDate(5, birthDateSql);
+            p.setString(6, user.getCpf());
+            p.setInt(7, user.getGenderId());
+            p.setInt(8, user.getSchoolId());
+            p.setInt(9, user.getId());
+            p.executeUpdate();
+        }catch (SQLException e){
             e.printStackTrace();
             return false;
         }

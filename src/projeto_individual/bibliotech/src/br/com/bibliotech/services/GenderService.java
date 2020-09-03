@@ -14,7 +14,7 @@ public class GenderService {
         this.connection = connection;
     }
 
-    public List<Gender> getGenders() {
+    public List<Gender> listGenders() {
         String query = "SELECT * FROM gender";
 
         List<Gender> genderList = new ArrayList<Gender>();
