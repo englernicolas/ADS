@@ -18,6 +18,7 @@ public class User implements Serializable {
     private String cpf;
     private String email;
     private String password;
+    private String deletedReason;
 
     public int getId() {
         return this.id;
@@ -101,5 +102,12 @@ public class User implements Serializable {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDeletedReason() {
+        return deletedReason;
+    }
+    public void setDeletedReason(String deletedReason) {
+        this.deletedReason = deletedReason;
     }
 }
