@@ -8,8 +8,8 @@ public class DBConnection {
     public java.sql.Connection openConnection() {
         String basepath = "localhost";
         String database = "bibliotech";
-        String username = "root";
-        String password = "123";
+        String username = "informant";
+        String password = "informant";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();

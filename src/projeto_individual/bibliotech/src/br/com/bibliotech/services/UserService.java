@@ -3,6 +3,8 @@ package br.com.bibliotech.services;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import br.com.bibliotech.domains.User;
 import com.google.gson.JsonObject;
 
 import br.com.bibliotech.domains.User;
@@ -60,7 +62,8 @@ public class UserService {
                 "cpf = ?, " +
                 "gender_id = ?, " +
                 "school_id = ? " +
-                "WHERE id=?";
+                "WHERE id = ?";
+
         PreparedStatement p;
 
         try {
@@ -74,6 +77,68 @@ public class UserService {
             p.setInt(7, user.getGenderId());
             p.setInt(8, user.getSchoolId());
             p.setInt(9, user.getId());
+            p.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public List<User> list() {
+        String query = "SELECT * FROM user WHERE active = 1";
+
+        List<User> studentList = new ArrayList<User>();
+        User user;
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+
+            while (rs.next()) {
+                user = new User();
+
+                int id = rs.getInt("id");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                String email = rs.getString("email");
+                Date birthDate = rs.getDate("birth_date");
+                String cpf = rs.getString("cpf");
+                int genderId = rs.getInt("gender_id");
+                int schoolId = rs.getInt("school_id");
+                int userTypeId = rs.getInt("user_type_id");
+
+                user.setId(id);
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setEmail(email);
+                user.setBirthDate(birthDate);
+                user.setCpf(cpf);
+                user.setGenderId(genderId);
+                user.setSchoolId(schoolId);
+                user.setUserTypeId(userTypeId);
+
+                studentList.add(user);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return studentList;
+    }
+
+    public boolean delete(User user) {
+        String query = "UPDATE user SET " +
+                "active = 0, " +
+                "deleted_reason = ? " +
+                "WHERE id = ?";
+
+        PreparedStatement p;
+
+        try {
+            p = this.connection.prepareStatement(query);
+            p.setString(1, user.getDeletedReason());
+            p.setInt(2, user.getId());
             p.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
