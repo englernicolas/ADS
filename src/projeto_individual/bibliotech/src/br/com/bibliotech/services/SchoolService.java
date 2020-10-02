@@ -1,10 +1,11 @@
 package br.com.bibliotech.services;
 
 import br.com.bibliotech.domains.School;
+import br.com.bibliotech.domains.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class SchoolService {
@@ -27,5 +28,33 @@ public class SchoolService {
             return false;
         }
         return true;
+    }
+
+    public List<School> list() {
+        String query = "SELECT * FROM school";
+
+        List<School> schoolList = new ArrayList<School>();
+        School school;
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+
+            while (rs.next()) {
+                school = new School();
+
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+
+                school.setId(id);
+                school.setName(name);
+
+                schoolList.add(school);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return schoolList;
     }
 }

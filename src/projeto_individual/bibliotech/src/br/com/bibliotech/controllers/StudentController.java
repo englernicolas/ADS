@@ -34,7 +34,7 @@ public class StudentController extends UtilRest {
             Connection connection = dbConnection.openConnection();
 
             UserService userService = new UserService(connection);
-            boolean response = userService.create(user);
+            boolean response = userService.createStudent(user);
 
             String msg;
             
@@ -65,7 +65,7 @@ public class StudentController extends UtilRest {
 
             UserService userService = new UserService(connection);
 
-            boolean response = userService.edit(user);
+            boolean response = userService.editStudent(user);
 
             String msg;
 
@@ -97,7 +97,7 @@ public class StudentController extends UtilRest {
 
             UserService userService = new UserService(connection);
 
-            studentList = userService.list();
+            studentList = userService.listStudents();
 
             dbConnection.closeConnection();
 
@@ -120,7 +120,7 @@ public class StudentController extends UtilRest {
 
             UserService userService = new UserService(connection);
 
-            boolean response = userService.delete(user);
+            boolean response = userService.deleteStudent(user);
 
             String msg;
 

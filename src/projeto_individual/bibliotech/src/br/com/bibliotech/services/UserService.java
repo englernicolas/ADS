@@ -16,7 +16,7 @@ public class UserService {
         this.connection = connection;
     }
 
-    public boolean create(User user) {
+    public boolean createStudent(User user) {
         Date birthDateSql = new Date(user.getBirthDate().getTime());
 
         String query = "INSERT INTO `user`(" +
@@ -50,7 +50,7 @@ public class UserService {
         return true;
     }
 
-    public boolean edit(User user) {
+    public boolean editStudent(User user) {
         Date birthDateSql = new Date(user.getBirthDate().getTime());
 
         String query = "UPDATE user SET " +
@@ -85,7 +85,7 @@ public class UserService {
         return true;
     }
 
-    public List<User> list() {
+    public List<User> listStudents() {
         String query = "SELECT * FROM user WHERE active = 1";
 
         List<User> studentList = new ArrayList<User>();
@@ -102,6 +102,7 @@ public class UserService {
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
                 String email = rs.getString("email");
+                String password = rs.getString("password");
                 Date birthDate = rs.getDate("birth_date");
                 String cpf = rs.getString("cpf");
                 int genderId = rs.getInt("gender_id");
@@ -112,6 +113,7 @@ public class UserService {
                 user.setFirstName(firstName);
                 user.setLastName(lastName);
                 user.setEmail(email);
+                user.setPassword(password);
                 user.setBirthDate(birthDate);
                 user.setCpf(cpf);
                 user.setGenderId(genderId);
@@ -127,7 +129,7 @@ public class UserService {
         return studentList;
     }
 
-    public boolean delete(User user) {
+    public boolean deleteStudent(User user) {
         String query = "UPDATE user SET " +
                 "active = 0, " +
                 "deleted_reason = ? " +

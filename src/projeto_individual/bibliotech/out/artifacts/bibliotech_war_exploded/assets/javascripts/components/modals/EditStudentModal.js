@@ -3,20 +3,13 @@ import { $bus } from '../../utils/eventBus.js'
 export default {
     name: 'EditStudentModal',
     props: {
-        student: Object
+        currentStudent: Object,
+        schools: Array,
+        genders: Array
     },
     data: () => ({
+        student: {},
         valid: true,
-        schools: [
-            'ESCOLA CABEÇA DE GELO',
-            'SENAI',
-            'CARROSSEL',
-        ],
-        genders: [
-            'Indefinido',
-            'Masculino',
-            'Feminino',
-        ],
         emailRules: [
             v => /.+@.+\..+/.test(v) || 'Email inválido',
         ],
@@ -28,17 +21,34 @@ export default {
         ],
         menu: false,
     }),
-    watch: {
-      menu (val) {
-        val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
-      },
+    mounted() {
+        $bus.$on('reset-content', () => {
+            this.student = this.currentStudent
+        })
     },
     methods: {
-        save (date) {
-            this.$refs.menu.save(date)
-        },
         validate () {
             this.$refs.form.validate()
+        },
+        async editStudent() {
+            this.validate()
+
+            if (this.valid) {
+                this.editing = true
+
+                const student = this.student
+
+                await axios.put('/student/edit', student)
+                    .then(() => {
+                        $bus.$emit('close-modal')
+                    })
+                    .catch(() => {
+                        this.error = "Ocorreu um erro ao tentar editar estudante"
+                    })
+                    .finally(() => {
+                        this.editing = false
+                    })
+            }
         },
     },
     template: /*html*/ `
@@ -71,34 +81,9 @@ export default {
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-menu
-                            ref="menu"
-                            v-model="menu"
-                            :close-on-content-click="false"
-                            transition="scale-transition"
-                            offset-y
-                            min-width="290px"
-                        >
-                            <template v-slot:activator="{ on, attrs }">
-                            <v-text-field
-                                v-model="student.birthdayDate"
-                                label="Data de nascimento"
-                                readonly
-                                v-bind="attrs"
-                                v-on="on"
-                                color="teal"
-                                outlined
-                            ></v-text-field>
-                            </template>
-                            <v-date-picker
-                            ref="picker"
-                            v-model="student.birthdayDate"
-                            :max="new Date().toISOString().substr(0, 10)"
-                            min="1950-01-01"
-                            @change="save"
-                            color="primary"
-                            ></v-date-picker>
-                        </v-menu>
+                        <v-text-field v-mask="['##/##/####']"
+                            v-model="student.birthDate" :rules="requiredMessage" label="Data de Nascimento" color="teal" outlined required
+                        ></v-text-field>
                     </v-col>
                     <v-col>    
                         <v-text-field v-mask="['###.###.###-##']"
@@ -109,19 +94,21 @@ export default {
                 <v-row>
                     <v-col>    
                         <v-select
-                            v-model="student.gender" :items="genders" :rules="[v => !!v || 'Item necessário']" label="Sexo" color="teal" required outlined
+                            v-model="student.genderId" :items="genders" item-text="name" item-value="id"
+                            :rules="[v => !!v || 'Item necessário']" label="Sexo" color="teal" required outlined
                         ></v-select>
                     </v-col>
                     <v-col>
                         <v-select
-                            v-model="student.school" :items="schools" :rules="[v => !!v || 'Item necessário']" label="Escola" color="teal" required outlined
+                            v-model="student.schoolId" :items="schools" item-text="name" item-value="id"
+                            :rules="[v => !!v || 'Item necessário']" label="Escola" color="teal" required outlined
                         ></v-select>
                     </v-col>
                 </v-row>    
                 
                 <v-row>
                     <v-col class="text-center">
-                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="validate">
+                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="editStudent">
                             Salvar
                         </v-btn>
                     </v-col>
