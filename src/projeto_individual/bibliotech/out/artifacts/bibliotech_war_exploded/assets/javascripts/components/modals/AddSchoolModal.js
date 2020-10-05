@@ -4,6 +4,7 @@ export default {
     name: 'AddSchoolModal',
     data: () => ({
         valid: false,
+        creating: false,
         school: {
             name: '',
         },
@@ -14,16 +15,37 @@ export default {
     mounted() {
         if(this.$refs.form) {
             $bus.$on('reset-modal-content', () => {
-                this.$refs.form.reset()
+                this.school = {
+                    name: '',
+                }
             })   
         }
-    },
-    beforeDestoy() {
-        $bus.$off('reset-modal-content')
     },
     methods: {
         validate () {
             this.$refs.form.validate()
+        },
+
+        async createSchool() {
+            this.validate()
+
+            if (this.valid) {
+                this.creating = true
+
+                const school = this.school
+
+                await axios.post('/school/create', school)
+                    .then(() => {
+                        $bus.$emit('refresh-schools')
+                        $bus.$emit('close-modal')
+                    })
+                    .catch(() => {
+                        this.error = "Ocorreu um erro ao tentar criar escola"
+                    })
+                    .finally(() => {
+                        this.creating = false
+                    })
+            }
         },
     },
     template: /*html*/ `
@@ -39,7 +61,7 @@ export default {
                 </v-row>
                 <v-row>
                     <v-col class="text-center">
-                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="validate">
+                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="createSchool">
                             Salvar
                         </v-btn>
                     </v-col>

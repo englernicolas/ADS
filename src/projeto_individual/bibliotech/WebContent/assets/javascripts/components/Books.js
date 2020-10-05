@@ -3,9 +3,6 @@ import { $bus } from '../utils/eventBus.js'
 import ModalTemplate from './utils/Modal.js'
 Vue.component('ModalTemplate', ModalTemplate)
 
-import SearchBox from './utils/SearchBox.js'
-Vue.component('SearchBox', SearchBox)
-
 /* MODAIS */
 import AddBookModal from './modals/AddBookModal.js'
 import AddAuthorModal from './modals/AddAuthorModal.js'

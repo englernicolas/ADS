@@ -133,6 +133,55 @@ public class UserService {
         return studentList;
     }
 
+    public List<User> getStudentBySearch(String searchText) {
+        String query = "SELECT * FROM user WHERE active = 1 ";
+
+        if (!searchText.trim().equals("")) {
+            query += "AND (first_name LIKE '%" + searchText + "%' " +
+                    "OR last_name LIKE '%" + searchText + "%' " +
+                    "OR email LIKE '%" + searchText + "%')";
+        }
+
+        List<User> studentList = new ArrayList<User>();
+
+        try {
+            PreparedStatement p = this.connection.prepareStatement(query);
+            ResultSet rs = p.executeQuery();
+
+            while (rs.next()) {
+                User user = new User();
+
+                int id = rs.getInt("id");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String birthDate = rs.getDate("birth_date").toString();
+                String cpf = rs.getString("cpf");
+                int genderId = rs.getInt("gender_id");
+                int schoolId = rs.getInt("school_id");
+                int userTypeId = rs.getInt("user_type_id");
+
+                user.setId(id);
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setEmail(email);
+                user.setPassword(password);
+                user.setBirthDate(birthDate);
+                user.setCpf(cpf);
+                user.setGenderId(genderId);
+                user.setSchoolId(schoolId);
+                user.setUserTypeId(userTypeId);
+
+                studentList.add(user);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return studentList;
+    }
+
     public User getStudentById(int studentId) {
         String query = "SELECT * FROM user WHERE id = ?";
 

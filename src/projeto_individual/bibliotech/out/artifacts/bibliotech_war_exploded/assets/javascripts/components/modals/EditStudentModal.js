@@ -130,6 +130,8 @@ export default {
                                     v-model="student.birthDate"
                                     label="Data de Nascimento"
                                     readonly
+                                    hint="YYYY-MM-DD format"
+                                    persistent-hint
                                     v-bind="attrs"
                                     v-on="on"
                                     outlined
