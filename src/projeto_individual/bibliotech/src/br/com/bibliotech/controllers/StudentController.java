@@ -34,7 +34,7 @@ public class StudentController extends UtilRest {
             Connection connection = dbConnection.openConnection();
 
             UserService userService = new UserService(connection);
-            boolean response = userService.create(user);
+            boolean response = userService.createStudent(user);
 
             String msg;
             
@@ -65,7 +65,7 @@ public class StudentController extends UtilRest {
 
             UserService userService = new UserService(connection);
 
-            boolean response = userService.edit(user);
+            boolean response = userService.editStudent(user);
 
             String msg;
 
@@ -85,6 +85,52 @@ public class StudentController extends UtilRest {
     }
 
     @GET
+    @Path("/getById")
+    @Consumes("application/*")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getById(@QueryParam("id") int id) {
+        try {
+            DBConnection dbConnection = new DBConnection();
+            Connection connection = dbConnection.openConnection();
+
+            UserService userService = new UserService(connection);
+
+            User student = userService.getStudentById(id);
+
+            dbConnection.closeConnection();
+
+            return this.buildResponse(student);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.buildErrorResponse("Ocorreu um erro ao tentar buscar os estudantes! \n Erro: \n" + e.getMessage());
+        }
+    }
+
+    @GET
+    @Path("/getBySearch")
+    @Consumes("application/*")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getByName(@QueryParam("searchText") String searchText) {
+        try {
+            List<User> studentList = new ArrayList<User>();
+
+            DBConnection dbConnection = new DBConnection();
+            Connection connection = dbConnection.openConnection();
+
+            UserService userService = new UserService(connection);
+
+            studentList = userService.getStudentBySearch(searchText);
+
+            dbConnection.closeConnection();
+
+            return this.buildResponse(studentList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.buildErrorResponse("Ocorreu um erro ao tentar buscar os estudantes! \n Erro: \n" + e.getMessage());
+        }
+    }
+
+    @GET
     @Path("/list")
     @Consumes("application/*")
     @Produces(MediaType.APPLICATION_JSON)
@@ -97,7 +143,7 @@ public class StudentController extends UtilRest {
 
             UserService userService = new UserService(connection);
 
-            studentList = userService.list();
+            studentList = userService.listStudents();
 
             dbConnection.closeConnection();
 
@@ -120,7 +166,7 @@ public class StudentController extends UtilRest {
 
             UserService userService = new UserService(connection);
 
-            boolean response = userService.delete(user);
+            boolean response = userService.deleteStudent(user);
 
             String msg;
 

@@ -9,7 +9,7 @@ public class User implements Serializable {
     private int id;
     private String firstName;
     private String lastName;
-    private Date birthDate;
+    private String birthDate;
     private int loanQuantity;
     private float debt;
     private int genderId;
@@ -41,10 +41,10 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 

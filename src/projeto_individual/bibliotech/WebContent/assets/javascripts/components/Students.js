@@ -3,9 +3,6 @@ import { $bus } from '../utils/eventBus.js'
 import ModalTemplate from './utils/Modal.js'
 Vue.component('ModalTemplate', ModalTemplate)
 
-import SearchBox from './utils/SearchBox.js'
-Vue.component('SearchBox', SearchBox)
-
 /* MODAIS */
 import AddStudentModal from './modals/AddStudentModal.js'
 import AddSchoolModal from './modals/AddSchoolModal.js'
@@ -16,81 +13,29 @@ import StudentLoansModal from './modals/StudentLoansModal.js'
 export default {
     name: 'Students',
     data: () => ({
-        students: [
-            {
-                id: 1,
-                firstName: "Nicolas",
-                lastName: "Engler",
-                email: "nicolas@gmail.com",
-                gender: "Masculino",
-                birthDate: "15/03/2002",
-                school: "Senai",
-                cpf: '12313213213',
-                loans: [
-                    {
-                        id: 1,
-                        title: "O casamento",
-                        author: "Nicholas Sparks",
-                        gender: "Romance",
-                        loanDate: "15/03/2002",
-                        deliveryDate: "15/04/2002",
-                        debt: '12',
-                    },
-                    {
-                        id: 2,
-                        title: "O casamento",
-                        author: "Nicholas Sparks",
-                        gender: "Romance",
-                        loanDate: "15/03/2002",
-                        deliveryDate: "15/04/2002",
-                    },
-                ],
-            },
-            {
-                id: 2,
-                firstName: "Amigão",
-                lastName: "Engler",
-                email: "nicolas@gmail.com",
-                gender: "Masculino",
-                birthDate: "15/03/2002",
-                school: "Senai",
-                cpf: '12313213213',
-                loans: [
-                    {
-                        id: 1,
-                        title: "O cdsadsaasamento",
-                        author: "Nichoasdlas Sparks",
-                        gender: "Romance",
-                        loanDate: "15/03/2002",
-                        deliveryDate: "15/04/2002",
-                        debt: '12',
-                    },
-                    {
-                        id: 2,
-                        title: "O cadsadsasamento",
-                        author: "Nichodsadsalas Sparks",
-                        gender: "Romance",
-                        loanDate: "15/03/2002",
-                        deliveryDate: "15/04/2002",
-                    },
-                ],
-            },
-            {
-                id: 3,
-                firstName: "Opa",
-                lastName: "Engler",
-                email: "nicolas@gmail.com",
-                gender: "Masculino",
-                birthDate: "15/03/2002",
-                school: "Senai",
-                cpf: '12313213213',
-                loans: false
-            },
-        ],
+        students: [],
         currentModalTitle: '',
         currentModalWidth: '',
-        currentStudent: '',
+        studentId: '',
+        loadingUsers: false,
+        loadingSchools: false,
+        loadingGenders: false,
+        schools: [],
+        genders: [],
+        searchText: ''
     }),
+    mounted() {
+        this.getStudents();
+        this.getSchools();
+        this.getGenders();
+        $bus.$on('refresh-students', () => {
+            this.getStudents();
+        })
+        $bus.$on('refresh-schools', () => {
+            this.getSchools();
+        })
+
+    },
     methods: {
         validate () {
             this.$refs.form.validate()
@@ -125,15 +70,68 @@ export default {
                 this.$router.push({ path: '/students', query: { id: id } })
             }
 
-            if (id) {
-                this.currentStudent = this.students.find(it => it.id == id)
-            }
-            
             $bus.$emit('open-modal')
         },
         currentModal(modal) {
             this.$options.components.Modal = modal
-        }
+        },
+        async getStudents() {
+            this.loadingUsers = true
+
+            await axios.get('/student/list')
+                .then((response) => {
+                    this.students = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por estudantes"
+                })
+                .finally(() => {
+                    this.loadingUsers = false
+                })
+        },
+        async getSchools() {
+            this.loadingSchools = true
+
+            await axios.get('/school/list')
+                .then((response) => {
+                    this.schools = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por escolas"
+                })
+                .finally(() => {
+                    this.loadingSchools = false
+                })
+        },
+        async getGenders() {
+            this.loadingGenders = true
+
+            await axios.get('/gender/list')
+                .then((response) => {
+                    this.genders = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por gêneros"
+                })
+                .finally(() => {
+                    this.loadingGenders = false
+                })
+        },
+
+        async getSearchStudents() {
+            this.loadingUsers = true
+
+            await axios.get(`/student/getBySearch?searchText=${this.searchText}`)
+                .then((response) => {
+                    this.students = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por estudantes"
+                })
+                .finally(() => {
+                    this.loadingUsers = false
+                })
+        },
     },
     template: /*html*/ `
         <div>
@@ -153,9 +151,12 @@ export default {
 
                 <v-spacer></v-spacer>
 
-                <search-box class="mr-16"></search-box>
+                <div class="d-flex mr-16">
+                    <v-text-field v-model="searchText" color="teal" placeholder="Pesquisar..." hide-details dense filled clearable></v-text-field>
+                    <v-btn @click="getSearchStudents" color="primary"><v-icon color="white">mdi-magnify</v-icon></v-btn>          
+                </div>
             </div>
-
+            
             <v-card v-for="student in students" class="mx-16 my-5">
                 <v-container>
                     <v-row class="mx-3">
@@ -164,7 +165,7 @@ export default {
                                 <span class="font-weight-bold">Nome:</span>
                             </v-row>
                             <v-row>
-                                <span>{{student.firstName}}</span>
+                                <span>{{student.firstName}} {{student.lastName}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -172,7 +173,7 @@ export default {
                                 <span class="font-weight-bold">E-mail:</span>
                             </v-row>
                             <v-row>
-                                <span>{{student.email}}</span>
+                                <span style="word-break: break-all; margin-right: 5px">{{student.email}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -180,7 +181,7 @@ export default {
                                 <span class="font-weight-bold">Gênero:</span>
                             </v-row>
                             <v-row>
-                                <span>{{student.gender}}</span>
+                                <span>{{genders.find(it => it.id == student.genderId)?.name}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -196,7 +197,7 @@ export default {
                                 <span class="font-weight-bold">Escola:</span>
                             </v-row>
                             <v-row>
-                                <span>{{student.school}}</span>
+                                <span>{{schools.find(it => it.id == student.schoolId)?.name}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -227,9 +228,10 @@ export default {
             </v-card>
 
             <modal-template :title="currentModalTitle" :maxWidth="currentModalWidth">
-                <modal/>
-                <modal v-if="this.currentModalTitle == 'Editar Estudante'" :student="currentStudent"/>
-                <modal v-if="this.currentModalTitle == 'Empréstimos'" :loans="currentStudent.loans"/>
+                <modal v-if="this.currentModalTitle == 'Deletar Estudante' || this.currentModalTitle == 'Adicionar Escola'"/>
+                <modal v-if="this.currentModalTitle == 'Adicionar Estudante'" :schools="schools" :genders="genders"/>
+                <modal v-if="this.currentModalTitle == 'Editar Estudante'" :schools="schools" :genders="genders"/>
+                <modal v-if="this.currentModalTitle == 'Empréstimos'" :loans="currenVAMOStStudent.loans"/>
             </modal-template>
             
         </div>`

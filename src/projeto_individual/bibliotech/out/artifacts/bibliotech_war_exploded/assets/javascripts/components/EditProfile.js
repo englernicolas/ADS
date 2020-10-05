@@ -123,7 +123,7 @@ export default {
                             <v-row>
                                 <v-col>
                                     <v-text-field
-                                        v-model="school" :rules="requiredMessage" label="Nome" color="teal" disabled outlined
+                                        v-model="school" :rules="requiredMessage" label="Escola" color="teal" disabled outlined
                                     ></v-text-field>
                                 </v-col>
                             </v-row>     
