@@ -33,6 +33,9 @@ export default {
         $bus.$on('refresh-students', () => {
             this.getStudents();
         })
+        $bus.$on('refresh-schools', () => {
+            this.getSchools();
+        })
     },
     methods: {
         validate () {

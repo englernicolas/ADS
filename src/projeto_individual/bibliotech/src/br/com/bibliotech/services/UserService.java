@@ -19,7 +19,7 @@ public class UserService {
     }
 
     public boolean createStudent(User user) throws ParseException {
-        java.util.Date birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(user.getBirthDate());
+        java.util.Date birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(user.getBirthDate());
         Date birthDateSql = new Date(birthDate.getTime());
 
         String query = "INSERT INTO `user`(" +
@@ -54,7 +54,7 @@ public class UserService {
     }
 
     public boolean editStudent(User user) throws ParseException {
-        java.util.Date birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(user.getBirthDate());
+        java.util.Date birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(user.getBirthDate());
         Date birthDateSql = new Date(birthDate.getTime());
 
         String query = "UPDATE user SET " +

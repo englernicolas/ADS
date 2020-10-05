@@ -7,7 +7,7 @@ export default {
         genders: Array
     },
     data: () => ({
-        editing: false,
+        creating: false,
         valid: false,
         student: {
             genderId: 1,
@@ -40,19 +40,20 @@ export default {
             this.validate()
 
             if (this.valid) {
-                this.editing = true
+                this.creating = true
 
                 const student = this.student
 
                 await axios.post('/student/create', student)
                     .then(() => {
+                        $bus.$emit('refresh-students')
                         $bus.$emit('close-modal')
                     })
                     .catch(() => {
                         this.error = "Ocorreu um erro ao tentar criar estudante"
                     })
                     .finally(() => {
-                        this.editing = false
+                        this.creating = false
                     })
             }
         },
@@ -114,7 +115,7 @@ export default {
                 
                 <v-row>
                     <v-col class="text-center">
-                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="createStudent" v-if="!editing">
+                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="createStudent" v-if="!creating">
                             Salvar
                         </v-btn>
                     </v-col>

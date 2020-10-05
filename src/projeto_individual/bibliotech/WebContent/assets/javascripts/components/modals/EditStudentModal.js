@@ -35,7 +35,16 @@ export default {
             this.getStudent()
         })
     },
+    watch: {
+        menu (val) {
+            val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
+        },
+    },
     methods: {
+        save (date) {
+            this.$refs.menu.save(date)
+        },
+
         validate () {
             this.$refs.form.validate()
             $bus.$off('reset-content')
@@ -64,8 +73,9 @@ export default {
 
                 const student = this.student
 
-                await axios.put('/student/edit', this.getUserId)
+                await axios.put('/student/edit', student)
                     .then(() => {
+                        $bus.$emit('refresh-students')
                         $bus.$emit('close-modal')
                     })
                     .catch(() => {
@@ -107,9 +117,32 @@ export default {
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-text-field v-mask="['##/##/####']"
-                            v-model="student.birthDate" :rules="requiredMessage && dateRules" label="Data de Nascimento" color="teal" outlined required
-                        ></v-text-field>
+                        <v-menu
+                            ref="menu"
+                            v-model="menu"
+                            :close-on-content-click="false"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="290px"
+                        >
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-text-field
+                                    v-model="student.birthDate"
+                                    label="Data de Nascimento"
+                                    readonly
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    outlined
+                                ></v-text-field>
+                            </template>
+                            <v-date-picker
+                                ref="picker"
+                                v-model="student.birthDate"
+                                :max="new Date().toISOString().substr(0, 10)"
+                                min="1950-01-01"
+                                @change="save"
+                            ></v-date-picker>
+                        </v-menu>
                     </v-col>
                     <v-col>    
                         <v-text-field v-mask="['###.###.###-##']"
