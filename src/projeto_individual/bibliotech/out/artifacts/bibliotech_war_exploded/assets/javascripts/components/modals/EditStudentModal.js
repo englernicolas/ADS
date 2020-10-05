@@ -3,13 +3,13 @@ import { $bus } from '../../utils/eventBus.js'
 export default {
     name: 'EditStudentModal',
     props: {
-        currentStudent: Object,
         schools: Array,
         genders: Array
     },
     data: () => ({
         student: {},
         valid: true,
+        loadingUser: false,
         emailRules: [
             v => /.+@.+\..+/.test(v) || 'Email inválido',
         ],
@@ -19,17 +19,43 @@ export default {
         cpfRules: [
             v => /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/.test(v) || 'CPF inválido',
         ],
+        dateRules: [
+            v => new Date(v).getMilliseconds() <= new Date().getMilliseconds() || 'Data inválida'
+        ],
         menu: false,
     }),
+    computed: {
+        getUserId() {
+            return this.$route.query.id
+        }
+    },
     mounted() {
-        $bus.$on('reset-content', () => {
-            this.student = this.currentStudent
+        this.getStudent()
+        $bus.$on('load-content', () => {
+            this.getStudent()
         })
     },
     methods: {
         validate () {
             this.$refs.form.validate()
+            $bus.$off('reset-content')
         },
+
+        async getStudent() {
+            this.loadingUser = true
+
+            await axios.get(`/student/getById?id=${this.getUserId}`)
+                .then((response) => {
+                    this.student = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por estudantes"
+                })
+                .finally(() => {
+                    this.loadingUser = false
+                })
+        },
+
         async editStudent() {
             this.validate()
 
@@ -38,7 +64,7 @@ export default {
 
                 const student = this.student
 
-                await axios.put('/student/edit', student)
+                await axios.put('/student/edit', this.getUserId)
                     .then(() => {
                         $bus.$emit('close-modal')
                     })
@@ -82,7 +108,7 @@ export default {
                 <v-row>
                     <v-col>
                         <v-text-field v-mask="['##/##/####']"
-                            v-model="student.birthDate" :rules="requiredMessage" label="Data de Nascimento" color="teal" outlined required
+                            v-model="student.birthDate" :rules="requiredMessage && dateRules" label="Data de Nascimento" color="teal" outlined required
                         ></v-text-field>
                     </v-col>
                     <v-col>    

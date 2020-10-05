@@ -1,6 +1,8 @@
 package br.com.bibliotech.services;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +18,9 @@ public class UserService {
         this.connection = connection;
     }
 
-    public boolean createStudent(User user) {
-        Date birthDateSql = new Date(user.getBirthDate().getTime());
+    public boolean createStudent(User user) throws ParseException {
+        java.util.Date birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(user.getBirthDate());
+        Date birthDateSql = new Date(birthDate.getTime());
 
         String query = "INSERT INTO `user`(" +
                 "first_name, " +
@@ -50,8 +53,9 @@ public class UserService {
         return true;
     }
 
-    public boolean editStudent(User user) {
-        Date birthDateSql = new Date(user.getBirthDate().getTime());
+    public boolean editStudent(User user) throws ParseException {
+        java.util.Date birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(user.getBirthDate());
+        Date birthDateSql = new Date(birthDate.getTime());
 
         String query = "UPDATE user SET " +
                 "first_name = ?, " +
@@ -103,7 +107,7 @@ public class UserService {
                 String lastName = rs.getString("last_name");
                 String email = rs.getString("email");
                 String password = rs.getString("password");
-                Date birthDate = rs.getDate("birth_date");
+                String birthDate = rs.getDate("birth_date").toString();
                 String cpf = rs.getString("cpf");
                 int genderId = rs.getInt("gender_id");
                 int schoolId = rs.getInt("school_id");
@@ -127,6 +131,46 @@ public class UserService {
         }
 
         return studentList;
+    }
+
+    public User getStudentById(int studentId) {
+        String query = "SELECT * FROM user WHERE id = ?";
+
+        User user = new User();
+
+        try {
+            PreparedStatement p = this.connection.prepareStatement(query);
+            p.setInt(1, studentId);
+            ResultSet rs = p.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String birthDate = rs.getDate("birth_date").toString();
+                String cpf = rs.getString("cpf");
+                int genderId = rs.getInt("gender_id");
+                int schoolId = rs.getInt("school_id");
+                int userTypeId = rs.getInt("user_type_id");
+
+                user.setId(id);
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setEmail(email);
+                user.setPassword(password);
+                user.setBirthDate(birthDate);
+                user.setCpf(cpf);
+                user.setGenderId(genderId);
+                user.setSchoolId(schoolId);
+                user.setUserTypeId(userTypeId);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return user;
     }
 
     public boolean deleteStudent(User user) {

@@ -85,6 +85,28 @@ public class StudentController extends UtilRest {
     }
 
     @GET
+    @Path("/getById")
+    @Consumes("application/*")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getById(@QueryParam("id") int id) {
+        try {
+            DBConnection dbConnection = new DBConnection();
+            Connection connection = dbConnection.openConnection();
+
+            UserService userService = new UserService(connection);
+
+            User student = userService.getStudentById(id);
+
+            dbConnection.closeConnection();
+
+            return this.buildResponse(student);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.buildErrorResponse("Ocorreu um erro ao tentar buscar os estudantes! \n Erro: \n" + e.getMessage());
+        }
+    }
+
+    @GET
     @Path("/list")
     @Consumes("application/*")
     @Produces(MediaType.APPLICATION_JSON)

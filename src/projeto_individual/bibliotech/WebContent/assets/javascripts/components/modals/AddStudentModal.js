@@ -10,12 +10,6 @@ export default {
         editing: false,
         valid: false,
         student: {
-            firstName: '',
-            lastName: '',
-            password: '',
-            email: '',
-            birthDate: '',
-            cpf: '',
             genderId: 1,
             schoolId: 1
         },
@@ -31,15 +25,12 @@ export default {
         menu: false,
     }),
     mounted() {
-        if(this.$refs.form) {
-            $bus.$on('reset-modal-content', () => {
-                this.$refs.form.reset()
-            })   
-        }
-    },
-    beforeDestoy() {
-        $bus.$off('reset-modal-content')
-        $bus.emit('refresh-students')
+        $bus.$on('load-content', () => {
+            this.student = {
+                genderId: 1,
+                schoolId: 1
+            }
+        })
     },
     methods: {
         validate () {

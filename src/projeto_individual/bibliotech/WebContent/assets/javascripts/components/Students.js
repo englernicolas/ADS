@@ -19,7 +19,7 @@ export default {
         students: [],
         currentModalTitle: '',
         currentModalWidth: '',
-        currentStudent: '',
+        studentId: '',
         loadingUsers: false,
         loadingSchools: false,
         loadingGenders: false,
@@ -69,7 +69,7 @@ export default {
             }
 
             if (id) {
-                this.currentStudent = this.students.find(it => it.id == id)
+                this.studentId = id
             }
             
             $bus.$emit('open-modal')
@@ -214,7 +214,7 @@ export default {
             <modal-template :title="currentModalTitle" :maxWidth="currentModalWidth">
                 <modal v-if="this.currentModalTitle == 'Deletar Estudante' || this.currentModalTitle == 'Adicionar Escola'"/>
                 <modal v-if="this.currentModalTitle == 'Adicionar Estudante'" :schools="schools" :genders="genders"/>
-                <modal v-if="this.currentModalTitle == 'Editar Estudante'" :current-student="currentStudent" :schools="schools" :genders="genders"/>
+                <modal v-if="this.currentModalTitle == 'Editar Estudante'" :schools="schools" :genders="genders"/>
                 <modal v-if="this.currentModalTitle == 'Empréstimos'" :loans="currenVAMOStStudent.loans"/>
             </modal-template>
             
