@@ -92,7 +92,7 @@ export default {
                     </v-col>
                     <v-col>
                         <v-text-field
-                            v-model="student.password" :rules="requiredMessage" label="Senha" color="teal" required outlined
+                            type="password" v-model="student.password" :rules="requiredMessage" label="Senha" color="teal" required outlined
                         ></v-text-field>
                     </v-col>
                 </v-row>

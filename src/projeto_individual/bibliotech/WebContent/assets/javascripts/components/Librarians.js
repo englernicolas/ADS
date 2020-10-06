@@ -11,35 +11,29 @@ import DeleteLibrarianModal from './modals/DeleteLibrarianModal.js'
 export default {
     name: 'Librarians',
     data: () => ({
-        users: [
-            {
-                id: 1,
-                name: "Nicolas",
-                email: "nicolas@gmail.com",
-                gender: "Masculino",
-                birthDate: "15/03/2002",
-                cpf: '12313213213',
-            },
-            {
-                id: 2,
-                name: "Amigão",
-                email: "nicolas@gmail.com",
-                gender: "Masculino",
-                birthDate: "15/03/2002",
-                cpf: '12313213213',
-            },
-            {
-                id: 3,
-                name: "Opa",
-                email: "nicolas@gmail.com",
-                gender: "Masculino",
-                birthDate: "15/03/2002",
-                cpf: '12313213213',
-            },
-        ],
+        librarians: [],
         currentModalTitle: '',
-        currentModalWidth: ''
+        currentModalWidth: '',
+        librarianId: '',
+        loadingUsers: false,
+        loadingSchools: false,
+        loadingGenders: false,
+        schools: [],
+        genders: [],
+        searchText: ''
     }),
+    mounted() {
+        this.getLibrarians();
+        this.getSchools();
+        this.getGenders();
+        $bus.$on('refresh-librarians', () => {
+            this.getLibrarians();
+        })
+        $bus.$on('refresh-schools', () => {
+            this.getSchools();
+        })
+
+    },
     methods: {
         validate () {
             this.$refs.form.validate()
@@ -67,7 +61,63 @@ export default {
         },
         currentModal(modal) {
             this.$options.components.Modal = modal
-        }
+        },
+        async getLibrarians() {
+            this.loadingUsers = true
+
+            await axios.get('/librarian/list')
+                .then((response) => {
+                    this.librarians = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por bibliotecários"
+                })
+                .finally(() => {
+                    this.loadingUsers = false
+                })
+        },
+        async getSchools() {
+            this.loadingSchools = true
+
+            await axios.get('/school/list')
+                .then((response) => {
+                    this.schools = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por escolas"
+                })
+                .finally(() => {
+                    this.loadingSchools = false
+                })
+        },
+        async getGenders() {
+            this.loadingGenders = true
+
+            await axios.get('/gender/list')
+                .then((response) => {
+                    this.genders = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por gêneros"
+                })
+                .finally(() => {
+                    this.loadingGenders = false
+                })
+        },
+        async getSearchLibrarians() {
+            this.loadingUsers = true
+
+            await axios.get(`/librarian/getBySearch?searchText=${this.searchText}`)
+                .then((response) => {
+                    this.librarians = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por bibliotecários"
+                })
+                .finally(() => {
+                    this.loadingUsers = false
+                })
+        },
     },
     template: /*html*/ `
         <div>
@@ -83,10 +133,13 @@ export default {
 
                 <v-spacer></v-spacer>
 
-                <search-box class="mr-16"></search-box>
+                <div class="d-flex mr-16">
+                    <v-text-field v-model="searchText" color="teal" placeholder="Pesquisar..." hide-details dense filled clearable></v-text-field>
+                    <v-btn @click="getSearchLibrarians" color="primary"><v-icon color="white">mdi-magnify</v-icon></v-btn>          
+                </div>
             </div>
 
-            <v-card v-for="user in users" class="mx-16 my-5">
+            <v-card v-for="librarian in librarians" class="mx-16 my-5">
                 <v-container>
                     <v-row class="mx-3">
                         <v-col>
@@ -94,7 +147,7 @@ export default {
                                 <span class="font-weight-bold">Nome:</span>
                             </v-row>
                             <v-row>
-                                <span>{{user.name}}</span>
+                                <span>{{librarian.firstName}} {{librarian.lastName}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -102,7 +155,7 @@ export default {
                                 <span class="font-weight-bold">E-mail:</span>
                             </v-row>
                             <v-row>
-                                <span>{{user.email}}</span>
+                                <span style="word-break: break-all; margin-right: 5px">{{librarian.email}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -110,7 +163,7 @@ export default {
                                 <span class="font-weight-bold">Gênero:</span>
                             </v-row>
                             <v-row>
-                                <span>{{user.gender}}</span>
+                                <span>{{genders.find(it => it.id == librarian.genderId)?.name}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -118,7 +171,15 @@ export default {
                                 <span class="font-weight-bold">Data Nasc.:</span>
                             </v-row>
                             <v-row>
-                                <span>{{user.birthDate}}</span>
+                                <span>{{librarian.birthDate}}</span>
+                            </v-row>
+                        </v-col>
+                        <v-col>
+                            <v-row>
+                                <span class="font-weight-bold">Escola:</span>
+                            </v-row>
+                            <v-row>
+                                <span>{{schools.find(it => it.id == librarian.schoolId)?.name}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -126,14 +187,14 @@ export default {
                                 <span class="font-weight-bold">CPF:</span>
                             </v-row>
                             <v-row>
-                                <span>{{user.cpf}}</span>
+                                <span>{{librarian.cpf}}</span>
                             </v-row>
                         </v-col>
                         <div>
-                            <v-btn icon @click="openModal('edit', user.id)" class="teal--text d-block">
+                            <v-btn icon @click="openModal('edit', librarian.id)" class="teal--text d-block">
                                 <v-icon>mdi-pencil</v-icon>
                             </v-btn>
-                            <v-btn icon @click="openModal('delete', user.id)" class="red--text d-block">
+                            <v-btn icon @click="openModal('delete', librarian.id)" class="red--text d-block">
                                 <v-icon>mdi-delete</v-icon>
                             </v-btn>
                         </div>
@@ -142,7 +203,9 @@ export default {
             </v-card>
 
             <modal-template :title="currentModalTitle" :maxWidth="currentModalWidth">
-                <modal/>
+                <modal v-if="this.currentModalTitle == 'Deletar Bibliotecário'"/>
+                <modal v-if="this.currentModalTitle == 'Adicionar Bibliotecário'" :schools="schools" :genders="genders"/>
+                <modal v-if="this.currentModalTitle == 'Editar Bibliotecário'" :schools="schools" :genders="genders"/>
             </modal-template>
             
         </div>`
