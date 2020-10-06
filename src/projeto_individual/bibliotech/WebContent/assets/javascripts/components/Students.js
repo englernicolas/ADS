@@ -231,7 +231,7 @@ export default {
                 <modal v-if="this.currentModalTitle == 'Deletar Estudante' || this.currentModalTitle == 'Adicionar Escola'"/>
                 <modal v-if="this.currentModalTitle == 'Adicionar Estudante'" :schools="schools" :genders="genders"/>
                 <modal v-if="this.currentModalTitle == 'Editar Estudante'" :schools="schools" :genders="genders"/>
-                <modal v-if="this.currentModalTitle == 'Empréstimos'" :loans="currenVAMOStStudent.loans"/>
+                <!--<modal v-if="this.currentModalTitle == 'Empréstimos'" :loans="currenVAMOStStudent.loans"/>-->
             </modal-template>
             
         </div>`

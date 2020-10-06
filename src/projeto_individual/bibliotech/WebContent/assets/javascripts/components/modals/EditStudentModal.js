@@ -19,9 +19,6 @@ export default {
         cpfRules: [
             v => /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/.test(v) || 'CPF inválido',
         ],
-        dateRules: [
-            v => new Date(v).getMilliseconds() <= new Date().getMilliseconds() || 'Data inválida',
-        ],
         menu: false,
     }),
     computed: {
@@ -111,7 +108,7 @@ export default {
                     </v-col>
                     <v-col>
                         <v-text-field
-                            v-model="student.password" :rules="requiredMessage" label="Senha" color="teal" required outlined
+                            type="password" v-model="student.password" :rules="requiredMessage" label="Senha" color="teal" required outlined
                         ></v-text-field>
                     </v-col>
                 </v-row>
@@ -169,7 +166,7 @@ export default {
                 
                 <v-row>
                     <v-col class="text-center">
-                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="editStudent">
+                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="editStudent" v-if="!editing">
                             Salvar
                         </v-btn>
                     </v-col>
