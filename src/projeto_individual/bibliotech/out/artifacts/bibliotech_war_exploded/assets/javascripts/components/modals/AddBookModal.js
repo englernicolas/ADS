@@ -53,7 +53,7 @@ export default {
         },
     },
     template: /*html*/ `
-    <div v-if="genres.length != 0 && authors.length != 0">
+    <div v-if="genres.length > 0 && authors.length > 0">
         <v-form class="mx-6" ref="form" v-model="valid">
             <v-container>
                 <v-row>
@@ -64,7 +64,7 @@ export default {
                     </v-col>
                     <v-col>
                         <v-text-field
-                            v-model="book.pages" :rules="requiredMessage" label="Número de páginas" color="teal" required outlined
+                            type="number" v-model="book.pages" :rules="requiredMessage" label="Número de páginas" color="teal" required outlined
                         ></v-text-field>
                     </v-col>
                 </v-row>
@@ -94,6 +94,7 @@ export default {
         </v-form>
     </div>
     <div v-else class="text-center">
-        <span class="grey--text text--darken-3 text-h6 font-weight-bold">Certifique-se que existem Autores e Generos para poder criar um livro</span>
+        <v-icon large color="grey--text text--darken-4">mdi-information</v-icon>
+        <span class="grey--text text--darken-2 text-h6 font-weight-bold">Certifique-se que existem Autores e Gêneros para poder criar um Livro</span>
     </div>`
 }

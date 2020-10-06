@@ -202,6 +202,11 @@ export default {
                 </v-container>
             </v-card>
 
+            <div v-if="librarians.length == 0 " class="mt-16 text-center">
+                <v-icon large color="grey--text text--darken-4">mdi-magnify-close</v-icon>
+                <span class="grey--text text--darken-2 text-h5 font-weight-bold">Sem Resultados!</span>
+            </div>
+
             <modal-template :title="currentModalTitle" :maxWidth="currentModalWidth">
                 <modal v-if="this.currentModalTitle == 'Deletar Bibliotecário'"/>
                 <modal v-if="this.currentModalTitle == 'Adicionar Bibliotecário'" :schools="schools" :genders="genders"/>

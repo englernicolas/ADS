@@ -61,7 +61,7 @@ export default {
                 </v-row>
                 <v-row>
                     <v-col class="text-center">
-                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="createSchool">
+                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="createSchool" v-if="!creating">
                             Salvar
                         </v-btn>
                     </v-col>

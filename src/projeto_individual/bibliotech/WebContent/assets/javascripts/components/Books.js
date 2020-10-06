@@ -218,9 +218,10 @@ export default {
                 </v-container>
             </v-card>
 
-            <div v-if="books.length == 0 " class="text-center">
-                <span class="grey--text text--darken-3 text-h6 font-weight-bold">Sem Resultados!</span>
-            </div>\`
+            <div v-if="books.length == 0 " class="mt-16 text-center">
+                <v-icon large color="grey--text text--darken-4">mdi-magnify-close</v-icon>
+                <span class="grey--text text--darken-2 text-h5 font-weight-bold">Sem Resultados!</span>
+            </div>
 
             <modal-template :title="currentModalTitle" :maxWidth="currentModalWidth">
                 <modal v-if="this.currentModalTitle == 'Deletar Livro' || this.currentModalTitle == 'Adicionar Autor' || this.currentModalTitle == 'Adicionar Gênero'"/>

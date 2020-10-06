@@ -26,7 +26,7 @@ public class BookService {
         try {
             p = this.connection.prepareStatement(query);
             p.setString(1, book.getTitle());
-            p.setString(2, book.getPages());
+            p.setInt(2, book.getPages());
             p.setInt(3, book.getGenreId());
             p.setInt(4, book.getAuthorId());
             p.execute();
@@ -50,7 +50,7 @@ public class BookService {
         try {
             p = this.connection.prepareStatement(query);
             p.setString(1, book.getTitle());
-            p.setString(2, book.getPages());
+            p.setInt(2, book.getPages());
             p.setInt(3, book.getGenreId());
             p.setInt(4, book.getAuthorId());
             p.executeUpdate();
@@ -76,7 +76,7 @@ public class BookService {
 
                 int id = rs.getInt("id");
                 String title = rs.getString("title");
-                String pages = rs.getString("pages");
+                int pages = rs.getInt("pages");
                 int genreId = rs.getInt("genre_id");
                 int authorId = rs.getInt("author_id");
 
@@ -113,7 +113,7 @@ public class BookService {
 
                 int id = rs.getInt("id");
                 String title = rs.getString("title");
-                String pages = rs.getString("pages");
+                int pages = rs.getInt("pages");
                 int genreId = rs.getInt("genre_id");
                 int authorId = rs.getInt("author_id");
 
@@ -145,7 +145,7 @@ public class BookService {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String title = rs.getString("title");
-                String pages = rs.getString("pages");
+                int pages = rs.getInt("pages");
                 int genreId = rs.getInt("genre_id");
                 int authorId = rs.getInt("author_id");
 

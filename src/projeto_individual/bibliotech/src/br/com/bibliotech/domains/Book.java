@@ -7,7 +7,7 @@ public class Book implements Serializable {
 
     private int id;
     private String title;
-    private String pages;
+    private int pages;
     private int genreId;
     private int authorId;
     private String deletedReason;
@@ -29,10 +29,10 @@ public class Book implements Serializable {
         this.title = title;
     }
 
-    public String getPages() {
+    public int getPages() {
         return pages;
     }
-    public void setPages(String pages) {
+    public void setPages(int pages) {
         this.pages = pages;
     }
 
