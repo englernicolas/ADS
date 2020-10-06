@@ -13,26 +13,31 @@ import DeleteBookModal from './modals/DeleteBookModal.js'
 export default {
     name: 'Books',
     data: () => ({
-        books: [
-            {
-                id: 1,
-                title: "O casamento",
-                author: "Nicholas Sparks",
-                gender: "Romance",
-                pages: "152",
-                loanId: '1',
-            },
-            {
-                id: 2,
-                title: "O casamento",
-                author: "Nicholas Sparks",
-                gender: "Romance",
-                pages: "152",
-            },
-        ],
+        books: [],
         currentModalTitle: '',
-        currentModalWidth: ''
+        currentModalWidth: '',
+        bookId: '',
+        loadingBooks: false,
+        loadingAuthors: false,
+        loadingGenres: false,
+        authors: [],
+        genres: [],
+        searchText: ''
     }),
+    mounted() {
+        this.getBooks();
+        this.getAuthors();
+        this.getGenres();
+        $bus.$on('refresh-books', () => {
+            this.getBooks();
+        })
+        $bus.$on('refresh-authors', () => {
+            this.getAuthors();
+        })
+        $bus.$on('refresh-genres', () => {
+            this.getGenres();
+        })
+    },
     methods: {
         validate () {
             this.$refs.form.validate()
@@ -70,7 +75,63 @@ export default {
         },
         currentModal(modal) {
             this.$options.components.Modal = modal
-        }
+        },
+        async getBooks() {
+            this.loadingBooks = true
+
+            await axios.get('/book/list')
+                .then((response) => {
+                    this.books = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por livro"
+                })
+                .finally(() => {
+                    this.loadingBooks = false
+                })
+        },
+        async getAuthors() {
+            this.loadingAuthors = true
+
+            await axios.get('/author/list')
+                .then((response) => {
+                    this.authors = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por autores"
+                })
+                .finally(() => {
+                    this.loadingAuthors = false
+                })
+        },
+        async getGenres() {
+            this.loadingGenres = true
+
+            await axios.get('/genre/list')
+                .then((response) => {
+                    this.genres = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por gêneros"
+                })
+                .finally(() => {
+                    this.loadingGenres = false
+                })
+        },
+        async getSearchBooks() {
+            this.loadingUsers = true
+
+            await axios.get(`/book/getBySearch?searchText=${this.searchText}`)
+                .then((response) => {
+                    this.books = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por livros"
+                })
+                .finally(() => {
+                    this.loadingUsers = false
+                })
+        },
     },
     template: /*html*/ `
         <div>
@@ -94,7 +155,10 @@ export default {
 
                 <v-spacer></v-spacer>
 
-                <search-box class="mr-16"></search-box>
+                <div class="d-flex mr-16">
+                    <v-text-field v-model="searchText" color="teal" placeholder="Pesquisar..." hide-details dense filled clearable></v-text-field>
+                    <v-btn @click="getSearchBooks" color="primary"><v-icon color="white">mdi-magnify</v-icon></v-btn>          
+                </div>
             </div>
 
             <v-card v-for="book in books" class="mx-16 my-5">
@@ -113,7 +177,7 @@ export default {
                                 <span class="font-weight-bold">Autor:</span>
                             </v-row>
                             <v-row>
-                                <span>{{book.author}}</span>
+                                <span>{{authors.find(it => it.id == book.authorId)?.name}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -121,7 +185,7 @@ export default {
                                 <span class="font-weight-bold">Gênero:</span>
                             </v-row>
                             <v-row>
-                                <span>{{book.gender}}</span>
+                                <span>{{genres.find(it => it.id == book.genreId)?.name}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -132,6 +196,7 @@ export default {
                                 <span>{{book.pages}}</span>
                             </v-row>
                         </v-col>
+                        <!--
                         <v-col v-if="book.loanId">
                             <v-row>
                                 <span class="font-weight-bold">Cód. Empreśtimo:</span>
@@ -140,6 +205,7 @@ export default {
                                 <span>{{book.loanId}}</span>
                             </v-row>
                         </v-col>
+                        -->
                         <div>
                             <v-btn icon @click="openModal('edit', book.id)" class="teal--text d-block">
                                 <v-icon>mdi-pencil</v-icon>
@@ -152,8 +218,14 @@ export default {
                 </v-container>
             </v-card>
 
+            <div v-if="books.length == 0 " class="text-center">
+                <span class="grey--text text--darken-3 text-h6 font-weight-bold">Sem Resultados!</span>
+            </div>\`
+
             <modal-template :title="currentModalTitle" :maxWidth="currentModalWidth">
-                <modal/>
+                <modal v-if="this.currentModalTitle == 'Deletar Livro' || this.currentModalTitle == 'Adicionar Autor' || this.currentModalTitle == 'Adicionar Gênero'"/>
+                <modal v-if="this.currentModalTitle == 'Adicionar Livro'" :authors="authors" :genres="genres"/>
+                <modal v-if="this.currentModalTitle == 'Editar Livro'" :authors="authors" :genres="genres"/>
             </modal-template>
             
         </div>`

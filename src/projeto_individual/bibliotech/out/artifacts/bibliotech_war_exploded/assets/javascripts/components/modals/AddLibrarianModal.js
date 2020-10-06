@@ -2,28 +2,17 @@ import { $bus } from '../../utils/eventBus.js'
 
 export default {
     name: 'AddLibrarianModal',
+    props: {
+        schools: Array,
+        genders: Array
+    },
     data: () => ({
+        creating: false,
         valid: false,
-        student: {
-            firstName: '',
-            lastName: '',
-            password: '',
-            email: '',
-            birthdayDate: '',
-            cpf: '',
-            gender: 'Indefinido',
-            school: 'ESCOLA CABEÇA DE GELO'
+        librarian: {
+            genderId: 1,
+            schoolId: 1
         },
-        schools: [
-            'ESCOLA CABEÇA DE GELO',
-            'SENAI',
-            'CARROSSEL',
-        ],
-        genders: [
-            'Indefinido',
-            'Masculino',
-            'Feminino',
-        ],
         emailRules: [
             v => /.+@.+\..+/.test(v) || 'Email inválido',
         ],
@@ -36,26 +25,47 @@ export default {
         menu: false,
     }),
     mounted() {
-        if(this.$refs.form) {
-            $bus.$on('reset-modal-content', () => {
-                this.$refs.form.reset()
-            })   
-        }
-    },
-    beforeDestoy() {
-        $bus.$off('reset-modal-content')
+        $bus.$on('load-content', () => {
+            this.librarian = {
+                genderId: 1,
+                schoolId: 1
+            }
+        })
     },
     watch: {
-      menu (val) {
-        val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
-      },
+        menu (val) {
+            val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
+        },
     },
     methods: {
         save (date) {
             this.$refs.menu.save(date)
         },
+        
         validate () {
             this.$refs.form.validate()
+        },
+
+        async createLibrarian() {
+            this.validate()
+
+            if (this.valid) {
+                this.creating = true
+
+                const librarian = this.librarian
+
+                await axios.post('/librarian/create', librarian)
+                    .then(() => {
+                        $bus.$emit('refresh-librarians')
+                        $bus.$emit('close-modal')
+                    })
+                    .catch(() => {
+                        this.error = "Ocorreu um erro ao tentar criar bibliotecário"
+                    })
+                    .finally(() => {
+                        this.creating = false
+                    })
+            }
         },
     },
     template: /*html*/ `
@@ -65,24 +75,24 @@ export default {
                 <v-row>
                     <v-col>
                         <v-text-field
-                            v-model="student.firstName" :rules="requiredMessage" label="Nome" color="teal" required outlined
+                            v-model="librarian.firstName" :rules="requiredMessage" label="Nome" color="teal" required outlined
                         ></v-text-field>
                     </v-col>
                     <v-col>
                         <v-text-field
-                            v-model="student.lastName" :rules="requiredMessage" label="Sobrenome" color="teal" required outlined
+                            v-model="librarian.lastName" :rules="requiredMessage" label="Sobrenome" color="teal" required outlined
                         ></v-text-field>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col>
                         <v-text-field
-                            v-model="student.email" :rules="emailRules" label="E-mail" color="teal" required outlined
+                            v-model="librarian.email" :rules="emailRules" label="E-mail" color="teal" required outlined
                         ></v-text-field>
                     </v-col>
                     <v-col>
                         <v-text-field
-                            v-model="student.password" :rules="requiredMessage" label="Senha" color="teal" required outlined
+                            type="password" v-model="librarian.password" :rules="requiredMessage" label="Senha" color="teal" required outlined
                         ></v-text-field>
                     </v-col>
                 </v-row>
@@ -97,48 +107,50 @@ export default {
                             min-width="290px"
                         >
                             <template v-slot:activator="{ on, attrs }">
-                            <v-text-field
-                                v-model="student.birthdayDate"
-                                label="Data de nascimento"
-                                readonly
-                                v-bind="attrs"
-                                v-on="on"
-                                color="teal"
-                                outlined
-                            ></v-text-field>
+                                <v-text-field
+                                    v-model="librarian.birthDate"
+                                    label="Data de Nascimento"
+                                    readonly
+                                    hint="YYYY-MM-DD format"
+                                        persistent-hint
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    outlined
+                                ></v-text-field>
                             </template>
                             <v-date-picker
-                            ref="picker"
-                            v-model="student.birthdayDate"
-                            :max="new Date().toISOString().substr(0, 10)"
-                            min="1950-01-01"
-                            @change="save"
-                            color="primary"
+                                ref="picker"
+                                v-model="librarian.birthDate"
+                                :max="new Date().toISOString().substr(0, 10)"
+                                min="1950-01-01"
+                                @change="save"
                             ></v-date-picker>
                         </v-menu>
                     </v-col>
                     <v-col>    
                         <v-text-field v-mask="['###.###.###-##']"
-                            v-model="student.cpf" :rules="requiredMessage && cpfRules" label="CPF" color="teal" outlined required
+                            v-model="librarian.cpf" :rules="requiredMessage && cpfRules" label="CPF" color="teal" outlined required
                         ></v-text-field>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col>    
                         <v-select
-                            v-model="student.gender" :items="genders" :rules="[v => !!v || 'Item necessário']" label="Sexo" color="teal" required outlined
+                            v-model="librarian.genderId" :items="genders" item-text="name" item-value="id"
+                            :rules="[v => !!v || 'Item necessário']" label="Sexo" color="teal" required outlined
                         ></v-select>
                     </v-col>
                     <v-col>
                         <v-select
-                            v-model="student.school" :items="schools" :rules="[v => !!v || 'Item necessário']" label="Escola" color="teal" required outlined
+                            v-model="librarian.schoolId" :items="schools" item-text="name" item-value="id" 
+                            :rules="[v => !!v || 'Item necessário']" label="Escola" color="teal" required outlined
                         ></v-select>
                     </v-col>
                 </v-row>    
                 
                 <v-row>
                     <v-col class="text-center">
-                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="validate">
+                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="createLibrarian" v-if="!creating">
                             Salvar
                         </v-btn>
                     </v-col>
