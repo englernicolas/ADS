@@ -69,7 +69,7 @@ export default {
         },
     },
     template: /*html*/ `
-    <div>
+    <div v-if="schools.length > 0">
         <v-form class="mx-6" ref="form" v-model="valid">
             <v-container>
                 <v-row>
@@ -157,5 +157,10 @@ export default {
                 </v-row>
             </v-container>
         </v-form>
-    </div>`
+    </div>
+    <div v-else class="text-center">
+        <v-icon large color="grey--text text--darken-4">mdi-information</v-icon>
+        <span class="grey--text text--darken-2 text-h6 font-weight-bold">Certifique-se que existem Escolas para poder criar um Aluno</span>
+    </div>    
+    `
 }

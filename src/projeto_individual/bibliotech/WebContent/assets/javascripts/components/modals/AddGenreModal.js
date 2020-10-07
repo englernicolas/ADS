@@ -4,6 +4,7 @@ export default {
     name: 'AddGenreModal',
     data: () => ({
         valid: false,
+        creating: false,
         genre: {
             name: '',
         },
@@ -14,16 +15,37 @@ export default {
     mounted() {
         if(this.$refs.form) {
             $bus.$on('reset-modal-content', () => {
-                this.$refs.form.reset()
+                this.genre = {
+                    name: '',
+                }
             })   
         }
-    },
-    beforeDestoy() {
-        $bus.$off('reset-modal-content')
     },
     methods: {
         validate () {
             this.$refs.form.validate()
+        },
+
+        async createGenre() {
+            this.validate()
+
+            if (this.valid) {
+                this.creating = true
+
+                const genre = this.genre
+
+                await axios.post('/genre/create', genre)
+                    .then(() => {
+                        $bus.$emit('refresh-genres')
+                        $bus.$emit('close-modal')
+                    })
+                    .catch(() => {
+                        this.error = "Ocorreu um erro ao tentar criar gênero"
+                    })
+                    .finally(() => {
+                        this.creating = false
+                    })
+            }
         },
     },
     template: /*html*/ `
@@ -39,7 +61,7 @@ export default {
                 </v-row>
                 <v-row>
                     <v-col class="text-center">
-                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="validate">
+                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="createGenre" v-if="!creating">
                             Salvar
                         </v-btn>
                     </v-col>

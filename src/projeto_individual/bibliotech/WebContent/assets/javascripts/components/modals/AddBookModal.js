@@ -2,45 +2,58 @@ import { $bus } from '../../utils/eventBus.js'
 
 export default {
     name: 'AddBookModal',
+    props: {
+        authors: Array,
+        genres: Array
+    },
     data: () => ({
+        creating: false,
         valid: false,
         book: {
-            title: '',
-            pages: '',
-            gender: 'Romance',
-            author: 'Tiririca'
+            genreId: 1,
+            authorId: 1
         },
-        authors: [
-            'Tiririca',
-            'Tiringa',
-            'Abacate',
-        ],
-        genders: [
-            'Romance',
-            'Terror',
-            'Suspense',
-        ],
         requiredMessage: [
             v => !!v || 'Campo obrigatório',
         ],
     }),
     mounted() {
-        if(this.$refs.form) {
-            $bus.$on('reset-modal-content', () => {
-                this.$refs.form.reset()
-            })   
-        }
-    },
-    beforeDestoy() {
-        $bus.$off('reset-modal-content')
+        $bus.$on('load-content', () => {
+            this.book = {
+                genreId: 1,
+                authorId: 1
+            }
+        })
     },
     methods: {
         validate () {
             this.$refs.form.validate()
         },
+
+        async createBook() {
+            this.validate()
+
+            if (this.valid) {
+                this.creating = true
+
+                const book = this.book
+
+                await axios.post('/book/create', book)
+                    .then(() => {
+                        $bus.$emit('refresh-books')
+                        $bus.$emit('close-modal')
+                    })
+                    .catch(() => {
+                        this.error = "Ocorreu um erro ao tentar criar livro"
+                    })
+                    .finally(() => {
+                        this.creating = false
+                    })
+            }
+        },
     },
     template: /*html*/ `
-    <div>
+    <div v-if="genres.length > 0 && authors.length > 0">
         <v-form class="mx-6" ref="form" v-model="valid">
             <v-container>
                 <v-row>
@@ -51,31 +64,37 @@ export default {
                     </v-col>
                     <v-col>
                         <v-text-field
-                            v-model="book.pages" :rules="requiredMessage" label="Número de páginas" color="teal" required outlined
+                            type="number" v-model="book.pages" :rules="requiredMessage" label="Número de páginas" color="teal" required outlined
                         ></v-text-field>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col>    
                         <v-select
-                            v-model="book.gender" :items="genders" :rules="[v => !!v || 'Item necessário']" label="Gênero" color="teal" required outlined
+                            v-model="book.genreId" :items="genres" item-text="name" item-value="id"
+                            :rules="[v => !!v || 'Item necessário']" label="Gênero" color="teal" required outlined
                         ></v-select>
                     </v-col>
                     <v-col>
                         <v-select
-                            v-model="book.author" :items="authors" :rules="[v => !!v || 'Item necessário']" label="Autor" color="teal" required outlined
+                            v-model="book.authorId" :items="authors" item-text="name" item-value="id"
+                            :rules="[v => !!v || 'Item necessário']" label="Autor" color="teal" required outlined
                         ></v-select>
                     </v-col>
                 </v-row>     
                 
                 <v-row>
                     <v-col class="text-center">
-                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="validate">
+                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="createBook" v-if="!creating">
                             Salvar
                         </v-btn>
                     </v-col>
                 </v-row>
             </v-container>
         </v-form>
+    </div>
+    <div v-else class="text-center">
+        <v-icon large color="grey--text text--darken-4">mdi-information</v-icon>
+        <span class="grey--text text--darken-2 text-h6 font-weight-bold">Certifique-se que existem Autores e Gêneros para poder criar um Livro</span>
     </div>`
 }
