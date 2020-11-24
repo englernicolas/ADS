@@ -122,6 +122,30 @@ public class BookController extends UtilRest {
     }
 
     @GET
+    @Path("/listNeedBookAvailability")
+    @Consumes("application/*")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response listNeedBookAvailability() {
+        try {
+            List<Book> bookList = new ArrayList<Book>();
+
+            DBConnection dbConnection = new DBConnection();
+            Connection connection = dbConnection.openConnection();
+
+            BookService bookService = new BookService(connection);
+
+            bookList = bookService.list(true);
+
+            dbConnection.closeConnection();
+
+            return this.buildResponse(bookList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.buildErrorResponse("Ocorreu um erro ao tentar buscar os livros! \n Erro: \n" + e.getMessage());
+        }
+    }
+
+    @GET
     @Path("/list")
     @Consumes("application/*")
     @Produces(MediaType.APPLICATION_JSON)
@@ -134,7 +158,7 @@ public class BookController extends UtilRest {
 
             BookService bookService = new BookService(connection);
 
-            bookList = bookService.list();
+            bookList = bookService.list(false);
 
             dbConnection.closeConnection();
 

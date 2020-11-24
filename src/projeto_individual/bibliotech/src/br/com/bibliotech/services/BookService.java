@@ -19,7 +19,7 @@ public class BookService {
                 "title, " +
                 "pages, " +
                 "genre_id, " +
-                "author_id, " +
+                "author_id " +
                 ") VALUE(?,?,?,?)";
 
         PreparedStatement p;
@@ -39,11 +39,11 @@ public class BookService {
 
     public boolean edit(Book book) throws ParseException {
         String query = "UPDATE book SET " +
-                "title, " +
-                "pages, " +
-                "genre_id, " +
-                "author_id, " +
-                ") VALUE(?,?,?,?)";
+                "title = ?, " +
+                "pages = ?, " +
+                "genre_id = ?, " +
+                "author_id = ?, " +
+                "WHERE id = ?";
 
         PreparedStatement p;
 
@@ -53,6 +53,7 @@ public class BookService {
             p.setInt(2, book.getPages());
             p.setInt(3, book.getGenreId());
             p.setInt(4, book.getAuthorId());
+            p.setInt(5, book.getId());
             p.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -61,8 +62,12 @@ public class BookService {
         return true;
     }
 
-    public List<Book> list() {
-        String query = "SELECT * FROM book WHERE is_available = 1";
+    public List<Book> list(Boolean needVerifyBookAvailability) {
+        String query = "SELECT * FROM book WHERE is_deleted = 0";
+
+        if (needVerifyBookAvailability) {
+            query += " AND is_available = 1";
+        }
 
         List<Book> bookList = new ArrayList<Book>();
         Book book;
@@ -79,12 +84,14 @@ public class BookService {
                 int pages = rs.getInt("pages");
                 int genreId = rs.getInt("genre_id");
                 int authorId = rs.getInt("author_id");
+                Boolean isAvailable = rs.getBoolean("is_available");
 
                 book.setId(id);
                 book.setTitle(title);
                 book.setPages(pages);
                 book.setGenreId(genreId);
                 book.setAuthorId(authorId);
+                book.setIsAvailable(isAvailable);
 
                 bookList.add(book);
             }
@@ -96,7 +103,7 @@ public class BookService {
     }
 
     public List<Book> getBySearch(String searchText) {
-        String query = "SELECT * FROM book WHERE is_available = 1 ";
+        String query = "SELECT * FROM book WHERE is_deleted = 0 ";
 
         if (!searchText.trim().equals("")) {
             query += "AND (title LIKE '%" + searchText + "%')";
@@ -164,7 +171,7 @@ public class BookService {
 
     public boolean delete(Book book) {
         String query = "UPDATE book SET " +
-                "is_available = 0, " +
+                "is_deleted = 1, " +
                 "deleted_reason = ? " +
                 "WHERE id = ?";
 

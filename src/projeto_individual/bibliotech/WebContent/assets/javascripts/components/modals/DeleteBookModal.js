@@ -61,7 +61,7 @@ export default {
                 <v-row>
                     <v-col>
                         <v-textarea
-                            v-model="reason" :rules="requiredMessage" color="teal" placeholder="Seu motivo aqui" required outlined
+                            v-model="deleteInfo.deletedReason" :rules="requiredMessage" color="teal" placeholder="Seu motivo aqui" required outlined
                         ></v-textarea>
                     </v-col>
                 </v-row> 

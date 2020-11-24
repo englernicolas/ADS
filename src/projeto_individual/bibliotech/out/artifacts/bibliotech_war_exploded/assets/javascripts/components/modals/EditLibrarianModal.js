@@ -8,6 +8,7 @@ export default {
     },
     data: () => ({
         valid: true,
+        editing: false,
         librarian: {},
         emailRules: [
             v => /.+@.+\..+/.test(v) || 'Email inválido',

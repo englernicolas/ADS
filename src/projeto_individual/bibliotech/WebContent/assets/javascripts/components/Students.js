@@ -135,7 +135,7 @@ export default {
     },
     template: /*html*/ `
         <div>
-            <div class="text-center my-5"><span class="grey--text text--darken-3 text-h2 font-weight-bold">Alunos</span></div>
+            <div class="text-center my-5"><span class="grey--text text--darken-3 text-h2 font-weight-bold">Estudantes</span></div>
                                 
             <v-divider></v-divider>
             
@@ -236,7 +236,6 @@ export default {
                 <modal v-if="this.currentModalTitle == 'Deletar Estudante' || this.currentModalTitle == 'Adicionar Escola'"/>
                 <modal v-if="this.currentModalTitle == 'Adicionar Estudante'" :schools="schools" :genders="genders"/>
                 <modal v-if="this.currentModalTitle == 'Editar Estudante'" :schools="schools" :genders="genders"/>
-                <!--<modal v-if="this.currentModalTitle == 'Empréstimos'" :loans="currenVAMOStStudent.loans"/>-->
             </modal-template>
             
         </div>`

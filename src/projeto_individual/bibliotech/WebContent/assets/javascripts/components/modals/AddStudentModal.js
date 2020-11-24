@@ -9,10 +9,7 @@ export default {
     data: () => ({
         creating: false,
         valid: false,
-        student: {
-            genderId: 1,
-            schoolId: 1
-        },
+        student: {},
         emailRules: [
             v => /.+@.+\..+/.test(v) || 'Email inválido',
         ],
@@ -160,7 +157,7 @@ export default {
     </div>
     <div v-else class="text-center">
         <v-icon large color="grey--text text--darken-4">mdi-information</v-icon>
-        <span class="grey--text text--darken-2 text-h6 font-weight-bold">Certifique-se que existem Escolas para poder criar um Aluno</span>
+        <span class="grey--text text--darken-2 text-h6 font-weight-bold">Certifique-se que existem Escolas para poder criar um Estudante</span>
     </div>    
     `
 }
