@@ -11,6 +11,7 @@ public class Book implements Serializable {
     private int genreId;
     private int authorId;
     private String deletedReason;
+    private Boolean isAvailable;
 
     public Book() {
     }
@@ -55,5 +56,12 @@ public class Book implements Serializable {
     }
     public void setDeletedReason(String deletedReason) {
         this.deletedReason = deletedReason;
+    }
+
+    public Boolean getIsAvailable() {
+        return isAvailable;
+    }
+    public void setIsAvailable(Boolean isAvailable) {
+        this.isAvailable = isAvailable;
     }
 }

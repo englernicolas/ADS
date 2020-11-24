@@ -196,17 +196,12 @@ export default {
                                 <span>{{book.pages}}</span>
                             </v-row>
                         </v-col>
-                        <!--
-                        <v-col v-if="book.loanId">
+                        <v-col>
                             <v-row>
-                                <span class="font-weight-bold">Cód. Empreśtimo:</span>
-                            </v-row>
-                            <v-row>
-                                <span>{{book.loanId}}</span>
+                                <span v-if="!book.isAvailable" class="font-weight-bold secondary--text">EMPRESTADO</span>
                             </v-row>
                         </v-col>
-                        -->
-                        <div>
+                        <div v-if="book.isAvailable" >
                             <v-btn icon @click="openModal('edit', book.id)" class="teal--text d-block">
                                 <v-icon>mdi-pencil</v-icon>
                             </v-btn>

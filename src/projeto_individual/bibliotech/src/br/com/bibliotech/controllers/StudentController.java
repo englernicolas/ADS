@@ -131,6 +131,30 @@ public class StudentController extends UtilRest {
     }
 
     @GET
+    @Path("/listNeedVerifyBookQuantity")
+    @Consumes("application/*")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response listNeedVerifyBookQuantity() {
+        try {
+            List<User> studentList = new ArrayList<User>();
+
+            DBConnection dbConnection = new DBConnection();
+            Connection connection = dbConnection.openConnection();
+
+            UserService userService = new UserService(connection);
+
+            studentList = userService.listStudents(true);
+
+            dbConnection.closeConnection();
+
+            return this.buildResponse(studentList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.buildErrorResponse("Ocorreu um erro ao tentar buscar os estudantes! \n Erro: \n" + e.getMessage());
+        }
+    }
+
+    @GET
     @Path("/list")
     @Consumes("application/*")
     @Produces(MediaType.APPLICATION_JSON)
@@ -143,7 +167,7 @@ public class StudentController extends UtilRest {
 
             UserService userService = new UserService(connection);
 
-            studentList = userService.listStudents();
+            studentList = userService.listStudents(false);
 
             dbConnection.closeConnection();
 
