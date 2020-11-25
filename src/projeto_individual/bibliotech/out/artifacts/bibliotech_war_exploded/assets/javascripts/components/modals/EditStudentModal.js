@@ -6,7 +6,7 @@ export default {
         schools: Array,
         genders: Array
     },
-    data: () => ({
+    data: vm => ({
         student: {},
         valid: true,
         loadingUser: false,
@@ -19,7 +19,10 @@ export default {
         cpfRules: [
             v => /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/.test(v) || 'CPF inválido',
         ],
+        editing: false,
         menu: false,
+        date: null,
+        dateFormatted: null,
     }),
     computed: {
         getUserId() {
@@ -33,8 +36,8 @@ export default {
         })
     },
     watch: {
-        menu (val) {
-            val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
+        date (val) {
+            this.dateFormatted = this.formatDate(this.date)
         },
     },
     methods: {
@@ -46,13 +49,26 @@ export default {
             this.$refs.form.validate()
             $bus.$off('reset-content')
         },
+        formatDate (date) {
+            if (!date) return null
+
+            const [year, month, day] = date.split('-')
+            return `${day}/${month}/${year}`
+        },
+        parseDate (date) {
+            if (!date) return null
+
+            const [day, month, year] = date.split('/')
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        },
 
         async getStudent() {
             this.loadingUser = true
 
             await axios.get(`/student/getById?id=${this.getUserId}`)
                 .then((response) => {
-                    this.student = response.data;
+                    this.student = response.data
+                    this.dateFormatted = this.formatDate(this.student.birthDate)
                 })
                 .catch(() => {
                     this.error = "Ocorreu um erro ao tentar buscar por estudantes"
@@ -68,6 +84,7 @@ export default {
             if (this.valid) {
                 this.editing = true
 
+                this.student.birthDate = this.date
                 const student = this.student
 
                 await axios.put('/student/edit', student)
@@ -115,32 +132,30 @@ export default {
                 <v-row>
                     <v-col>
                         <v-menu
-                            ref="menu"
+                          ref="menu"
                             v-model="menu"
                             :close-on-content-click="false"
                             transition="scale-transition"
                             offset-y
                             min-width="290px"
                         >
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-text-field
-                                    v-model="student.birthDate"
-                                    label="Data de Nascimento"
-                                    readonly
-                                    hint="YYYY-MM-DD format"
-                                    persistent-hint
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    outlined
-                                ></v-text-field>
-                            </template>
-                            <v-date-picker
-                                ref="picker"
-                                v-model="student.birthDate"
-                                :max="new Date().toISOString().substr(0, 10)"
-                                min="1950-01-01"
-                                @change="save"
-                            ></v-date-picker>
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                              v-model="dateFormatted"
+                              label="Data de Nascimento"
+                              persistent-hint
+                              v-bind="attrs"
+                              @blur="date = parseDate(dateFormatted)"
+                              v-on="on"
+                              outlined    
+                            ></v-text-field>
+                          </template>
+                          <v-date-picker
+                            v-model="date"
+                            :max="new Date().toISOString().substr(0, 10)"
+                            no-title
+                            @input="menu = false"
+                          ></v-date-picker>
                         </v-menu>
                     </v-col>
                     <v-col>    
