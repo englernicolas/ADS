@@ -5,7 +5,6 @@ Vue.component('ModalTemplate', ModalTemplate)
 
 /* MODAIS */
 import AddStudentModal from './modals/AddStudentModal.js'
-import AddSchoolModal from './modals/AddSchoolModal.js'
 import EditStudentModal from './modals/EditStudentModal.js'
 import DeleteStudentModal from './modals/DeleteStudentModal.js'
 import StudentLoansModal from './modals/StudentLoansModal.js'
@@ -45,11 +44,6 @@ export default {
                 this.currentModalTitle = 'Adicionar Estudante'
                 this.currentModalWidth = '800'
                 this.currentModal(AddStudentModal)
-            }
-            if (modalType == 'addSchool') {
-                this.currentModalTitle = 'Adicionar Escola'
-                this.currentModalWidth = '500'
-                this.currentModal(AddSchoolModal)
             }
             if (modalType == 'edit') {
                 this.currentModalTitle = 'Editar Estudante'
@@ -132,6 +126,12 @@ export default {
                     this.loadingUsers = false
                 })
         },
+        formatDate (date) {
+            if (!date) return null
+
+            const [year, month, day] = date.split('-')
+            return `${day}/${month}/${year}`
+        },
     },
     template: /*html*/ `
         <div>
@@ -141,12 +141,8 @@ export default {
             
             <div class="d-flex mt-5">
                 <v-btn class="ml-16" color="secondary" @click="openModal('addUser')">
-                    Adicionar
+                    Adicionar Estudante
                     <v-icon right dark>mdi-account-plus</v-icon>
-                </v-btn>
-                <v-btn class="ml-5" color="secondary" @click="openModal('addSchool')">
-                    Adicionar
-                    <v-icon right dark>mdi-school</v-icon>
                 </v-btn>
 
                 <v-spacer></v-spacer>
@@ -189,7 +185,7 @@ export default {
                                 <span class="font-weight-bold">Data Nasc.:</span>
                             </v-row>
                             <v-row>
-                                <span>{{student.birthDate}}</span>
+                                <span>{{formatDate(student.birthDate)}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -233,7 +229,7 @@ export default {
             </div>
 
             <modal-template :title="currentModalTitle" :maxWidth="currentModalWidth">
-                <modal v-if="this.currentModalTitle == 'Deletar Estudante' || this.currentModalTitle == 'Adicionar Escola'"/>
+                <modal v-if="this.currentModalTitle == 'Deletar Estudante'"/>
                 <modal v-if="this.currentModalTitle == 'Adicionar Estudante'" :schools="schools" :genders="genders"/>
                 <modal v-if="this.currentModalTitle == 'Editar Estudante'" :schools="schools" :genders="genders"/>
             </modal-template>

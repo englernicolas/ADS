@@ -36,7 +36,7 @@ export default {
             if (this.valid) {
                 this.deleting = true
 
-                this.deleteInfo.id = this.getUserId
+                this.deleteInfo.id = this.getBookId
 
                 const deleteInfo = this.deleteInfo
 

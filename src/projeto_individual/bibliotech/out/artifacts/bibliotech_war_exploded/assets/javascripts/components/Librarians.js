@@ -118,6 +118,12 @@ export default {
                     this.loadingUsers = false
                 })
         },
+        formatDate (date) {
+            if (!date) return null
+
+            const [year, month, day] = date.split('-')
+            return `${day}/${month}/${year}`
+        },
     },
     template: /*html*/ `
         <div>
@@ -127,7 +133,7 @@ export default {
             
             <div class="d-flex mt-5">
                 <v-btn class="ml-16" color="secondary" @click="openModal('addUser')">
-                    Adicionar
+                    Adicionar Bibliotecário
                     <v-icon right dark>mdi-account-plus</v-icon>
                 </v-btn>
 
@@ -171,7 +177,7 @@ export default {
                                 <span class="font-weight-bold">Data Nasc.:</span>
                             </v-row>
                             <v-row>
-                                <span>{{librarian.birthDate}}</span>
+                                <span>{{formatDate(librarian.birthDate)}}</span>
                             </v-row>
                         </v-col>
                         <v-col>

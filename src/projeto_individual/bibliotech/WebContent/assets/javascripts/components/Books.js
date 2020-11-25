@@ -5,8 +5,6 @@ Vue.component('ModalTemplate', ModalTemplate)
 
 /* MODAIS */
 import AddBookModal from './modals/AddBookModal.js'
-import AddAuthorModal from './modals/AddAuthorModal.js'
-import AddGenreModal from './modals/AddGenreModal.js'
 import EditBookModal from './modals/EditBookModal.js'
 import DeleteBookModal from './modals/DeleteBookModal.js'
 
@@ -141,16 +139,8 @@ export default {
             
             <div class="d-flex mt-5">
                 <v-btn class="ml-16" color="secondary" @click="openModal('addBook')">
-                    Adicionar
+                    Adicionar Livro
                     <v-icon right dark>mdi-book-open-page-variant</v-icon>
-                </v-btn>
-                <v-btn class="ml-5" color="secondary" @click="openModal('addAuthor')">
-                    Adicionar
-                    <v-icon right dark>mdi-account-plus</v-icon>
-                </v-btn>
-                <v-btn class="ml-5" color="secondary" @click="openModal('addGenre')">
-                    Adicionar
-                    <v-icon right dark>mdi-gender-male-female</v-icon>
                 </v-btn>
 
                 <v-spacer></v-spacer>
