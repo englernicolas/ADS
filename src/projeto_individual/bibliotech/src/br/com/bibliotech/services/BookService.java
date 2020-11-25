@@ -42,7 +42,7 @@ public class BookService {
                 "title = ?, " +
                 "pages = ?, " +
                 "genre_id = ?, " +
-                "author_id = ?, " +
+                "author_id = ? " +
                 "WHERE id = ?";
 
         PreparedStatement p;

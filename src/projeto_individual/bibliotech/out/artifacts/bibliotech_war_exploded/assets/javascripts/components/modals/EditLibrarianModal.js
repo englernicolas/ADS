@@ -20,6 +20,8 @@ export default {
             v => /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/.test(v) || 'CPF inválido',
         ],
         menu: false,
+        date: null,
+        dateFormatted: null,
     }),
     computed: {
         getUserId() {
@@ -33,9 +35,9 @@ export default {
         })
     },
     watch: {
-      menu (val) {
-        val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
-      },
+        date (val) {
+            this.dateFormatted = this.formatDate(this.date)
+        },
     },
     methods: {
         save (date) {
@@ -44,13 +46,26 @@ export default {
         validate () {
             this.$refs.form.validate()
         },
+        formatDate (date) {
+            if (!date) return null
+
+            const [year, month, day] = date.split('-')
+            return `${day}/${month}/${year}`
+        },
+        parseDate (date) {
+            if (!date) return null
+
+            const [day, month, year] = date.split('/')
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        },
 
         async getLibrarian() {
             this.loadingUser = true
 
             await axios.get(`/librarian/getById?id=${this.getUserId}`)
                 .then((response) => {
-                    this.librarian = response.data;
+                    this.librarian = response.data
+                    this.dateFormatted = this.formatDate(this.librarian.birthDate)
                 })
                 .catch(() => {
                     this.error = "Ocorreu um erro ao tentar buscar por estudantes"
@@ -66,6 +81,7 @@ export default {
             if (this.valid) {
                 this.editing = true
 
+                this.librarian.birthDate = this.date
                 const librarian = this.librarian
 
                 await axios.put('/librarian/edit', librarian)
@@ -113,32 +129,30 @@ export default {
                 <v-row>
                     <v-col>
                         <v-menu
-                            ref="menu"
+                          ref="menu"
                             v-model="menu"
                             :close-on-content-click="false"
                             transition="scale-transition"
                             offset-y
                             min-width="290px"
                         >
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-text-field
-                                    v-model="librarian.birthDate"
-                                    label="Data de Nascimento"
-                                    readonly
-                                    hint="YYYY-MM-DD format"
-                                    persistent-hint
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    outlined
-                                ></v-text-field>
-                            </template>
-                            <v-date-picker
-                                ref="picker"
-                                v-model="librarian.birthDate"
-                                :max="new Date().toISOString().substr(0, 10)"
-                                min="1950-01-01"
-                                @change="save"
-                            ></v-date-picker>
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                              v-model="dateFormatted"
+                              label="Data de Nascimento"
+                              persistent-hint
+                              v-bind="attrs"
+                              @blur="date = parseDate(dateFormatted)"
+                              v-on="on"
+                              outlined    
+                            ></v-text-field>
+                          </template>
+                          <v-date-picker
+                            v-model="date"
+                            :max="new Date().toISOString().substr(0, 10)"
+                            no-title
+                            @input="menu = false"
+                          ></v-date-picker>
                         </v-menu>
                     </v-col>
                     <v-col>    
@@ -164,7 +178,7 @@ export default {
                 
                 <v-row>
                     <v-col class="text-center">
-                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="editStudent" v-if="!editing">
+                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="editLibrarian" v-if="!editing">
                             Salvar
                         </v-btn>
                     </v-col>

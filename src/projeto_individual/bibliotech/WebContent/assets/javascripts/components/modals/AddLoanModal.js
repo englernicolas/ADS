@@ -55,7 +55,6 @@ export default {
         },
         limiter(e) {
             if(e.length > 2) {
-                debugger;
                 e.pop()
             }
         },
