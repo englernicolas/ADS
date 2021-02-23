@@ -43,29 +43,6 @@ public class LoanController extends UtilRest {
             return this.buildErrorResponse("Ocorreu um erro ao tentar cadastrar o empréstimo! \n Erro: \n" + e.getMessage());
         }
     }
-    /*
-    @GET
-    @Path("/getById")
-    @Consumes("application/*")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getById(@QueryParam("id") int id) {
-        try {
-            DBConnection dbConnection = new DBConnection();
-            Connection connection = dbConnection.openConnection();
-
-            LoanService loanService = new LoanService(connection);
-
-            Loan loan = loanService.getById(id);
-
-            dbConnection.closeConnection();
-
-            return this.buildResponse(loan);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return this.buildErrorResponse("Ocorreu um erro ao tentar buscar os empréstimos! \n Erro: \n" + e.getMessage());
-        }
-    }
-     */
 
     @GET
     @Path("/getBySearch")
@@ -95,7 +72,7 @@ public class LoanController extends UtilRest {
     @Path("/list")
     @Consumes("application/*")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response list() {
+    public Response listByUserId(@QueryParam("userId") String userId) {
         try {
             List<Loan> loanList = new ArrayList<Loan>();
 
@@ -104,7 +81,11 @@ public class LoanController extends UtilRest {
 
             LoanService loanService = new LoanService(connection);
 
-            loanList = loanService.list();
+            if (userId != null) {
+                loanList = loanService.list(userId);
+            } else {
+                loanList = loanService.list();
+            }
 
             dbConnection.closeConnection();
 

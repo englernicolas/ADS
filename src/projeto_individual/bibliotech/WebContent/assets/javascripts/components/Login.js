@@ -15,14 +15,15 @@ export default {
             v => !!v || 'Campo obrigatório',
         ],
         loggingIn: false,
-        error: ''
+        error: '',
     }),
     methods: {
         validate() {
             this.$refs.form.validate()
         },
         async login() {
-            this.error=''
+            this.loggingIn = true
+            this.error = ''
             this.userInfo.password = btoa(this.userInfo.password)
 
             if (this.valid) {
@@ -33,6 +34,7 @@ export default {
                         this.redirect()
                     })
                     .catch(error => {
+                        this.loggingIn = false
                        this.error = "Ocorreu um erro ao tentar logar"
                     })
             }

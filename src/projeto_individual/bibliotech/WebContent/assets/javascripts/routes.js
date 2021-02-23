@@ -25,7 +25,7 @@ export default new Vue({
             ]
 
             if (auth.loggedIn) {
-                if (auth.user.userType == 1) {
+                if (auth.user.userTypeId == 1) {
                     routes.push(
                         {
                             path: '/profile',
@@ -76,7 +76,7 @@ export default new Vue({
                             component: Reports
                         },
                     )
-                } else if (auth.user.userType == 2) {
+                } else if (auth.user.userTypeId == 2) {
                     routes.push(
                         {
                             path: '/profile',
