@@ -10,14 +10,16 @@ export default {
                 { title: 'Relatórios', icon: 'mdi-file-chart', path: '/reports', usersAllowed: [1]},
             ],
             dropdownItems: [
-                { title: 'Editar perfil', path: '/profile'},
-                { title: 'Logout', path: '/home'}
+                { title: 'Editar perfil', path: '/profile', usersAllowed: [2,3]},
+                { title: 'Logout', path: '/home', usersAllowed: [1,2,3]}
             ],
             fullName: '',
-            userType: ''
+            userType: '',
+            loggedUser: {}
         }
     },
     mounted() {
+        this.loggedUser = auth.user
         this.userType = auth.user.userTypeId
         this.fullName =  auth.user.firstName + " " + auth.user.lastName
     },
@@ -42,7 +44,7 @@ export default {
                                     </v-btn>
                                 </template>
                                 <v-list>
-                                    <v-list-item v-for="(item, index) in dropdownItems" :key="index" @click="$router.push(item.path)">
+                                    <v-list-item v-if="item.usersAllowed.includes(userType)"  v-for="(item, index) in dropdownItems" :key="index" @click="$router.push(item.path)">
                                         <v-list-item-title v-if="item.title == 'Logout'" @click="logout" class="red--text text--accent-4">{{ item.title }}</v-list-item-title>
                                         <v-list-item-title v-else class="grey--text text--darken-3">{{ item.title }}</v-list-item-title>
                                     </v-list-item>

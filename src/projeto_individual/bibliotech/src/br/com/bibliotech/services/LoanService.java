@@ -87,8 +87,15 @@ public class LoanService {
         }
         return true;
     }
+
     public List<Loan> list() {
+        return list("");
+    }
+
+    public List<Loan> list(String userId) {
         String queryGetLoans = "SELECT * FROM loan WHERE active = 1";
+        if (!userId.equals(""))
+            queryGetLoans+= " AND user_id = " + userId;
 
         String queryGetBooks = "SELECT * FROM book_has_loan WHERE loan_id = ?";
 
