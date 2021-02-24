@@ -6,7 +6,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.bibliotech.auth.Base64Code;
+import br.com.bibliotech.auth.JWTCode;
+import br.com.bibliotech.auth.MD5Code;
 import br.com.bibliotech.domains.User;
+import br.com.bibliotech.dtos.UserPasswordDTO;
 import com.google.gson.JsonObject;
 
 import br.com.bibliotech.domains.User;
@@ -468,5 +472,54 @@ public class UserService {
             return false;
         }
         return true;
+    }
+
+    public Boolean changePassword(UserPasswordDTO passwordInfo) {
+        MD5Code md5Code = new MD5Code();
+        Base64Code base64 = new Base64Code();
+
+        String givenOldPassword = md5Code.encode(base64.decode(passwordInfo.getOldPassword()));
+        String oldPassword = getUserPassword(passwordInfo.getUserId());
+        String prepearedNewPassword = md5Code.encode(base64.decode(passwordInfo.getNewPassword()));
+        
+        if (!oldPassword.equals(givenOldPassword)) 
+            return false;
+
+
+        String query = "UPDATE user SET " +
+                "password = ? " +
+                "WHERE id = ?";
+
+        PreparedStatement p;
+
+        try {
+            p = this.connection.prepareStatement(query);
+            p.setString(1, prepearedNewPassword);
+            p.setInt(2, passwordInfo.getUserId());
+            p.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+    
+    public String getUserPassword(int userId) {
+        String query = "SELECT password FROM user WHERE id = ?";
+        String password = "";
+        
+        try {
+            PreparedStatement p = this.connection.prepareStatement(query);
+            p.setInt(1, userId);
+            ResultSet rs = p.executeQuery();
+
+            while (rs.next()) {
+                password = rs.getString("password");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        return password;
     }
 }

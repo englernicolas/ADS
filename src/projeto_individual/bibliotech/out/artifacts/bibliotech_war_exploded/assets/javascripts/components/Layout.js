@@ -10,7 +10,7 @@ export default {
                 { title: 'Relatórios', icon: 'mdi-file-chart', path: '/reports', usersAllowed: [1]},
             ],
             dropdownItems: [
-                { title: 'Editar perfil', path: '/profile', usersAllowed: [2,3]},
+                { title: 'Editar perfil', path: '/profile', usersAllowed: [3]},
                 { title: 'Logout', path: '/home', usersAllowed: [1,2,3]}
             ],
             fullName: '',
