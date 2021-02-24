@@ -20,9 +20,11 @@ export default {
         loadingGenres: false,
         authors: [],
         genres: [],
-        searchText: ''
+        searchText: '',
+        loggedUser: {}
     }),
     mounted() {
+        this.loggedUser = auth.user
         this.getBooks();
         this.getAuthors();
         this.getGenres();
@@ -138,7 +140,7 @@ export default {
             <v-divider></v-divider>
             
             <div class="d-flex mt-5">
-                <v-btn class="ml-16" color="secondary" @click="openModal('addBook')">
+                <v-btn v-if="loggedUser.userTypeId!=3" class="ml-16" color="secondary" @click="openModal('addBook')">
                     Adicionar Livro
                     <v-icon right dark>mdi-book-open-page-variant</v-icon>
                 </v-btn>
@@ -191,7 +193,7 @@ export default {
                                 <span v-if="!book.isAvailable" class="font-weight-bold secondary--text">EMPRESTADO</span>
                             </v-row>
                         </v-col>
-                        <div v-if="book.isAvailable" >
+                        <div v-if="book.isAvailable && loggedUser.userTypeId!=3" >
                             <v-btn icon @click="openModal('edit', book.id)" class="teal--text d-block">
                                 <v-icon>mdi-pencil</v-icon>
                             </v-btn>

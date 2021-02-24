@@ -23,9 +23,11 @@ export default {
         allStudents: [],
         allBooks: [],
         availableBooks: [],
-        searchText: ''
+        searchText: '',
+        loggedUser : {}
     }),
     mounted() {
+        this.loggedUser = auth.user
         this.getAllStudents();
         this.getAvailableStudents();
         this.getAllBooks();
@@ -137,16 +139,29 @@ export default {
         async getLoans() {
             this.loadingLoans = true
 
-            await axios.get('/loan/list')
-                .then((response) => {
-                    this.loans = response.data;
-                })
-                .catch(() => {
-                    this.error = "Ocorreu um erro ao tentar buscar por empréstimos"
-                })
-                .finally(() => {
-                    this.loadingLoans = false
-                })
+             if (this.loggedUser.userTypeId == 3) {
+                 await axios.get('/loan/list?userId='+ this.loggedUser.id)
+                     .then((response) => {
+                         this.loans = response.data;
+                     })
+                     .catch(() => {
+                         this.error = "Ocorreu um erro ao tentar buscar por empréstimos"
+                     })
+                     .finally(() => {
+                         this.loadingLoans = false
+                     })
+            } else {
+                await axios.get('/loan/list')
+                    .then((response) => {
+                        this.loans = response.data;
+                    })
+                    .catch(() => {
+                        this.error = "Ocorreu um erro ao tentar buscar por empréstimos"
+                    })
+                    .finally(() => {
+                        this.loadingLoans = false
+                    })
+            }
         },
         async getSearchLoans() {
             this.loadingLoans = true
@@ -178,7 +193,7 @@ export default {
                                 
             <v-divider></v-divider>
             
-            <div class="d-flex mt-5">
+            <div class="d-flex mt-5" v-if="loggedUser.userTypeId!=3">
                 <v-btn class="ml-16" color="secondary" @click="openModal('addBook')">
                     Adicionar
                     <v-icon right dark>mdi-book-plus-multiple</v-icon>
@@ -235,7 +250,7 @@ export default {
                                 <span class="red--text">R$ {{loan.debt}}</span>
                             </v-row>
                         </v-col>
-                        <v-col>
+                        <v-col v-if="loggedUser.userTypeId!=3">
                             <v-row>
                                 <v-btn @click="openModal('deliver', loan.id, loan)" v-if="isLate(loan.deliveryDate)" color="error">
                                     Devolver (Atrasado)
@@ -245,7 +260,7 @@ export default {
                                 </v-btn>
                             </v-row>
                         </v-col>
-                        <div>
+                        <div v-if="loggedUser.userTypeId!=3">
                             <v-btn icon @click="openModal('delete', loan.id, loan)" class="mt-5 red--text d-block">
                                 <v-icon>mdi-delete</v-icon>
                             </v-btn>

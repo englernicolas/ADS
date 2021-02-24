@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import br.com.bibliotech.database.DBConnection;
 import br.com.bibliotech.domains.User;
+import br.com.bibliotech.dtos.UserPasswordDTO;
 import br.com.bibliotech.services.UserService;
 import com.google.gson.Gson;
 
@@ -81,6 +82,38 @@ public class StudentController extends UtilRest {
         } catch (Exception e) {
             e.printStackTrace();
             return this.buildErrorResponse("Ocorreu um erro ao tentar editar o estudante! \n Erro: \n" + e.getMessage());
+        }
+    }
+
+    @PUT
+    @Path("/changePassword")
+    @Consumes("application/*")
+    public Response changePassword(String userPasswordDTO){
+        try{
+            UserPasswordDTO passwordInfo = new Gson().fromJson(userPasswordDTO, UserPasswordDTO.class);
+
+            DBConnection dbConnection = new DBConnection();
+            Connection connection = dbConnection.openConnection();
+
+            UserService userService = new UserService(connection);
+
+            boolean response = userService.changePassword(passwordInfo);
+
+            String msg;
+
+            if (response){
+                msg = "Senha alterada com sucesso!";
+            }else {
+                msg = "Erro ao alterar senha.";
+                throw new Exception(msg);
+            }
+
+            dbConnection.closeConnection();
+
+            return this.buildResponse(msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.buildErrorResponse("Ocorreu um erro ao tentar alterar a senha! \n Erro: \n" + e.getMessage());
         }
     }
 
