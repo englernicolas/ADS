@@ -21,7 +21,9 @@ export default {
         loadingGenders: false,
         schools: [],
         genders: [],
-        searchText: ''
+        searchText: '',
+        page: 1,
+        perPage: 8,
     }),
     mounted() {
         this.getStudents();
@@ -34,6 +36,14 @@ export default {
             this.getSchools();
         })
 
+    },
+    computed: {
+        pages() {
+            return Math.ceil(this.students.length/this.perPage)
+        },
+        studentsToShow() {
+            return this.students.slice((this.page - 1)* this.perPage, this.page* this.perPage)
+        }
     },
     methods: {
         validate () {
@@ -153,7 +163,7 @@ export default {
                 </div>
             </div>
             
-            <v-card v-for="student in students" class="mx-16 my-5">
+            <v-card v-for="student in studentsToShow" class="mx-16 my-5">
                 <v-container>
                     <v-row class="mx-3">
                         <v-col>
@@ -222,6 +232,11 @@ export default {
                     </v-row>
                 </v-container>
             </v-card>
+            
+            <v-pagination
+              v-model="page"
+              :length="pages"
+            ></v-pagination>
             
             <div v-if="students.length == 0 " class="mt-16 text-center">
                 <v-icon large color="grey--text text--darken-4">mdi-magnify-close</v-icon>
