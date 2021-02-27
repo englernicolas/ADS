@@ -24,7 +24,9 @@ export default {
         allBooks: [],
         availableBooks: [],
         searchText: '',
-        loggedUser : {}
+        loggedUser : {},
+        page: 1,
+        perPage: 8
     }),
     mounted() {
         this.loggedUser = auth.user
@@ -49,6 +51,14 @@ export default {
             this.getAvailableBooks();
         })
 
+    },
+    computed: {
+        pages() {
+            return Math.ceil(this.loans.length/this.perPage)
+        },
+        loansToShow() {
+            return this.loans.slice((this.page - 1)* this.perPage, this.page* this.perPage)
+        }
     },
     methods: {
         validate () {
@@ -207,7 +217,7 @@ export default {
                 </div>
             </div>
 
-            <v-card v-for="loan in loans" class="mx-16 my-5">
+            <v-card v-for="loan in loansToShow" class="mx-16 my-5">
                 <v-container>
                     <v-row class="mx-3">
                         <v-col>
@@ -268,6 +278,11 @@ export default {
                     </v-row>
                 </v-container>
             </v-card>
+            
+            <v-pagination
+              v-model="page"
+              :length="pages"
+            ></v-pagination>
             
             <div v-if="loans.length == 0 " class="mt-16 text-center">
                 <v-icon large color="grey--text text--darken-4">mdi-magnify-close</v-icon>
