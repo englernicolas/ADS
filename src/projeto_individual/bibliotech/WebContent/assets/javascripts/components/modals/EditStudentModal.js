@@ -84,7 +84,7 @@ export default {
             if (this.valid) {
                 this.editing = true
 
-                this.student.birthDate = this.date
+                this.student.password = btoa(this.student.password)
                 const student = this.student
 
                 await axios.put('/student/edit', student)

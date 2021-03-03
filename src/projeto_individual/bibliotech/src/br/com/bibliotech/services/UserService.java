@@ -26,6 +26,11 @@ public class UserService {
         java.util.Date birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(user.getBirthDate());
         Date birthDateSql = new Date(birthDate.getTime());
 
+        MD5Code md5Code = new MD5Code();
+        Base64Code base64 = new Base64Code();
+
+        String password = md5Code.encode(base64.decode(user.getPassword()));
+
         String query = "INSERT INTO `user`(" +
                 "first_name, " +
                 "last_name, " +
@@ -44,7 +49,7 @@ public class UserService {
             p.setString(1, user.getFirstName());
             p.setString(2, user.getLastName());
             p.setString(3, user.getEmail());
-            p.setString(4, user.getPassword());
+            p.setString(4, password);
             p.setDate(5, birthDateSql);
             p.setString(6, user.getCpf());
             p.setInt(7, user.getGenderId());
@@ -60,6 +65,11 @@ public class UserService {
     public boolean editStudent(User user) throws ParseException {
         java.util.Date birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(user.getBirthDate());
         Date birthDateSql = new Date(birthDate.getTime());
+
+        MD5Code md5Code = new MD5Code();
+        Base64Code base64 = new Base64Code();
+
+        String password = md5Code.encode(base64.decode(user.getPassword()));
 
         String query = "UPDATE user SET " +
                 "first_name = ?, " +
@@ -79,7 +89,7 @@ public class UserService {
             p.setString(1, user.getFirstName());
             p.setString(2, user.getLastName());
             p.setString(3, user.getEmail());
-            p.setString(4, user.getPassword());
+            p.setString(4, password);
             p.setDate(5, birthDateSql);
             p.setString(6, user.getCpf());
             p.setInt(7, user.getGenderId());
@@ -114,7 +124,6 @@ public class UserService {
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
                 String email = rs.getString("email");
-                String password = rs.getString("password");
                 String birthDate = rs.getDate("birth_date").toString();
                 String cpf = rs.getString("cpf");
                 int genderId = rs.getInt("gender_id");
@@ -125,7 +134,6 @@ public class UserService {
                 user.setFirstName(firstName);
                 user.setLastName(lastName);
                 user.setEmail(email);
-                user.setPassword(password);
                 user.setBirthDate(birthDate);
                 user.setCpf(cpf);
                 user.setGenderId(genderId);
@@ -163,7 +171,6 @@ public class UserService {
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
                 String email = rs.getString("email");
-                String password = rs.getString("password");
                 String birthDate = rs.getDate("birth_date").toString();
                 String cpf = rs.getString("cpf");
                 int genderId = rs.getInt("gender_id");
@@ -174,7 +181,6 @@ public class UserService {
                 user.setFirstName(firstName);
                 user.setLastName(lastName);
                 user.setEmail(email);
-                user.setPassword(password);
                 user.setBirthDate(birthDate);
                 user.setCpf(cpf);
                 user.setGenderId(genderId);
@@ -205,7 +211,6 @@ public class UserService {
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
                 String email = rs.getString("email");
-                String password = rs.getString("password");
                 String birthDate = rs.getDate("birth_date").toString();
                 String cpf = rs.getString("cpf");
                 int genderId = rs.getInt("gender_id");
@@ -216,7 +221,6 @@ public class UserService {
                 user.setFirstName(firstName);
                 user.setLastName(lastName);
                 user.setEmail(email);
-                user.setPassword(password);
                 user.setBirthDate(birthDate);
                 user.setCpf(cpf);
                 user.setGenderId(genderId);
@@ -254,6 +258,11 @@ public class UserService {
         java.util.Date birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(user.getBirthDate());
         Date birthDateSql = new Date(birthDate.getTime());
 
+        MD5Code md5Code = new MD5Code();
+        Base64Code base64 = new Base64Code();
+
+        String password = md5Code.encode(base64.decode(user.getPassword()));
+
         String query = "INSERT INTO `user`(" +
                 "first_name, " +
                 "last_name, " +
@@ -272,7 +281,7 @@ public class UserService {
             p.setString(1, user.getFirstName());
             p.setString(2, user.getLastName());
             p.setString(3, user.getEmail());
-            p.setString(4, user.getPassword());
+            p.setString(4, password);
             p.setDate(5, birthDateSql);
             p.setString(6, user.getCpf());
             p.setInt(7, user.getGenderId());
@@ -288,6 +297,11 @@ public class UserService {
     public boolean editLibrarian(User user) throws ParseException {
         java.util.Date birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(user.getBirthDate());
         Date birthDateSql = new Date(birthDate.getTime());
+
+        MD5Code md5Code = new MD5Code();
+        Base64Code base64 = new Base64Code();
+
+        String password = md5Code.encode(base64.decode(user.getPassword()));
 
         String query = "UPDATE user SET " +
                 "first_name = ?, " +
@@ -307,7 +321,7 @@ public class UserService {
             p.setString(1, user.getFirstName());
             p.setString(2, user.getLastName());
             p.setString(3, user.getEmail());
-            p.setString(4, user.getPassword());
+            p.setString(4, password);
             p.setDate(5, birthDateSql);
             p.setString(6, user.getCpf());
             p.setInt(7, user.getGenderId());
@@ -338,7 +352,6 @@ public class UserService {
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
                 String email = rs.getString("email");
-                String password = rs.getString("password");
                 String birthDate = rs.getDate("birth_date").toString();
                 String cpf = rs.getString("cpf");
                 int genderId = rs.getInt("gender_id");
@@ -349,7 +362,6 @@ public class UserService {
                 user.setFirstName(firstName);
                 user.setLastName(lastName);
                 user.setEmail(email);
-                user.setPassword(password);
                 user.setBirthDate(birthDate);
                 user.setCpf(cpf);
                 user.setGenderId(genderId);
@@ -387,7 +399,6 @@ public class UserService {
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
                 String email = rs.getString("email");
-                String password = rs.getString("password");
                 String birthDate = rs.getDate("birth_date").toString();
                 String cpf = rs.getString("cpf");
                 int genderId = rs.getInt("gender_id");
@@ -398,7 +409,6 @@ public class UserService {
                 user.setFirstName(firstName);
                 user.setLastName(lastName);
                 user.setEmail(email);
-                user.setPassword(password);
                 user.setBirthDate(birthDate);
                 user.setCpf(cpf);
                 user.setGenderId(genderId);
@@ -429,7 +439,6 @@ public class UserService {
                 String firstName = rs.getString("first_name");
                 String lastName = rs.getString("last_name");
                 String email = rs.getString("email");
-                String password = rs.getString("password");
                 String birthDate = rs.getDate("birth_date").toString();
                 String cpf = rs.getString("cpf");
                 int genderId = rs.getInt("gender_id");
@@ -440,7 +449,6 @@ public class UserService {
                 user.setFirstName(firstName);
                 user.setLastName(lastName);
                 user.setEmail(email);
-                user.setPassword(password);
                 user.setBirthDate(birthDate);
                 user.setCpf(cpf);
                 user.setGenderId(genderId);

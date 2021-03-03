@@ -66,6 +66,7 @@ export default {
                 this.creating = true
 
                 this.student.birthDate = this.date
+                this.student.password = btoa(this.student.password)
                 const student = this.student
 
                 await axios.post('/student/create', student)

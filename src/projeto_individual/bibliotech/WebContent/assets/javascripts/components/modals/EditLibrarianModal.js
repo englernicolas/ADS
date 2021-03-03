@@ -81,7 +81,7 @@ export default {
             if (this.valid) {
                 this.editing = true
 
-                this.librarian.birthDate = this.date
+                this.librarian.password = btoa(this.librarian.password)
                 const librarian = this.librarian
 
                 await axios.put('/librarian/edit', librarian)
