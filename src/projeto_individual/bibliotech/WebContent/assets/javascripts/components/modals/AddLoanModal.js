@@ -130,7 +130,7 @@ export default {
                           <template v-slot:activator="{ on, attrs }">
                             <v-text-field
                               v-model="dateFormatted"
-                              label="Data de Entrega"
+                              label="Data de Empréstimo"
                               persistent-hint
                               v-bind="attrs"
                               @blur="date = parseDate(dateFormatted)"
@@ -147,7 +147,7 @@ export default {
                     </v-col>
                     <v-col>
                         <v-text-field
-                            v-model="deliveryDateFormatted" :input="deliveryDate = parseDate(deliveryDateFormatted)" :rules="requiredMessage" label="Entrega" color="teal" disabled outlined
+                            v-model="deliveryDateFormatted" :input="deliveryDate = parseDate(deliveryDateFormatted)" :rules="requiredMessage" label="Data de Entrega" color="teal" disabled outlined
                         ></v-text-field>
                     </v-col>
                 </v-row>    

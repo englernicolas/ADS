@@ -163,7 +163,7 @@ export default {
                 </div>
             </div>
 
-            <v-card v-if="" v-for="book in booksToShow" class="mx-16 my-5">
+            <v-card v-for="book in booksToShow" class="mx-16 my-5">
                 <v-container>
                     <v-row class="mx-3">
                         <v-col>
