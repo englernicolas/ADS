@@ -69,6 +69,7 @@ export default {
                 this.creating = true
 
                 this.librarian.birthDate = this.date
+                this.librarian.password = btoa(this.librarian.password)
                 const librarian = this.librarian
 
                 await axios.post('/librarian/create', librarian)

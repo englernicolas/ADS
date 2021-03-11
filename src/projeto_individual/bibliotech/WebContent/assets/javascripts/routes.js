@@ -5,6 +5,8 @@ import Books from "./components/Books.js"
 import Loans from "./components/Loans.js"
 import Reports from "./components/Reports.js"
 import Login from "./components/Login.js"
+import RecoverPassword from "./components/RecoverPassword.js";
+import ResetPassword from "./components/ResetPassword.js";
 
 export default new Vue({
     computed: {
@@ -21,6 +23,22 @@ export default new Vue({
                     },
                     name: 'login',
                     component: Login
+                },
+                {
+                    path: '/forgetPassword',
+                    meta: {
+                        requiresAuth: false,
+                    },
+                    name: 'forgetPassword',
+                    component: RecoverPassword
+                },
+                {
+                    path: '/resetPassword',
+                    meta: {
+                        requiresAuth: false,
+                    },
+                    name: 'resetPassword',
+                    component: ResetPassword
                 }
             ]
 

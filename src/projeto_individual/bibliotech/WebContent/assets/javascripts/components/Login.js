@@ -91,7 +91,7 @@ export default {
                             </v-row>
                             <v-row class="mb-10">
                                 <v-col class="d-flex justify-center">
-                                    <span class="primary--text">Esqueci minha senha</span>
+                                    <a class="primary--text" @click="$router.push('/forgetPassword')">Esqueci minha senha</a>
                                 </v-col>
                             </v-row>
                         </v-form>   

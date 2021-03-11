@@ -12,7 +12,9 @@
     </head>
     <body>
         <v-app id="app">
-            <layout v-if="$route.path !== '/login'">
+            <layout v-if="$route.path !== '/login' &&
+             $route.path !== '/forgetPassword' &&
+             $route.path !== '/resetPassword'">
                 <router-view></router-view>
             </layout>
             <router-view v-else></router-view>
