@@ -5,6 +5,7 @@ import br.com.bibliotech.auth.JWTCode;
 import br.com.bibliotech.auth.MD5Code;
 import br.com.bibliotech.domains.Token;
 import br.com.bibliotech.domains.User;
+import br.com.bibliotech.dtos.UserPasswordDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import javax.mail.*;
@@ -156,7 +157,7 @@ public class AuthenticationService {
                         p.execute();
 
                         p = this.connection.prepareStatement(saveToken, Statement.RETURN_GENERATED_KEYS);
-                        p.setString(1, md5Code.encode(token));
+                        p.setString(1, token);
                         p.setInt(2, user.getId());
                         p.execute();
 
@@ -219,5 +220,43 @@ public class AuthenticationService {
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.port", "465");
         return properties;
+    }
+
+    public String resetPassword(UserPasswordDTO userParams, String tokenBase64) {
+        String findToken = "SELECT code FROM tokens WHERE id = ?;";
+        String updatePassword = "UPDATE user SET password = ? WHERE id = ?;";
+
+        try {
+            int tokenId = Integer.parseInt(base64.decode(tokenBase64));
+
+            PreparedStatement p = this.connection.prepareStatement(findToken);
+            p.setInt(1, tokenId);
+            ResultSet rs = p.executeQuery();
+
+            if (rs.next()) {
+                String token = rs.getString("code");
+
+                if (jwtCode.valid(base64.encode(token), connection, false)) {
+                    try {
+                        User user = jwtCode.decode(token);
+
+                        String password = md5Code.encode(base64.decode(userParams.getNewPassword()));
+
+                        p = this.connection.prepareStatement(updatePassword);
+                        p.setString(1, password);
+                        p.setInt(2, user.getId());
+                        p.execute();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return "Erro ao alterar senha!";
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Token de usuário inválido!";
+        }
+
+        return "Erro ao alterar senha!";
     }
 }

@@ -69,7 +69,7 @@ public class JWTCode {
         String hashToken = md5Code.encode(token);
 
         try {
-            // Este processo retorna erro caso a signature key do token for inv�lida
+            // Este processo retorna erro caso a signature key do token for invalida
             Claims body = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
 
             Date expiresAt = body.getExpiration();

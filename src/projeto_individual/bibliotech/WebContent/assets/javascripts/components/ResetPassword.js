@@ -12,22 +12,33 @@ export default {
         loading: false,
         error: ""
     }),
+    computed: {
+        tokenId() {
+            return this.$route.query.code
+        }
+    },
     methods: {
         validate() {
             this.$refs.form.validate()
         },
-        async login() {
-            this.sendingEmail = true
+        async resetPassword() {
+            this.loading = true
             this.responseMessage = ''
 
+            const {newPassword} = this.content
+            const body = {
+                newPassword: btoa(newPassword)
+            }
+
             if (this.valid) {
-                await axios.post("/auth/recoverPassword", this.userInfo)
+                await axios.post(`/auth/resetPassword?code=${this.tokenId}`, body)
                     .then(async (response) => {
                         this.responseMessage = response.data
+                        this.$router.push({ path: '/login'})
                     })
                     .catch(error => {
-                       this.sendingEmail = false
-                       this.responseMessage = "Ocorreu um erro ao recuperar senha!"
+                       this.loading = false
+                       this.responseMessage = "Ocorreu um erro ao resetar senha!"
                     })
             }
         },
@@ -64,7 +75,7 @@ export default {
                             <v-row>
                                 <v-col>
                                     <v-btn class="text-body-2 font-weight-bold white-text mb-10" block height="50px"
-                                        :disabled="!valid && sendingEmail" color="primary" @click="login">
+                                        :disabled="!valid && loading" color="primary" @click="resetPassword">
                                         Enviar
                                     </v-btn>
                                 </v-col>

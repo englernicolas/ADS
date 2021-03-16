@@ -27,7 +27,7 @@ export default {
                     })
                     .catch(error => {
                        this.sendingEmail = false
-                       this.responseMessage = "Ocorreu um erro ao recuperar senha!"
+                       this.responseMessage = "Ocorreu um erro ao enviar e-mail!"
                     })
             }
         },

@@ -114,7 +114,7 @@ public class AuthenticationController extends UtilRest {
         }
     }
 
-    /*@POST
+    @POST
     @Path("/resetPassword")
     @Consumes("application/*")
     @Produces(MediaType.APPLICATION_JSON)
@@ -126,14 +126,14 @@ public class AuthenticationController extends UtilRest {
             Connection connection = dbConnection.openConnection();
 
             AuthenticationService authenticationService = new AuthenticationService(connection);
-            String msg = authenticationService.resetPassword(user);
+            String msg = authenticationService.resetPassword(user, tokenId);
 
             dbConnection.closeConnection();
 
             return this.buildResponse(msg);
         } catch (Exception e) {
             e.printStackTrace();
-            return this.buildErrorResponse("Ocorreu um erro ao logar! \n Erro: \n" + e.getMessage());
+            return this.buildErrorResponse("Ocorreu um erro ao alterar senha! \n Erro: \n" + e.getMessage());
         }
-    }*/
+    }
 }
