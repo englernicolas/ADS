@@ -185,7 +185,7 @@ export default {
                         >
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn class="ml-5 py-6" color="secondary" v-on="on" v-bind="attrs">
-                                Adicionar Bibliotecário
+                                Adicionar Escola
                                 <v-icon right dark>mdi-plus</v-icon>
                             </v-btn>
                         </template>
