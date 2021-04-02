@@ -39,10 +39,12 @@ export default {
   },
   mounted() {
     $bus.$on('open-modal', () => {
+      $bus.$emit('load-content')
       this.showDialog = true
     })
     
     $bus.$on('close-modal', () => {
+      $bus.$emit('reset-content')
       this.showDialog = false
     })
   },

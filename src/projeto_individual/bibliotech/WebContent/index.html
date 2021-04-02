@@ -12,9 +12,12 @@
     </head>
     <body>
         <v-app id="app">
-            <layout :full-name="'Nicolas Engler'">
+            <layout v-if="$route.path !== '/login' &&
+             $route.path !== '/forgetPassword' &&
+             $route.path !== '/resetPassword'">
                 <router-view></router-view>
             </layout>
+            <router-view v-else></router-view>
         </v-app>
 
         <!-- Vue -->
@@ -29,6 +32,10 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <!-- JQuery -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+        <script src="./assets/javascripts/utils/auth.js"></script>
+        <script type="module" src="./assets/javascripts/routes.js"></script>
+
         <!-- Main -->
         <script type="module" src="assets/javascripts/main.js"></script>
     </body>

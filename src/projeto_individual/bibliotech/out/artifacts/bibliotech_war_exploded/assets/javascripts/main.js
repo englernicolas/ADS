@@ -1,13 +1,46 @@
-import routes from "./routes.js"
+import pages from "./routes.js"
+
+let routes = []
+
+pages.getRoutes.map(page => {
+	const { name, path, component, redirect, meta } = page
+
+	let pathObj = {
+		name,
+		path,
+		component,
+		meta: meta || {}
+	}
+
+	if (redirect) {
+		pathObj.redirect = redirect
+	}
+
+	routes.push(pathObj)
+})
+
+const router = new VueRouter({routes})
+
+router.beforeEach((to, from, next) => {
+	const requiresAuth = to.meta.requiresAuth
+
+	if (requiresAuth && !auth.isLoggedIn()) {
+		next({ name: 'login' })
+	}
+	else if (!requiresAuth && auth.isLoggedIn()) {
+		next({ name: 'books' })
+	}
+	else {
+		next()
+	}
+})
 
 import Layout from "./components/Layout.js"
 Vue.component("Layout", Layout)
 
-const router = new VueRouter ({routes})
-
 Vue.use(VueMask.VueMaskPlugin)
 
-axios.defaults.baseURL = 'http://localhost:8080/bibliotech/rest/'
+axios.defaults.baseURL = 'http://localhost:8080/bibliotech/rest'
 
 var app = new Vue({
     router,

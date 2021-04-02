@@ -10,30 +10,26 @@ export default {
     name: 'EditProfile',
     data: () => ({
         valid: true,
-        firstName: 'João',
-        lastName: 'Silva',
-        birthdayDate: '',
         requiredMessage: [
             v => !!v || 'Campo obrigatório',
         ],
-        email: '',
         emailRules: [
             v => /.+@.+\..+/.test(v) || 'Email inválido',
         ],
-        cpf: '',
         cpfRules: [
             v => /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/.test(v) || 'CPF inválido',
         ],
-        selectedGender: 'Indefinido',
-        genders: [
-            'Indefinido',
-            'Masculino',
-            'Feminino',
-        ],
-        school: 'ESCOLA CABEÇA DE GELO',
+        genders: [],
+        student: {},
         menu: false,
+        loadingUser: false,
+        editing: false,
+        dateFormatted: ""
     }),
     mounted() {
+        this.getGenders()
+        this.getSchools()
+        this.getStudent()
         this.$options.components.Modal = EditPasswordModal
     },
     watch: {
@@ -50,7 +46,77 @@ export default {
         },
         openModal() {
             $bus.$emit('open-modal')
-        }
+        },
+        formatDate (date) {
+            if (!date) return null
+
+            const [year, month, day] = date.split('-')
+            return `${day}/${month}/${year}`
+        },
+        async getSchools() {
+            this.loadingSchools = true
+
+            await axios.get('/school/list')
+                .then((response) => {
+                    this.schools = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por escolas"
+                })
+                .finally(() => {
+                    this.loadingSchools = false
+                })
+        },
+        async getGenders() {
+            this.loadingGenders = true
+
+            await axios.get('/gender/list')
+                .then((response) => {
+                    this.genders = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por gêneros"
+                })
+                .finally(() => {
+                    this.loadingGenders = false
+                })
+        },
+        async getStudent() {
+            this.loadingUser = true
+
+            await axios.get('/student/getById?id=' + auth.user.id)
+                .then((response) => {
+                    this.student = response.data
+                    this.dateFormatted = this.formatDate(this.student.birthDate)
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por estudantes"
+                })
+                .finally(() => {
+                    this.loadingUser = false
+                })
+        },
+
+        async editStudent() {
+            this.validate()
+
+            if (this.valid) {
+                this.editing = true
+
+                const student = this.student
+
+                await axios.put('/student/edit', student)
+                    .then(() => {
+                        window.location.reload()
+                    })
+                    .catch(() => {
+                        this.error = "Ocorreu um erro ao tentar editar estudante"
+                    })
+                    .finally(() => {
+                        this.editing = false
+                    })
+            }
+        },
     },
     template: /*html*/ `<div>
                     <div class="text-center my-5"><span class="grey--text text--darken-3 text-h2 font-weight-bold">Editar Perfil</span></div>
@@ -62,70 +128,44 @@ export default {
                             <v-row>
                                 <v-col>
                                     <v-text-field
-                                        v-model="firstName" :rules="requiredMessage" label="Nome" color="teal" required outlined
+                                        v-model="student.firstName" :rules="requiredMessage" label="Nome" color="teal" required outlined
                                     ></v-text-field>
                                 </v-col>
                                 <v-col>
                                     <v-text-field
-                                        v-model="lastName" :rules="requiredMessage" label="Sobrenome" color="teal" required outlined
+                                        v-model="student.lastName" :rules="requiredMessage" label="Sobrenome" color="teal" required outlined
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col>
                                     <v-text-field
-                                        v-model="email" :rules="emailRules" label="E-mail" color="teal" required outlined
+                                        v-model="student.email" :rules="emailRules" label="E-mail" color="teal" required outlined
                                     ></v-text-field>
                                 </v-col>
                                 <v-col>    
                                     <v-text-field v-mask="['###.###.###-##']"
-                                        v-model="cpf" :rules="requiredMessage && cpfRules" label="CPF" color="teal" outlined required
+                                        v-model="student.cpf" :rules="requiredMessage && cpfRules"
+                                        label="CPF" color="teal" outlined disabled
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col>    
                                     <v-select
-                                        v-model="selectedGender" :items="genders" :rules="[v => !!v || 'Item necessário']" label="Sexo" color="teal" required outlined
+                                        v-model="student.genderId" :items="genders" item-text="name" item-value="id"
+                                        :rules="[v => !!v || 'Item necessário']" label="Sexo" color="teal" disabled outlined
                                     ></v-select>
                                 </v-col>
                                 <v-col>
-                                    <v-menu
-                                        ref="menu"
-                                        v-model="menu"
-                                        :close-on-content-click="false"
-                                        transition="scale-transition"
-                                        offset-y
-                                        min-width="290px"
-                                    >
-                                        <template v-slot:activator="{ on, attrs }">
-                                        <v-text-field
-                                            v-model="birthdayDate"
-                                            label="Data de nascimento"
-                                            readonly
-                                            v-bind="attrs"
-                                            v-on="on"
-                                            color="teal"
-                                            outlined
-                                        ></v-text-field>
-                                        </template>
-                                        <v-date-picker
-                                        ref="picker"
-                                        v-model="birthdayDate"
-                                        :max="new Date().toISOString().substr(0, 10)"
-                                        min="1950-01-01"
-                                        @change="save"
-                                        color="primary"
-                                        ></v-date-picker>
-                                    </v-menu>
+                                    <v-text-field v-model="dateFormatted" label="Data de Nascimento" disabled outlined></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row>
-                                <v-col>
-                                    <v-text-field
-                                        v-model="school" :rules="requiredMessage" label="Nome" color="teal" disabled outlined
-                                    ></v-text-field>
-                                </v-col>
+                                <v-select
+                                    v-model="student.schoolId" class="px-3" :items="schools" item-text="name" item-value="id"
+                                    :rules="[v => !!v || 'Item necessário']" label="Escola" color="teal" disabled outlined
+                                ></v-select>
                             </v-row>     
                             
                             <v-row>
@@ -135,7 +175,7 @@ export default {
                                     </v-btn>
                                 </v-col>
                                 <v-col class="text-left">
-                                    <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="validate">
+                                    <v-btn :disabled="!valid || loadingUser == true || editing == true" color="primary" class="white--text text-lg-right" @click="editStudent">
                                         Salvar
                                     </v-btn>
                                 </v-col>

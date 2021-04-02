@@ -1,8 +1,16 @@
 package br.com.bibliotech.services;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import br.com.bibliotech.auth.Base64Code;
+import br.com.bibliotech.auth.JWTCode;
+import br.com.bibliotech.auth.MD5Code;
+import br.com.bibliotech.domains.User;
+import br.com.bibliotech.dtos.UserPasswordDTO;
 import com.google.gson.JsonObject;
 
 import br.com.bibliotech.domains.User;
@@ -14,8 +22,15 @@ public class UserService {
         this.connection = connection;
     }
 
-    public boolean create(User user) {
-        Date birthDateSql = new Date(user.getBirthDate().getTime());
+    public boolean createStudent(User user) throws ParseException {
+        java.util.Date birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(user.getBirthDate());
+        Date birthDateSql = new Date(birthDate.getTime());
+
+
+        MD5Code md5Code = new MD5Code();
+        Base64Code base64 = new Base64Code();
+
+        String password = md5Code.encode(base64.decode(user.getPassword()));
 
         String query = "INSERT INTO `user`(" +
                 "first_name, " +
@@ -35,7 +50,7 @@ public class UserService {
             p.setString(1, user.getFirstName());
             p.setString(2, user.getLastName());
             p.setString(3, user.getEmail());
-            p.setString(4, user.getPassword());
+            p.setString(4, password);
             p.setDate(5, birthDateSql);
             p.setString(6, user.getCpf());
             p.setInt(7, user.getGenderId());
@@ -48,8 +63,14 @@ public class UserService {
         return true;
     }
 
-    public boolean edit(User user) {
-        Date birthDateSql = new Date(user.getBirthDate().getTime());
+    public boolean editStudent(User user) throws ParseException {
+        java.util.Date birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(user.getBirthDate());
+        Date birthDateSql = new Date(birthDate.getTime());
+
+        MD5Code md5Code = new MD5Code();
+        Base64Code base64 = new Base64Code();
+
+        String password = md5Code.encode(base64.decode(user.getPassword()));
 
         String query = "UPDATE user SET " +
                 "first_name = ?, " +
@@ -60,7 +81,8 @@ public class UserService {
                 "cpf = ?, " +
                 "gender_id = ?, " +
                 "school_id = ? " +
-                "WHERE id=?";
+                "WHERE id = ?";
+
         PreparedStatement p;
 
         try {
@@ -68,7 +90,7 @@ public class UserService {
             p.setString(1, user.getFirstName());
             p.setString(2, user.getLastName());
             p.setString(3, user.getEmail());
-            p.setString(4, user.getPassword());
+            p.setString(4, password);
             p.setDate(5, birthDateSql);
             p.setString(6, user.getCpf());
             p.setInt(7, user.getGenderId());
@@ -82,89 +104,148 @@ public class UserService {
         return true;
     }
 
-    /*@Override
-    public List<JsonObject> buscarPorNome(String nome) {
-        String query = "SELECT * FROM marcas ";
+    public List<User> listStudents(Boolean needVerifyBookQuantity) {
+        String query = "SELECT * FROM user WHERE active = 1 AND user_type_id = 3";
 
-        if (!nome.equals("")) {
-            query += "WHERE nome LIKE '%" + nome + "%' ";
+        if (needVerifyBookQuantity) {
+            query += " AND books < 2";
         }
 
-        query += "ORDER BY nome ASC";
-
-        List<JsonObject> listaMarcas = new ArrayList<JsonObject>();
+        List<User> studentList = new ArrayList<User>();
+        User user;
 
         try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+
+            while (rs.next()) {
+                user = new User();
+
+                int id = rs.getInt("id");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                String email = rs.getString("email");
+                String birthDate = rs.getDate("birth_date").toString();
+                String cpf = rs.getString("cpf");
+                int genderId = rs.getInt("gender_id");
+                int schoolId = rs.getInt("school_id");
+                int userTypeId = rs.getInt("user_type_id");
+
+                user.setId(id);
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setEmail(email);
+                user.setBirthDate(birthDate);
+                user.setCpf(cpf);
+                user.setGenderId(genderId);
+                user.setSchoolId(schoolId);
+                user.setUserTypeId(userTypeId);
+
+                studentList.add(user);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return studentList;
+    }
+
+    public List<User> getStudentBySearch(String searchText) {
+        String query = "SELECT * FROM user WHERE active = 1 AND user_type_id = 3 ";
+
+        if (!searchText.trim().equals("")) {
+            query += "AND (first_name LIKE '%" + searchText + "%' " +
+                    "OR last_name LIKE '%" + searchText + "%' " +
+                    "OR email LIKE '%" + searchText + "%')";
+        }
+
+        List<User> studentList = new ArrayList<User>();
+
+        try {
+            PreparedStatement p = this.connection.prepareStatement(query);
+            ResultSet rs = p.executeQuery();
+
+            while (rs.next()) {
+                User user = new User();
+
+                int id = rs.getInt("id");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                String email = rs.getString("email");
+                String birthDate = rs.getDate("birth_date").toString();
+                String cpf = rs.getString("cpf");
+                int genderId = rs.getInt("gender_id");
+                int schoolId = rs.getInt("school_id");
+                int userTypeId = rs.getInt("user_type_id");
+
+                user.setId(id);
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setEmail(email);
+                user.setBirthDate(birthDate);
+                user.setCpf(cpf);
+                user.setGenderId(genderId);
+                user.setSchoolId(schoolId);
+                user.setUserTypeId(userTypeId);
+
+                studentList.add(user);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return studentList;
+    }
+
+    public User getStudentById(int studentId) {
+        String query = "SELECT * FROM user WHERE id = ?";
+
+        User user = new User();
+
+        try {
+            PreparedStatement p = this.connection.prepareStatement(query);
+            p.setInt(1, studentId);
+            ResultSet rs = p.executeQuery();
 
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String nomeMarca = rs.getString("nome");
-                int status = rs.getInt("status");
-
-                JsonObject user = new JsonObject();
-                user.addProperty("id", id);
-                user.addProperty("nome", nomeMarca);
-                user.addProperty("status", status);
-
-                listaMarcas.add(user);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return listaMarcas;
-    }
-
-    @Override
-    public boolean deletar(int id) {
-        String query = "DELETE FROM marcas WHERE id = ?";
-        PreparedStatement p;
-        try {
-            p = this.connection.prepareStatement(query);
-            p.setInt(1, id);
-            p.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            e.getErrorCode();
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public Marca buscarPorId(int id) {
-        String query = "SELECT * FROM marcas WHERE marcas.id = ?";
-        Marca user = new Marca();
-        try {
-            PreparedStatement p = this.connection.prepareStatement(query);
-            p.setInt(1, id);
-            ResultSet rs = p.executeQuery();
-            while (rs.next()){
-                String nome = rs.getString("nome");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                String email = rs.getString("email");
+                String birthDate = rs.getDate("birth_date").toString();
+                String cpf = rs.getString("cpf");
+                int genderId = rs.getInt("gender_id");
+                int schoolId = rs.getInt("school_id");
+                int userTypeId = rs.getInt("user_type_id");
 
                 user.setId(id);
-                user.setNome(nome);
-
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setEmail(email);
+                user.setBirthDate(birthDate);
+                user.setCpf(cpf);
+                user.setGenderId(genderId);
+                user.setSchoolId(schoolId);
+                user.setUserTypeId(userTypeId);
             }
-        } catch (Exception e){
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
+
         return user;
     }
 
-    @Override
-    public boolean alterar(Marca user) {
-        String query = "UPDATE marcas "
-                + "SET nome=? "
-                + "WHERE id=?";
+    public boolean deleteStudent(User user) {
+        String query = "UPDATE user SET " +
+                "active = 0, " +
+                "deleted_reason = ? " +
+                "WHERE id = ?";
+
         PreparedStatement p;
 
         try {
             p = this.connection.prepareStatement(query);
-            p.setString(1, String.valueOf(user.getNome()));
+            p.setString(1, user.getDeletedReason());
             p.setInt(2, user.getId());
             p.executeUpdate();
         }catch (SQLException e){
@@ -174,73 +255,280 @@ public class UserService {
         return true;
     }
 
-    @Override
-    public boolean verificarAtribuicaoMarcaProduto(int id) {
-        String query = "SELECT * FROM produtos WHERE marcas_id = ?";
+    public boolean createLibrarian(User user) throws ParseException {
+        java.util.Date birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(user.getBirthDate());
+        Date birthDateSql = new Date(birthDate.getTime());
+
+        MD5Code md5Code = new MD5Code();
+        Base64Code base64 = new Base64Code();
+
+        String password = md5Code.encode(base64.decode(user.getPassword()));
+
+        String query = "INSERT INTO `user`(" +
+                "first_name, " +
+                "last_name, " +
+                "email, " +
+                "password, " +
+                "birth_date, " +
+                "cpf, " +
+                "gender_id, " +
+                "school_id, " +
+                "user_type_id" +
+                ") VALUE(?,?,?,?,?,?,?,?,2)";
+
+        PreparedStatement p;
+        try {
+            p = this.connection.prepareStatement(query);
+            p.setString(1, user.getFirstName());
+            p.setString(2, user.getLastName());
+            p.setString(3, user.getEmail());
+            p.setString(4, password);
+            p.setDate(5, birthDateSql);
+            p.setString(6, user.getCpf());
+            p.setInt(7, user.getGenderId());
+            p.setInt(8, user.getSchoolId());
+            p.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean editLibrarian(User user) throws ParseException {
+        java.util.Date birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(user.getBirthDate());
+        Date birthDateSql = new Date(birthDate.getTime());
+
+        MD5Code md5Code = new MD5Code();
+        Base64Code base64 = new Base64Code();
+
+        String password = md5Code.encode(base64.decode(user.getPassword()));
+
+        String query = "UPDATE user SET " +
+                "first_name = ?, " +
+                "last_name = ?, " +
+                "email = ?, " +
+                "password = ?, " +
+                "birth_date = ?, " +
+                "cpf = ?, " +
+                "gender_id = ?, " +
+                "school_id = ? " +
+                "WHERE id = ?";
+
         PreparedStatement p;
 
         try {
             p = this.connection.prepareStatement(query);
-            p.setInt(1, id);
-            ResultSet rs = p.executeQuery();
-
-            if (rs.next()) {
-                return true;
-            }
+            p.setString(1, user.getFirstName());
+            p.setString(2, user.getLastName());
+            p.setString(3, user.getEmail());
+            p.setString(4, password);
+            p.setDate(5, birthDateSql);
+            p.setString(6, user.getCpf());
+            p.setInt(7, user.getGenderId());
+            p.setInt(8, user.getSchoolId());
+            p.setInt(9, user.getId());
+            p.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
             return false;
         }
-        return false;
+        return true;
     }
 
-    @Override
-    public void ativarDesativar(Marca user) {
-        int status = 0;
-        if (user.getStatus() == 0) {
-            status = 1;
-        }
+    public List<User> listLibrarians() {
+        String query = "SELECT * FROM user WHERE active = 1 AND user_type_id = 2";
 
-        String query = "UPDATE marcas SET status=? WHERE id=?";
+        List<User> librarianList = new ArrayList<User>();
+        User user;
 
-        PreparedStatement p;
         try {
-            p = this.connection.prepareStatement(query);
-            p.setInt(1, status);
-            p.setInt(2, user.getId());
-            p.executeUpdate();
-        } catch (SQLException e){
-            e.printStackTrace();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+
+            while (rs.next()) {
+                user = new User();
+
+                int id = rs.getInt("id");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                String email = rs.getString("email");
+                String birthDate = rs.getDate("birth_date").toString();
+                String cpf = rs.getString("cpf");
+                int genderId = rs.getInt("gender_id");
+                int schoolId = rs.getInt("school_id");
+                int userTypeId = rs.getInt("user_type_id");
+
+                user.setId(id);
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setEmail(email);
+                user.setBirthDate(birthDate);
+                user.setCpf(cpf);
+                user.setGenderId(genderId);
+                user.setSchoolId(schoolId);
+                user.setUserTypeId(userTypeId);
+
+                librarianList.add(user);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
+
+        return librarianList;
     }
 
-    @Override
-    public List<JsonObject> listarMarcas() {
-        String query = "SELECT * FROM marcas";
+    public List<User> getLibrarianBySearch(String searchText) {
+        String query = "SELECT * FROM user WHERE active = 1 AND user_type_id = 2 ";
 
-        List<JsonObject> listaMarcas = new ArrayList<JsonObject>();
+        if (!searchText.trim().equals("")) {
+            query += "AND (first_name LIKE '%" + searchText + "%' " +
+                    "OR last_name LIKE '%" + searchText + "%' " +
+                    "OR email LIKE '%" + searchText + "%')";
+        }
+
+        List<User> librarianList = new ArrayList<User>();
 
         try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            PreparedStatement p = this.connection.prepareStatement(query);
+            ResultSet rs = p.executeQuery();
+
+            while (rs.next()) {
+                User user = new User();
+
+                int id = rs.getInt("id");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                String email = rs.getString("email");
+                String birthDate = rs.getDate("birth_date").toString();
+                String cpf = rs.getString("cpf");
+                int genderId = rs.getInt("gender_id");
+                int schoolId = rs.getInt("school_id");
+                int userTypeId = rs.getInt("user_type_id");
+
+                user.setId(id);
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setEmail(email);
+                user.setBirthDate(birthDate);
+                user.setCpf(cpf);
+                user.setGenderId(genderId);
+                user.setSchoolId(schoolId);
+                user.setUserTypeId(userTypeId);
+
+                librarianList.add(user);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return librarianList;
+    }
+
+    public User getLibrarianById(int librarianId) {
+        String query = "SELECT * FROM user WHERE id = ?";
+
+        User user = new User();
+
+        try {
+            PreparedStatement p = this.connection.prepareStatement(query);
+            p.setInt(1, librarianId);
+            ResultSet rs = p.executeQuery();
 
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String nomeMarca = rs.getString("nome");
-                int status = rs.getInt("status");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                String email = rs.getString("email");
+                String birthDate = rs.getDate("birth_date").toString();
+                String cpf = rs.getString("cpf");
+                int genderId = rs.getInt("gender_id");
+                int schoolId = rs.getInt("school_id");
+                int userTypeId = rs.getInt("user_type_id");
 
-                JsonObject user = new JsonObject();
-                user.addProperty("id", id);
-                user.addProperty("nome", nomeMarca);
-                user.addProperty("status", status);
-
-                listaMarcas.add(user);
+                user.setId(id);
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setEmail(email);
+                user.setBirthDate(birthDate);
+                user.setCpf(cpf);
+                user.setGenderId(genderId);
+                user.setSchoolId(schoolId);
+                user.setUserTypeId(userTypeId);
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
-        return listaMarcas;
-    }*/
+        return user;
+    }
+
+    public boolean deleteLibrarian(User user) {
+        String query = "UPDATE user SET " +
+                "active = 0, " +
+                "deleted_reason = ? " +
+                "WHERE id = ?";
+
+        PreparedStatement p;
+
+        try {
+            p = this.connection.prepareStatement(query);
+            p.setString(1, user.getDeletedReason());
+            p.setInt(2, user.getId());
+            p.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public Boolean changePassword(UserPasswordDTO passwordInfo) {
+        MD5Code md5Code = new MD5Code();
+        Base64Code base64 = new Base64Code();
+
+        String givenOldPassword = md5Code.encode(base64.decode(passwordInfo.getOldPassword()));
+        String oldPassword = getUserPassword(passwordInfo.getUserId());
+        String prepearedNewPassword = md5Code.encode(base64.decode(passwordInfo.getNewPassword()));
+        
+        if (!oldPassword.equals(givenOldPassword)) 
+            return false;
+
+
+        String query = "UPDATE user SET " +
+                "password = ? " +
+                "WHERE id = ?";
+
+        PreparedStatement p;
+
+        try {
+            p = this.connection.prepareStatement(query);
+            p.setString(1, prepearedNewPassword);
+            p.setInt(2, passwordInfo.getUserId());
+            p.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+    
+    public String getUserPassword(int userId) {
+        String query = "SELECT password FROM user WHERE id = ?";
+        String password = "";
+        
+        try {
+            PreparedStatement p = this.connection.prepareStatement(query);
+            p.setInt(1, userId);
+            ResultSet rs = p.executeQuery();
+
+            while (rs.next()) {
+                password = rs.getString("password");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        return password;
+    }
 }

@@ -2,41 +2,69 @@ import { $bus } from '../../utils/eventBus.js'
 
 export default {
     name: 'EditBookModal',
+    props: {
+      authors: Array,
+      genres: Array
+    },
     data: () => ({
         valid: true,
-        book: {
-            title: 'CARAMAVA',
-            pages: 'ADSADSDAS',
-            gender: 'Romance',
-            author: 'Tiririca'
-        },
-        authors: [
-            'Tiririca',
-            'Tiringa',
-            'Abacate',
-        ],
-        genders: [
-            'Romance',
-            'Terror',
-            'Suspense',
-        ],
+        editing: false,
+        book: {},
         requiredMessage: [
             v => !!v || 'Campo obrigatório',
         ],
     }),
-    mounted() {
-        if(this.$refs.form) {
-            $bus.$on('reset-modal-content', () => {
-                this.$refs.form.reset()
-            })   
+    computed: {
+        getBookId() {
+            return this.$route.query.id
         }
     },
-    beforeDestoy() {
-        $bus.$off('reset-modal-content')
+    mounted() {
+        this.getBook()
+        $bus.$on('load-content', () => {
+            this.getBook()
+        })
     },
     methods: {
         validate () {
             this.$refs.form.validate()
+        },
+
+        async getBook() {
+            this.loadingUser = true
+
+            await axios.get(`/book/getById?id=${this.getBookId}`)
+                .then((response) => {
+                    this.book = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por livros"
+                })
+                .finally(() => {
+                    this.loadingUser = false
+                })
+        },
+
+        async editBook() {
+            this.validate()
+
+            if (this.valid) {
+                this.editing = true
+
+                const book = this.book
+
+                await axios.put('/book/edit', book)
+                    .then(() => {
+                        $bus.$emit('refresh-books')
+                        $bus.$emit('close-modal')
+                    })
+                    .catch(() => {
+                        this.error = "Ocorreu um erro ao tentar editar livro"
+                    })
+                    .finally(() => {
+                        this.editing = false
+                    })
+            }
         },
     },
     template: /*html*/ `
@@ -58,19 +86,21 @@ export default {
                 <v-row>
                     <v-col>    
                         <v-select
-                            v-model="book.gender" :items="genders" :rules="[v => !!v || 'Item necessário']" label="Gênero" color="teal" required outlined
+                            v-model="book.genreId" :items="genres" item-text="name" item-value="id"
+                            :rules="[v => !!v || 'Item necessário']" label="Gênero" color="teal" required outlined
                         ></v-select>
                     </v-col>
                     <v-col>
                         <v-select
-                            v-model="book.author" :items="authors" :rules="[v => !!v || 'Item necessário']" label="Autor" color="teal" required outlined
+                            v-model="book.authorId" :items="authors" item-text="name" item-value="id" 
+                            :rules="[v => !!v || 'Item necessário']" label="Autor" color="teal" required outlined
                         ></v-select>
                     </v-col>
                 </v-row>     
                 
                 <v-row>
                     <v-col class="text-center">
-                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="validate">
+                        <v-btn :disabled="!valid" color="primary" class="white--text text-lg-right" @click="editBook" v-if="!editing">
                             Salvar
                         </v-btn>
                     </v-col>

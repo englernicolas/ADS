@@ -3,39 +3,51 @@ import { $bus } from '../utils/eventBus.js'
 import ModalTemplate from './utils/Modal.js'
 Vue.component('ModalTemplate', ModalTemplate)
 
-import SearchBox from './utils/SearchBox.js'
-Vue.component('SearchBox', SearchBox)
-
 /* MODAIS */
 import AddBookModal from './modals/AddBookModal.js'
-import AddAuthorModal from './modals/AddAuthorModal.js'
-import AddGenreModal from './modals/AddGenreModal.js'
 import EditBookModal from './modals/EditBookModal.js'
 import DeleteBookModal from './modals/DeleteBookModal.js'
 
 export default {
     name: 'Books',
     data: () => ({
-        books: [
-            {
-                id: 1,
-                title: "O casamento",
-                author: "Nicholas Sparks",
-                gender: "Romance",
-                pages: "152",
-                loanId: '1',
-            },
-            {
-                id: 2,
-                title: "O casamento",
-                author: "Nicholas Sparks",
-                gender: "Romance",
-                pages: "152",
-            },
-        ],
+        books: [],
         currentModalTitle: '',
-        currentModalWidth: ''
+        currentModalWidth: '',
+        bookId: '',
+        loadingBooks: false,
+        loadingAuthors: false,
+        loadingGenres: false,
+        authors: [],
+        genres: [],
+        searchText: '',
+        loggedUser: {},
+        page: 1,
+        perPage: 8,
     }),
+    mounted() {
+        this.loggedUser = auth.user
+        this.getBooks();
+        this.getAuthors();
+        this.getGenres();
+        $bus.$on('refresh-books', () => {
+            this.getBooks();
+        })
+        $bus.$on('refresh-authors', () => {
+            this.getAuthors();
+        })
+        $bus.$on('refresh-genres', () => {
+            this.getGenres();
+        })
+    },
+    computed: {
+        pages() {
+            return Math.ceil(this.books.length/this.perPage)
+        },
+        booksToShow() {
+            return this.books.slice((this.page - 1)* this.perPage, this.page* this.perPage)
+        }
+    },
     methods: {
         validate () {
             this.$refs.form.validate()
@@ -73,7 +85,63 @@ export default {
         },
         currentModal(modal) {
             this.$options.components.Modal = modal
-        }
+        },
+        async getBooks() {
+            this.loadingBooks = true
+
+            await axios.get('/book/list')
+                .then((response) => {
+                    this.books = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por livro"
+                })
+                .finally(() => {
+                    this.loadingBooks = false
+                })
+        },
+        async getAuthors() {
+            this.loadingAuthors = true
+
+            await axios.get('/author/list')
+                .then((response) => {
+                    this.authors = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por autores"
+                })
+                .finally(() => {
+                    this.loadingAuthors = false
+                })
+        },
+        async getGenres() {
+            this.loadingGenres = true
+
+            await axios.get('/genre/list')
+                .then((response) => {
+                    this.genres = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por gêneros"
+                })
+                .finally(() => {
+                    this.loadingGenres = false
+                })
+        },
+        async getSearchBooks() {
+            this.loadingUsers = true
+
+            await axios.get(`/book/getBySearch?searchText=${this.searchText}`)
+                .then((response) => {
+                    this.books = response.data;
+                })
+                .catch(() => {
+                    this.error = "Ocorreu um erro ao tentar buscar por livros"
+                })
+                .finally(() => {
+                    this.loadingUsers = false
+                })
+        },
     },
     template: /*html*/ `
         <div>
@@ -82,25 +150,20 @@ export default {
             <v-divider></v-divider>
             
             <div class="d-flex mt-5">
-                <v-btn class="ml-16" color="secondary" @click="openModal('addBook')">
-                    Adicionar
+                <v-btn v-if="loggedUser.userTypeId!=3" class="ml-16" color="secondary" @click="openModal('addBook')">
+                    Adicionar Livro
                     <v-icon right dark>mdi-book-open-page-variant</v-icon>
-                </v-btn>
-                <v-btn class="ml-5" color="secondary" @click="openModal('addAuthor')">
-                    Adicionar
-                    <v-icon right dark>mdi-account-plus</v-icon>
-                </v-btn>
-                <v-btn class="ml-5" color="secondary" @click="openModal('addGenre')">
-                    Adicionar
-                    <v-icon right dark>mdi-gender-male-female</v-icon>
                 </v-btn>
 
                 <v-spacer></v-spacer>
 
-                <search-box class="mr-16"></search-box>
+                <div class="d-flex mr-16">
+                    <v-text-field v-model="searchText" color="teal" placeholder="Pesquisar..." hide-details dense filled clearable></v-text-field>
+                    <v-btn @click="getSearchBooks" color="primary"><v-icon color="white">mdi-magnify</v-icon></v-btn>          
+                </div>
             </div>
 
-            <v-card v-for="book in books" class="mx-16 my-5">
+            <v-card v-for="book in booksToShow" class="mx-16 my-5">
                 <v-container>
                     <v-row class="mx-3">
                         <v-col>
@@ -116,7 +179,7 @@ export default {
                                 <span class="font-weight-bold">Autor:</span>
                             </v-row>
                             <v-row>
-                                <span>{{book.author}}</span>
+                                <span>{{authors.find(it => it.id == book.authorId)?.name}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -124,7 +187,7 @@ export default {
                                 <span class="font-weight-bold">Gênero:</span>
                             </v-row>
                             <v-row>
-                                <span>{{book.gender}}</span>
+                                <span>{{genres.find(it => it.id == book.genreId)?.name}}</span>
                             </v-row>
                         </v-col>
                         <v-col>
@@ -135,15 +198,12 @@ export default {
                                 <span>{{book.pages}}</span>
                             </v-row>
                         </v-col>
-                        <v-col v-if="book.loanId">
+                        <v-col>
                             <v-row>
-                                <span class="font-weight-bold">Cód. Empreśtimo:</span>
-                            </v-row>
-                            <v-row>
-                                <span>{{book.loanId}}</span>
+                                <span v-if="!book.isAvailable" class="font-weight-bold secondary--text">EMPRESTADO</span>
                             </v-row>
                         </v-col>
-                        <div>
+                        <div v-if="book.isAvailable && loggedUser.userTypeId!=3" >
                             <v-btn icon @click="openModal('edit', book.id)" class="teal--text d-block">
                                 <v-icon>mdi-pencil</v-icon>
                             </v-btn>
@@ -154,9 +214,21 @@ export default {
                     </v-row>
                 </v-container>
             </v-card>
+            
+            <v-pagination
+              v-model="page"
+              :length="pages"
+            ></v-pagination>
+
+            <div v-if="books.length == 0 " class="mt-16 text-center">
+                <v-icon large color="grey--text text--darken-4">mdi-magnify-close</v-icon>
+                <span class="grey--text text--darken-2 text-h5 font-weight-bold">Sem Resultados!</span>
+            </div>
 
             <modal-template :title="currentModalTitle" :maxWidth="currentModalWidth">
-                <modal/>
+                <modal v-if="this.currentModalTitle == 'Deletar Livro' || this.currentModalTitle == 'Adicionar Autor' || this.currentModalTitle == 'Adicionar Gênero'"/>
+                <modal v-if="this.currentModalTitle == 'Adicionar Livro'" :authors="authors" :genres="genres"/>
+                <modal v-if="this.currentModalTitle == 'Editar Livro'" :authors="authors" :genres="genres"/>
             </modal-template>
             
         </div>`

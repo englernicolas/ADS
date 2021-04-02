@@ -4,11 +4,20 @@ export default {
     name: 'DeleteBookModal',
     data: () => ({
         valid: false,
-        reason: '',
+        deleteInfo: {
+            id: '',
+            deletedReason: '',
+        },
+        deleting: false,
         requiredMessage: [
             v => !!v || 'Campo obrigatório',
         ],
     }),
+    computed: {
+        getBookId() {
+            return this.$route.query.id
+        }
+    },
     mounted() {
         if(this.$refs.form) {
             $bus.$on('reset-modal-content', () => {
@@ -16,12 +25,33 @@ export default {
             })   
         }
     },
-    beforeDestoy() {
-        $bus.$off('reset-modal-content')
-    },
     methods: {
         validate () {
             this.$refs.form.validate()
+        },
+
+        async deleteBook() {
+            this.validate()
+
+            if (this.valid) {
+                this.deleting = true
+
+                this.deleteInfo.id = this.getBookId
+
+                const deleteInfo = this.deleteInfo
+
+                await axios.put('/book/delete', deleteInfo)
+                    .then(() => {
+                        $bus.$emit('refresh-books')
+                        $bus.$emit('close-modal')
+                    })
+                    .catch(() => {
+                        this.error = "Ocorreu um erro ao tentar deletar livro"
+                    })
+                    .finally(() => {
+                        this.deleting = false
+                    })
+            }
         },
     },
     template: /*html*/ `
@@ -31,13 +61,13 @@ export default {
                 <v-row>
                     <v-col>
                         <v-textarea
-                            v-model="reason" :rules="requiredMessage" color="teal" placeholder="Seu motivo aqui" required outlined
+                            v-model="deleteInfo.deletedReason" :rules="requiredMessage" color="teal" placeholder="Seu motivo aqui" required outlined
                         ></v-textarea>
                     </v-col>
                 </v-row> 
                 <v-row>
                     <v-col class="text-center">
-                        <v-btn :disabled="!valid" color="error" class="white--text text-lg-right" @click="validate">
+                        <v-btn :disabled="!valid" color="error" class="white--text text-lg-right" @click="deleteBook">
                             Deletar
                         </v-btn>
                     </v-col>

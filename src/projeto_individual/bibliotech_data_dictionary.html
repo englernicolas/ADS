@@ -27,7 +27,7 @@
   </style>
 </head>
 <body>
-<table><caption>Table: librarian - </caption>
+<table><caption>Table: author - </caption>
 <tr><td colspan="7">Attributes</td></tr>
 <tr>
 <th>Name</th>
@@ -38,46 +38,8 @@
 <th>Default</th>
 <th>Comment</th>
 </tr>
-<tr><td>id</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Número de identificação do bibliotecário</td></tr>
-<tr><td>first_name</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Nome do bibliotecário</td></tr>
-<tr><td>last_name</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Sobrenome do bibliotecário</td></tr>
-<tr><td>birth_date</td><td>DATE</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Data de nascimento do bibliotecário</td></tr>
-<tr><td>username</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Apelido utilizado para autenticar acesso no sistema</td></tr>
-<tr><td>password</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Senha utilizada para autenticar acesso no sistema</td></tr>
-<tr><td>gender_id</td><td>INT</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td>Número de identificação do gênero pertencente</td></tr>
-<tr><td>user_type_id</td><td>INT</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td>Número de identificação do tipo de usuário pertencente</td></tr>
-<tr><td>cpf</td><td>INT</td><td>No</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>rg</td><td>INT</td><td>No</td><td>No</td><td>No</td><td></td><td></td></tr>
-</table></br>
-<table><caption>Table: gender - </caption>
-<tr><td colspan="7">Attributes</td></tr>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Not Null</th>
-<th>PK</th>
-<th>FK</th>
-<th>Default</th>
-<th>Comment</th>
-</tr>
-<tr><td>id</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Número de identificação do gênero do usuário</td></tr>
-<tr><td>description</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Descrição do gênero do usuário</td></tr>
-</table></br>
-<table><caption>Table: loan - </caption>
-<tr><td colspan="7">Attributes</td></tr>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Not Null</th>
-<th>PK</th>
-<th>FK</th>
-<th>Default</th>
-<th>Comment</th>
-</tr>
-<tr><td>id</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Número de identificação do empréstimo</td></tr>
-<tr><td>loan_date</td><td>DATE</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Data do empréstimo do livro</td></tr>
-<tr><td>delivery_date</td><td>DATE</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Data da devolução do livro</td></tr>
-<tr><td>student_id</td><td>INT</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td>Número de identificação do estudante</td></tr>
+<tr><td>id</td><td>INT(11)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
+<tr><td>name</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
 </table></br>
 <table><caption>Table: book - </caption>
 <tr><td colspan="7">Attributes</td></tr>
@@ -90,96 +52,14 @@
 <th>Default</th>
 <th>Comment</th>
 </tr>
-<tr><td>id</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Número de identificação do livro</td></tr>
-<tr><td>title</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Título do livro</td></tr>
-<tr><td>pages</td><td>INT</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Número de páginas do livro</td></tr>
-<tr><td>is_avaiable</td><td>TINYINT(1)</td><td>Yes</td><td>No</td><td>No</td><td>1</td><td>Identificação sobre a disponibilidade do livro</td></tr>
-<tr><td>price</td><td>FLOAT</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Preço do livro</td></tr>
-<tr><td>author_id</td><td>INT</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td>Número de identificação do autor</td></tr>
-<tr><td>genre_id</td><td>INT</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td>Número de identificação do gênero do livro</td></tr>
-</table></br>
-<table><caption>Table: student - </caption>
-<tr><td colspan="7">Attributes</td></tr>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Not Null</th>
-<th>PK</th>
-<th>FK</th>
-<th>Default</th>
-<th>Comment</th>
-</tr>
-<tr><td>id</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Número de identificação do estudante</td></tr>
-<tr><td>first_name</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Nome do estudante</td></tr>
-<tr><td>last_name</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Sobrenome do estudante</td></tr>
-<tr><td>birth_date</td><td>DATE</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Data de nascimento do estudante</td></tr>
-<tr><td>loan_quantity</td><td>INT</td><td>Yes</td><td>No</td><td>No</td><td>0</td><td>Quantidades de livros que estão emprestados pelo aluno</td></tr>
-<tr><td>debt</td><td>FLOAT</td><td>Yes</td><td>No</td><td>No</td><td>0</td><td>Valor das multas abertas do estudante</td></tr>
-<tr><td>username</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Apelido utilizado para autenticar acesso no sistema</td></tr>
-<tr><td>password</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Senha utilizada para autenticar acesso no sistema</td></tr>
-<tr><td>gender_id</td><td>INT</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td>Número de identificação do gênero pertencente</td></tr>
-<tr><td>user_type_id</td><td>INT</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td>Número de identificação do tipo de usuário pertencente</td></tr>
-<tr><td>cpf</td><td>INT</td><td>No</td><td>No</td><td>No</td><td></td><td></td></tr>
-<tr><td>rg</td><td>INT</td><td>No</td><td>No</td><td>No</td><td></td><td></td></tr>
-</table></br>
-<table><caption>Table: genre - </caption>
-<tr><td colspan="7">Attributes</td></tr>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Not Null</th>
-<th>PK</th>
-<th>FK</th>
-<th>Default</th>
-<th>Comment</th>
-</tr>
-<tr><td>id</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Número de identificação do gênero do livro</td></tr>
-<tr><td>description</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Descrição do gênero do livro</td></tr>
-</table></br>
-<table><caption>Table: author - </caption>
-<tr><td colspan="7">Attributes</td></tr>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Not Null</th>
-<th>PK</th>
-<th>FK</th>
-<th>Default</th>
-<th>Comment</th>
-</tr>
-<tr><td>id</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Número de identificação do autor</td></tr>
-<tr><td>first_name</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Nome do autor</td></tr>
-<tr><td>last_name</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Sobrenome do autor</td></tr>
-</table></br>
-<table><caption>Table: user_type - </caption>
-<tr><td colspan="7">Attributes</td></tr>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Not Null</th>
-<th>PK</th>
-<th>FK</th>
-<th>Default</th>
-<th>Comment</th>
-</tr>
-<tr><td>id</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Número de identificação do tipo de usuário</td></tr>
-<tr><td>description</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Descrição do tipo de usuário</td></tr>
-</table></br>
-<table><caption>Table: admin - </caption>
-<tr><td colspan="7">Attributes</td></tr>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Not Null</th>
-<th>PK</th>
-<th>FK</th>
-<th>Default</th>
-<th>Comment</th>
-</tr>
-<tr><td>id</td><td>INT</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td>Número de identificação do administrador</td></tr>
-<tr><td>username</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Apelido utilizado para autenticar acesso no sistema</td></tr>
-<tr><td>password</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td>Senha utilizada para autenticar acesso no sistema</td></tr>
-<tr><td>user_type_id</td><td>INT</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td>Número de identificação do tipo de usuário pertencente</td></tr>
+<tr><td>id</td><td>INT(11)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
+<tr><td>title</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
+<tr><td>pages</td><td>INT(11)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
+<tr><td>is_available</td><td>TINYINT(4)</td><td>Yes</td><td>No</td><td>No</td><td>'1'</td><td></td></tr>
+<tr><td>genre_id</td><td>INT(11)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
+<tr><td>author_id</td><td>INT(11)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
+<tr><td>deleted_reason</td><td>VARCHAR(150)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
+<tr><td>is_deleted</td><td>TINYINT(1)</td><td>Yes</td><td>No</td><td>No</td><td>'0'</td><td></td></tr>
 </table></br>
 <table><caption>Table: book_has_loan - </caption>
 <tr><td colspan="7">Attributes</td></tr>
@@ -192,7 +72,121 @@
 <th>Default</th>
 <th>Comment</th>
 </tr>
-<tr><td>book_id</td><td>INT</td><td>Yes</td><td>Yes</td><td>Yes</td><td></td><td></td></tr>
-<tr><td>loan_id</td><td>INT</td><td>Yes</td><td>Yes</td><td>Yes</td><td></td><td></td></tr>
+<tr><td>book_id</td><td>INT(11)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
+<tr><td>loan_id</td><td>INT(11)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
+</table></br>
+<table><caption>Table: gender - </caption>
+<tr><td colspan="7">Attributes</td></tr>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Not Null</th>
+<th>PK</th>
+<th>FK</th>
+<th>Default</th>
+<th>Comment</th>
+</tr>
+<tr><td>id</td><td>INT(11)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
+<tr><td>name</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
+</table></br>
+<table><caption>Table: genre - </caption>
+<tr><td colspan="7">Attributes</td></tr>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Not Null</th>
+<th>PK</th>
+<th>FK</th>
+<th>Default</th>
+<th>Comment</th>
+</tr>
+<tr><td>id</td><td>INT(11)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
+<tr><td>name</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
+</table></br>
+<table><caption>Table: loan - </caption>
+<tr><td colspan="7">Attributes</td></tr>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Not Null</th>
+<th>PK</th>
+<th>FK</th>
+<th>Default</th>
+<th>Comment</th>
+</tr>
+<tr><td>id</td><td>INT(11)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
+<tr><td>loan_date</td><td>DATE</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
+<tr><td>delivery_date</td><td>DATE</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
+<tr><td>user_id</td><td>INT(11)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
+<tr><td>active</td><td>TINYINT(1)</td><td>No</td><td>No</td><td>No</td><td>'1'</td><td></td></tr>
+<tr><td>deleted_reason</td><td>VARCHAR(150)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
+</table></br>
+<table><caption>Table: school - </caption>
+<tr><td colspan="7">Attributes</td></tr>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Not Null</th>
+<th>PK</th>
+<th>FK</th>
+<th>Default</th>
+<th>Comment</th>
+</tr>
+<tr><td>id</td><td>INT(11)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
+<tr><td>name</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
+</table></br>
+<table><caption>Table: tokens - </caption>
+<tr><td colspan="7">Attributes</td></tr>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Not Null</th>
+<th>PK</th>
+<th>FK</th>
+<th>Default</th>
+<th>Comment</th>
+</tr>
+<tr><td>id</td><td>INT(11)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
+<tr><td>code</td><td>TEXT</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
+<tr><td>user_id</td><td>INT(11)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
+</table></br>
+<table><caption>Table: user - </caption>
+<tr><td colspan="7">Attributes</td></tr>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Not Null</th>
+<th>PK</th>
+<th>FK</th>
+<th>Default</th>
+<th>Comment</th>
+</tr>
+<tr><td>id</td><td>INT(11)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
+<tr><td>email</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
+<tr><td>password</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
+<tr><td>user_type_id</td><td>INT(11)</td><td>Yes</td><td>No</td><td>Yes</td><td></td><td></td></tr>
+<tr><td>birth_date</td><td>DATE</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
+<tr><td>cpf</td><td>VARCHAR(15)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
+<tr><td>gender_id</td><td>INT(11)</td><td>No</td><td>No</td><td>Yes</td><td>NULL</td><td></td></tr>
+<tr><td>school_id</td><td>INT(11)</td><td>No</td><td>No</td><td>Yes</td><td>NULL</td><td></td></tr>
+<tr><td>active</td><td>TINYINT(1)</td><td>No</td><td>No</td><td>No</td><td>'1'</td><td></td></tr>
+<tr><td>books</td><td>INT(11)</td><td>No</td><td>No</td><td>No</td><td>'0'</td><td></td></tr>
+<tr><td>first_name</td><td>VARCHAR(45)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
+<tr><td>last_name</td><td>VARCHAR(45)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
+<tr><td>deleted_reason</td><td>VARCHAR(150)</td><td>No</td><td>No</td><td>No</td><td>NULL</td><td></td></tr>
+</table></br>
+<table><caption>Table: user_type - </caption>
+<tr><td colspan="7">Attributes</td></tr>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Not Null</th>
+<th>PK</th>
+<th>FK</th>
+<th>Default</th>
+<th>Comment</th>
+</tr>
+<tr><td>id</td><td>INT(11)</td><td>Yes</td><td>Yes</td><td>No</td><td></td><td></td></tr>
+<tr><td>name</td><td>VARCHAR(45)</td><td>Yes</td><td>No</td><td>No</td><td></td><td></td></tr>
 </table></br>
 </body></html>
