@@ -26,6 +26,7 @@ public class UserService {
         java.util.Date birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(user.getBirthDate());
         Date birthDateSql = new Date(birthDate.getTime());
 
+
         MD5Code md5Code = new MD5Code();
         Base64Code base64 = new Base64Code();
 
